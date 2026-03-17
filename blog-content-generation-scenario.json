@@ -1,0 +1,173 @@
+{
+  "name": "황금키워드 블로그 글 자동생성 시나리오",
+  "flow": [
+    {
+      "id": 1,
+      "module": "google-sheets:getValues",
+      "version": 3,
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "restore": {
+          "parameters": {
+            "spreadsheetId": { "label": "황금키워드 결과 시트" },
+            "sheetId": { "label": "황금키워드" }
+          }
+        }
+      },
+      "parameters": {
+        "spreadsheetId": "SPREADSHEET_ID",
+        "sheetId": "황금키워드",
+        "range": "A2:G100",
+        "valueRenderOption": "FORMATTED_VALUE",
+        "majorDimension": "ROWS"
+      },
+      "mapper": {}
+    },
+    {
+      "id": 2,
+      "module": "util:ArrayIterator",
+      "version": 1,
+      "metadata": { "designer": { "x": 300, "y": 0 } },
+      "mapper": {
+        "array": "{{filter(1.values; row => row[5] = 'YES' AND row[6] = '')}}"
+      },
+      "parameters": {}
+    },
+    {
+      "id": 3,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "metadata": {
+        "designer": { "x": 600, "y": 0 },
+        "restore": {
+          "parameters": {
+            "method": { "label": "POST" },
+            "bodyType": { "label": "Raw" },
+            "contentType": { "label": "JSON (application/json)" }
+          }
+        }
+      },
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "headers": [
+          { "name": "x-api-key", "value": "ANTHROPIC_API_KEY" },
+          { "name": "anthropic-version", "value": "2023-06-01" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "data": "{\n  \"model\": \"claude-opus-4-6\",\n  \"max_tokens\": 4096,\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"당신은 네이버 블로그 SEO 전문가입니다. 아래 키워드로 네이버 블로그에 최적화된 글을 작성해주세요.\\n\\n키워드: {{2.value[1]}}\\n\\n작성 조건:\\n1. 제목: 키워드를 포함한 클릭율 높은 제목 3가지 제안\\n2. 본문 길이: 1,500자 이상\\n3. 구조: 서론 → 본론(소제목 3~5개) → 결론\\n4. 네이버 검색 최적화: 키워드를 자연스럽게 5~7회 포함\\n5. 각 소제목 앞에는 이모지 사용\\n6. 독자에게 도움이 되는 실용적 정보 위주\\n7. 마지막에 '태그:' 섹션에 관련 태그 10개 나열\\n\\n응답 형식:\\n[제목 후보]\\n1. ...\\n2. ...\\n3. ...\\n\\n[본문]\\n(본문 내용)\\n\\n[태그]\\n#태그1 #태그2 ...\"\n    }\n  ]\n}",
+        "timeout": 60
+      },
+      "mapper": {}
+    },
+    {
+      "id": 4,
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": { "designer": { "x": 900, "y": 0 } },
+      "mapper": {
+        "variables": [
+          {
+            "name": "keyword",
+            "value": "{{2.value[1]}}"
+          },
+          {
+            "name": "golden_score",
+            "value": "{{2.value[4]}}"
+          },
+          {
+            "name": "blog_content",
+            "value": "{{3.data.content[1].text}}"
+          },
+          {
+            "name": "doc_title",
+            "value": "{{2.value[1]}} - 블로그 초안 ({{formatDate(now; 'YYYY-MM-DD')}})"
+          }
+        ]
+      },
+      "parameters": {}
+    },
+    {
+      "id": 5,
+      "module": "google-docs:createDocument",
+      "version": 1,
+      "metadata": {
+        "designer": { "x": 1200, "y": 0 },
+        "restore": {
+          "parameters": {
+            "folderId": { "label": "블로그 초안 폴더" }
+          }
+        }
+      },
+      "parameters": {
+        "folderId": "GOOGLE_DRIVE_FOLDER_ID"
+      },
+      "mapper": {
+        "title": "{{4.doc_title}}",
+        "content": "{{4.blog_content}}"
+      }
+    },
+    {
+      "id": 6,
+      "module": "google-sheets:updateRow",
+      "version": 3,
+      "metadata": {
+        "designer": { "x": 1500, "y": 0 },
+        "restore": {
+          "parameters": {
+            "spreadsheetId": { "label": "황금키워드 결과 시트" },
+            "sheetId": { "label": "황금키워드" },
+            "valueInputOption": { "label": "User entered" }
+          }
+        }
+      },
+      "parameters": {
+        "spreadsheetId": "SPREADSHEET_ID",
+        "sheetId": "황금키워드",
+        "rowNumber": "{{2.position + 1}}",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "mapper": {
+        "values": [
+          "{{2.value[0]}}",
+          "{{2.value[1]}}",
+          "{{2.value[2]}}",
+          "{{2.value[3]}}",
+          "{{2.value[4]}}",
+          "{{2.value[5]}}",
+          "{{2.value[6]}}",
+          "=HYPERLINK(\"{{5.documentUrl}}\",\"초안보기\")",
+          "{{formatDate(now; 'YYYY-MM-DD HH:mm')}}"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "module": "slack:postMessage",
+      "version": 4,
+      "metadata": { "designer": { "x": 1800, "y": 0 } },
+      "parameters": {
+        "channel": "SLACK_CHANNEL_ID"
+      },
+      "mapper": {
+        "text": "*황금키워드 블로그 초안 생성 완료*\n\n키워드: `{{4.keyword}}`\n황금점수: {{4.golden_score}}\nGoogle Docs: {{5.documentUrl}}\n\n네이버 블로그에 복붙하러 고고! :rocket:"
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": true,
+      "dataloss": false
+    },
+    "designer": { "orphans": [] },
+    "zone": "eu2.make.com"
+  }
+}
