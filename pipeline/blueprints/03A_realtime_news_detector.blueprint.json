@@ -1,0 +1,462 @@
+{
+  "name": "03A_실시간 뉴스 감지기",
+  "flow": [
+    {
+      "id": 1,
+      "module": "google-sheets:watchRows",
+      "version": 2,
+      "parameters": {
+        "__IMTCONN__": 1
+      },
+      "mapper": {
+        "limit": 10,
+        "sheetId": "2_점수판",
+        "spreadsheetId": "{{SPREADSHEET_ID}}",
+        "tableFirstRow": "A1:Z1",
+        "filter": {
+          "operator": "and",
+          "conditions": [
+            {
+              "a": "{{content_route}}",
+              "o": "text:empty"
+            },
+            {
+              "a": "{{keyword}}",
+              "o": "text:notEmpty"
+            }
+          ]
+        }
+      },
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        },
+        "restore": {},
+        "expect": [
+          { "name": "spreadsheetId", "type": "text", "label": "스프레드시트 ID" },
+          { "name": "sheetId", "type": "text", "label": "시트 이름" },
+          { "name": "limit", "type": "number", "label": "최대 행 수" }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {},
+      "mapper": {
+        "url": "https://openapi.naver.com/v1/search/news.json",
+        "method": "get",
+        "headers": [
+          {
+            "name": "X-Naver-Client-Id",
+            "value": "{{NAVER_CLIENT_ID}}"
+          },
+          {
+            "name": "X-Naver-Client-Secret",
+            "value": "{{NAVER_CLIENT_SECRET}}"
+          }
+        ],
+        "qs": [
+          { "name": "query", "value": "{{1.keyword}}" },
+          { "name": "display", "value": "10" },
+          { "name": "sort", "value": "date" }
+        ],
+        "bodyType": "",
+        "parseResponse": true,
+        "followAllRedirects": true,
+        "followRedirect": true,
+        "timeout": 10000
+      },
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        },
+        "expect": [
+          { "name": "url", "type": "text", "label": "URL" },
+          { "name": "method", "type": "select", "label": "Method" }
+        ]
+      },
+      "flags": {
+        "retryOn": "error",
+        "numberOfRetries": 2,
+        "retryInterval": 3
+      }
+    },
+    {
+      "id": 3,
+      "module": "util:SetVariables",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "variables": [
+          {
+            "name": "recent_articles",
+            "value": "{{filter(2.data.items; \"pubDate\"; now; \"3\"; \"hours\"; \"<=\")}}"
+          },
+          {
+            "name": "news_count",
+            "value": "{{length(filter(2.data.items; \"pubDate\"; now; \"3\"; \"hours\"; \"<=\"))}}"
+          },
+          {
+            "name": "all_titles_joined",
+            "value": "{{join(map(filter(2.data.items; \"pubDate\"; now; \"3\"; \"hours\"; \"<=\"); \"title\"); \" \")}}"
+          },
+          {
+            "name": "outage_count",
+            "value": "{{if(contains(3.all_titles_joined; \"장애\"); 1; 0) + if(contains(3.all_titles_joined; \"오류\"); 1; 0) + if(contains(3.all_titles_joined; \"먹통\"); 1; 0) + if(contains(3.all_titles_joined; \"복구\"); 1; 0) + if(contains(3.all_titles_joined; \"점검\"); 1; 0) + if(contains(3.all_titles_joined; \"접속불가\"); 1; 0) + if(contains(3.all_titles_joined; \"서버다운\"); 1; 0) + if(contains(3.all_titles_joined; \"중단\"); 1; 0) + if(contains(3.all_titles_joined; \"마비\"); 1; 0) + if(contains(3.all_titles_joined; \"접속장애\"); 1; 0) + if(contains(3.all_titles_joined; \"서비스중단\"); 1; 0)}}"
+          },
+          {
+            "name": "accident_count",
+            "value": "{{if(contains(3.all_titles_joined; \"사고\"); 1; 0) + if(contains(3.all_titles_joined; \"사망\"); 1; 0) + if(contains(3.all_titles_joined; \"화재\"); 1; 0) + if(contains(3.all_titles_joined; \"폭발\"); 1; 0) + if(contains(3.all_titles_joined; \"붕괴\"); 1; 0) + if(contains(3.all_titles_joined; \"실종\"); 1; 0) + if(contains(3.all_titles_joined; \"대피\"); 1; 0) + if(contains(3.all_titles_joined; \"충돌\"); 1; 0)}}"
+          },
+          {
+            "name": "breaking_count",
+            "value": "{{if(contains(3.all_titles_joined; \"속보\"); 1; 0) + if(contains(3.all_titles_joined; \"긴급\"); 1; 0) + if(contains(3.all_titles_joined; \"단독\"); 1; 0) + if(contains(3.all_titles_joined; \"특보\"); 1; 0) + if(contains(3.all_titles_joined; \"공식입장\"); 1; 0) + if(contains(3.all_titles_joined; \"긴급회견\"); 1; 0)}}"
+          },
+          {
+            "name": "controversy_count",
+            "value": "{{if(contains(3.all_titles_joined; \"논란\"); 1; 0) + if(contains(3.all_titles_joined; \"파문\"); 1; 0) + if(contains(3.all_titles_joined; \"폭로\"); 1; 0) + if(contains(3.all_titles_joined; \"사퇴\"); 1; 0) + if(contains(3.all_titles_joined; \"구속\"); 1; 0) + if(contains(3.all_titles_joined; \"체포\"); 1; 0) + if(contains(3.all_titles_joined; \"기소\"); 1; 0) + if(contains(3.all_titles_joined; \"탄핵\"); 1; 0) + if(contains(3.all_titles_joined; \"반발\"); 1; 0)}}"
+          },
+          {
+            "name": "trending_count",
+            "value": "{{if(contains(3.all_titles_joined; \"화제\"); 1; 0) + if(contains(3.all_titles_joined; \"폭등\"); 1; 0) + if(contains(3.all_titles_joined; \"폭락\"); 1; 0) + if(contains(3.all_titles_joined; \"급등\"); 1; 0) + if(contains(3.all_titles_joined; \"급락\"); 1; 0) + if(contains(3.all_titles_joined; \"대란\"); 1; 0) + if(contains(3.all_titles_joined; \"품절\"); 1; 0) + if(contains(3.all_titles_joined; \"오픈런\"); 1; 0) + if(contains(3.all_titles_joined; \"신기록\"); 1; 0)}}"
+          },
+          {
+            "name": "policy_count",
+            "value": "{{if(contains(3.all_titles_joined; \"시행\"); 1; 0) + if(contains(3.all_titles_joined; \"개정\"); 1; 0) + if(contains(3.all_titles_joined; \"인상\"); 1; 0) + if(contains(3.all_titles_joined; \"인하\"); 1; 0) + if(contains(3.all_titles_joined; \"규제\"); 1; 0) + if(contains(3.all_titles_joined; \"의무화\"); 1; 0) + if(contains(3.all_titles_joined; \"폐지\"); 1; 0)}}"
+          },
+          {
+            "name": "launch_count",
+            "value": "{{if(contains(3.all_titles_joined; \"출시\"); 1; 0) + if(contains(3.all_titles_joined; \"오픈\"); 1; 0) + if(contains(3.all_titles_joined; \"런칭\"); 1; 0) + if(contains(3.all_titles_joined; \"발매\"); 1; 0) + if(contains(3.all_titles_joined; \"사전예약\"); 1; 0) + if(contains(3.all_titles_joined; \"신제품\"); 1; 0)}}"
+          }
+        ]
+      },
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": 4,
+      "module": "util:SetVariables",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "variables": [
+          {
+            "name": "is_breaking",
+            "value": "{{if(3.outage_count >= 2; \"YES\"; if(3.accident_count >= 2; \"YES\"; if(3.breaking_count >= 1; \"YES\"; if(3.controversy_count >= 2; \"YES\"; \"NO\"))))}}"
+          },
+          {
+            "name": "content_route",
+            "value": "{{if(3.outage_count >= 2; \"NEWS_FAST\"; if(3.accident_count >= 2; \"NEWS_FAST\"; if(3.breaking_count >= 1; \"NEWS_FAST\"; if(3.controversy_count >= 2; \"NEWS_FAST\"; if(3.trending_count >= 2; \"NEWS_STANDARD\"; if(3.policy_count >= 2; \"NEWS_STANDARD\"; if(3.launch_count >= 2; \"NEWS_STANDARD\"; if(3.news_count >= 5; \"NEWS_STANDARD\"; \"SEO\"))))))))}}"
+          },
+          {
+            "name": "event_category",
+            "value": "{{if(3.outage_count >= 2; \"서비스 장애/오류\"; if(3.accident_count >= 2; \"사건/사고\"; if(3.breaking_count >= 1; \"속보/긴급\"; if(3.controversy_count >= 2; \"논란/이슈\"; if(3.trending_count >= 2; \"화제/핫이슈\"; if(3.policy_count >= 2; \"정책/제도 변경\"; if(3.launch_count >= 2; \"신규 출시/오픈\"; if(3.news_count >= 5; \"unclassified_hot\"; \"\"))))))))}}"
+          }
+        ]
+      },
+      "metadata": {
+        "designer": {
+          "x": 900,
+          "y": 0
+        }
+      }
+    },
+    {
+      "id": 5,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "parameters": {},
+      "mapper": null,
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": 0
+        }
+      },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 6,
+              "module": "builtin:BasicFilter",
+              "version": 1,
+              "parameters": {
+                "filter": {
+                  "name": "뉴스 감지됨 (NEWS_FAST 또는 NEWS_STANDARD)",
+                  "conditions": [
+                    [
+                      {
+                        "a": "{{3.news_count}}",
+                        "o": "number:greaterEqual",
+                        "b": "3"
+                      },
+                      {
+                        "a": "{{4.content_route}}",
+                        "o": "text:notEqual",
+                        "b": "SEO"
+                      }
+                    ]
+                  ]
+                }
+              },
+              "mapper": {},
+              "metadata": {
+                "designer": {
+                  "x": 1500,
+                  "y": -150,
+                  "name": "뉴스 감지됨"
+                }
+              }
+            },
+            {
+              "id": 7,
+              "module": "google-sheets:updateRow",
+              "version": 2,
+              "parameters": {
+                "__IMTCONN__": 1
+              },
+              "mapper": {
+                "sheetId": "2_점수판",
+                "spreadsheetId": "{{SPREADSHEET_ID}}",
+                "rowNumber": "{{1.__ROW_NUMBER__}}",
+                "values": {
+                  "news_count": "{{3.news_count}}",
+                  "is_breaking": "{{4.is_breaking}}",
+                  "content_route": "{{4.content_route}}",
+                  "event_category": "{{4.event_category}}",
+                  "news_checked_at": "{{formatDate(now; \"YYYY-MM-DD HH:mm:ss\")}}"
+                }
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1800,
+                  "y": -150,
+                  "name": "2_점수판 업데이트 (뉴스)"
+                }
+              }
+            },
+            {
+              "id": 8,
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "parameters": {
+                "__IMTCONN__": 1
+              },
+              "mapper": {
+                "sheetId": "03A_수집기사",
+                "spreadsheetId": "{{SPREADSHEET_ID}}",
+                "values": {
+                  "keyword": "{{1.keyword}}",
+                  "news_count": "{{3.news_count}}",
+                  "is_breaking": "{{4.is_breaking}}",
+                  "content_route": "{{4.content_route}}",
+                  "event_category": "{{4.event_category}}",
+                  "articles_json": "{{toString(3.recent_articles)}}",
+                  "collected_at": "{{formatDate(now; \"YYYY-MM-DD HH:mm:ss\")}}"
+                }
+              },
+              "metadata": {
+                "designer": {
+                  "x": 2100,
+                  "y": -150,
+                  "name": "03A_수집기사 저장"
+                }
+              }
+            },
+            {
+              "id": 9,
+              "module": "builtin:BasicRouter",
+              "version": 1,
+              "parameters": {},
+              "mapper": null,
+              "metadata": {
+                "designer": {
+                  "x": 2400,
+                  "y": -150
+                }
+              },
+              "routes": [
+                {
+                  "flow": [
+                    {
+                      "id": 10,
+                      "module": "builtin:BasicFilter",
+                      "version": 1,
+                      "parameters": {
+                        "filter": {
+                          "name": "NEWS_FAST만 03B 호출",
+                          "conditions": [
+                            [
+                              {
+                                "a": "{{4.content_route}}",
+                                "o": "text:equal",
+                                "b": "NEWS_FAST"
+                              }
+                            ]
+                          ]
+                        }
+                      },
+                      "mapper": {},
+                      "metadata": {
+                        "designer": {
+                          "x": 2700,
+                          "y": -250,
+                          "name": "NEWS_FAST 필터"
+                        }
+                      }
+                    },
+                    {
+                      "id": 11,
+                      "module": "http:ActionSendData",
+                      "version": 3,
+                      "parameters": {},
+                      "mapper": {
+                        "url": "{{03B_WEBHOOK_URL}}",
+                        "method": "post",
+                        "headers": [
+                          {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "bodyType": "raw",
+                        "contentType": "application/json",
+                        "body": "{{toString(emptyobject; \"keyword\"; 1.keyword; \"row_number\"; 1.__ROW_NUMBER__; \"news_count\"; 3.news_count; \"is_breaking\"; 4.is_breaking; \"event_category\"; 4.event_category; \"articles\"; 3.recent_articles)}}",
+                        "parseResponse": false,
+                        "timeout": 15000
+                      },
+                      "metadata": {
+                        "designer": {
+                          "x": 3000,
+                          "y": -250,
+                          "name": "03B 웹훅 호출"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "flow": [
+                    {
+                      "id": 12,
+                      "module": "builtin:BasicFilter",
+                      "version": 1,
+                      "parameters": {
+                        "filter": {
+                          "name": "NEWS_STANDARD는 대기",
+                          "conditions": [
+                            [
+                              {
+                                "a": "{{4.content_route}}",
+                                "o": "text:equal",
+                                "b": "NEWS_STANDARD"
+                              }
+                            ]
+                          ]
+                        }
+                      },
+                      "mapper": {},
+                      "metadata": {
+                        "designer": {
+                          "x": 2700,
+                          "y": -50,
+                          "name": "NEWS_STANDARD 필터"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 13,
+              "module": "builtin:BasicFilter",
+              "version": 1,
+              "parameters": {
+                "filter": {
+                  "name": "뉴스 미감지 → SEO 라인",
+                  "conditions": [
+                    [
+                      {
+                        "a": "{{4.content_route}}",
+                        "o": "text:equal",
+                        "b": "SEO"
+                      }
+                    ]
+                  ]
+                }
+              },
+              "mapper": {},
+              "metadata": {
+                "designer": {
+                  "x": 1500,
+                  "y": 150,
+                  "name": "SEO fallback"
+                }
+              }
+            },
+            {
+              "id": 14,
+              "module": "google-sheets:updateRow",
+              "version": 2,
+              "parameters": {
+                "__IMTCONN__": 1
+              },
+              "mapper": {
+                "sheetId": "2_점수판",
+                "spreadsheetId": "{{SPREADSHEET_ID}}",
+                "rowNumber": "{{1.__ROW_NUMBER__}}",
+                "values": {
+                  "news_count": "{{if(3.news_count; 3.news_count; 0)}}",
+                  "is_breaking": "NO",
+                  "content_route": "SEO",
+                  "event_category": "",
+                  "news_checked_at": "{{formatDate(now; \"YYYY-MM-DD HH:mm:ss\")}}"
+                }
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1800,
+                  "y": 150,
+                  "name": "2_점수판 업데이트 (SEO)"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "slots": null,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": {
+      "orphans": []
+    },
+    "zone": "Asia/Seoul",
+    "notes": "03A 실시간 뉴스 감지기\n\n흐름:\n1. 2_점수판에서 content_route 비어있는 키워드 감지\n2. 네이버 뉴스 API로 최신 기사 10개 수집\n3. 최근 3시간 기사만 필터링\n4. 7개 카테고리 키워드 매칭 (outage/accident/breaking/controversy/trending/policy/launch)\n5. NEWS_FAST → 03B 즉시 호출 / NEWS_STANDARD → 대기 / SEO → 기존 라인\n\n필요한 Connection:\n- Google Sheets (구글 계정 연동)\n\n필요한 환경변수 (시나리오 변수로 설정):\n- SPREADSHEET_ID: 구글 시트 ID\n- NAVER_CLIENT_ID: 네이버 개발자 Client ID\n- NAVER_CLIENT_SECRET: 네이버 개발자 Client Secret\n- 03B_WEBHOOK_URL: 03B 시나리오 웹훅 URL"
+  }
+}
