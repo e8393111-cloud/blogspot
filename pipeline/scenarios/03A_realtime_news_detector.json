@@ -68,9 +68,9 @@
     },
     {
       "id": 4,
-      "name": "Set Variable: 최근 기사 필터링",
+      "name": "Set Variable: 최근 기사 필터링 + 다중 카테고리 매칭",
       "module": "tools:setVariable",
-      "note": "API 결과에서 최근 3시간 이내 기사만 추출하고, 제목에서 장애 키워드를 카운트",
+      "note": "API 결과에서 최근 3시간 이내 기사만 추출하고, 7개 카테고리별 키워드 매칭을 수행하여 event_category를 판정",
       "parameters": {
         "variables": [
           {
@@ -82,36 +82,62 @@
             "value": "{{length(recent_articles)}}"
           },
           {
-            "name": "breaking_keyword_count",
-            "value": "{{count_matches_in_titles}}"
+            "name": "category_scores",
+            "value": "{{computed_per_category}}",
+            "note": "각 카테고리별 매칭 기사 수를 계산한 객체"
+          },
+          {
+            "name": "matched_category",
+            "value": "{{best_matching_category}}",
+            "note": "가장 우선순위 높은 매칭 카테고리"
+          },
+          {
+            "name": "matched_route",
+            "value": "{{matched_category.content_route}}",
+            "note": "NEWS_FAST 또는 NEWS_STANDARD"
           }
         ]
       },
-      "logic_note": "breaking_keywords = ['장애', '오류', '먹통', '복구', '점검', '접속불가', '서버다운', '긴급', '중단', '마비']. 기사 제목에서 이 키워드가 포함된 기사 수를 센다."
+      "logic_note": "카테고리별 키워드 매칭 로직:\n1. outage: ['장애','오류','먹통','복구','점검','접속불가','서버다운','중단','마비','다운','불통','지연','차단','중지','접속장애','시스템오류','서비스중단'] (min:2, priority:1)\n2. accident: ['사고','사망','부상','충돌','폭발','화재','붕괴','전복','추락','침몰','매몰','실종','구조','대피','피해'] (min:2, priority:1)\n3. breaking: ['속보','긴급','단독','특보','1보','2보','3보','발표','공식입장','긴급회견','브리핑'] (min:1, priority:1)\n4. controversy: ['논란','파문','물의','비판','반발','항의','시위','고발','폭로','해명','사과','사퇴','퇴진','탄핵','구속','체포','기소'] (min:2, priority:2)\n5. trending: ['화제','폭등','폭락','급등','급락','신기록','역대급','최초','첫','돌파','대란','품절','마감','매진','오픈런','줄서기'] (min:2, priority:3)\n6. policy: ['시행','개정','변경','인상','인하','폐지','신설','의무화','규제','완화','금지','허용','적용','대상확대'] (min:2, priority:3)\n7. launch: ['출시','오픈','런칭','공개','발매','사전예약','베타','업데이트','신제품','신규서비스'] (min:2, priority:4)\n\n판정: 각 기사 제목을 모든 카테고리 키워드와 매칭 → 카테고리별 매칭 기사 수 합산 → min_match 이상인 카테고리 중 priority가 가장 낮은(=긴급한) 것 선택 → 동일 priority면 매칭 수 많은 것 우선"
     },
     {
       "id": 5,
-      "name": "Router: 뉴스 유형 판정",
+      "name": "Router: 다중 카테고리 뉴스 유형 판정",
       "module": "flow:router",
-      "note": "is_breaking 여부를 판정하여 분기",
+      "note": "카테고리 매칭 결과에 따라 NEWS_FAST / NEWS_STANDARD / SEO로 분기",
       "routes": [
         {
-          "name": "Breaking News (장애/사고형)",
-          "condition": "{{4.breaking_keyword_count}} >= 2",
+          "name": "NEWS_FAST (긴급: 장애/사고/속보/논란)",
+          "condition": "{{4.matched_route}} = 'NEWS_FAST'",
           "target_module_id": 6,
           "sets": {
             "is_breaking": "YES",
-            "content_route": "NEWS_FAST"
-          }
+            "content_route": "NEWS_FAST",
+            "event_category": "{{4.matched_category.label}}"
+          },
+          "note": "outage, accident, breaking, controversy 카테고리 매칭 시"
         },
         {
-          "name": "Trending News (일반 화제형)",
-          "condition": "{{4.breaking_keyword_count}} < 2 AND {{4.news_count}} >= 3",
+          "name": "NEWS_STANDARD (화제: 트렌딩/정책/출시)",
+          "condition": "{{4.matched_route}} = 'NEWS_STANDARD'",
           "target_module_id": 6,
           "sets": {
             "is_breaking": "NO",
-            "content_route": "NEWS_STANDARD"
-          }
+            "content_route": "NEWS_STANDARD",
+            "event_category": "{{4.matched_category.label}}"
+          },
+          "note": "trending, policy, launch 카테고리 매칭 시"
+        },
+        {
+          "name": "NEWS_STANDARD (카테고리 미매칭이지만 기사 다수)",
+          "condition": "{{4.matched_category}} = EMPTY AND {{4.news_count}} >= 5",
+          "target_module_id": 6,
+          "sets": {
+            "is_breaking": "NO",
+            "content_route": "NEWS_STANDARD",
+            "event_category": "unclassified_hot"
+          },
+          "note": "키워드 매칭은 안 됐지만 기사가 5건 이상 쏟아지면 화제성으로 간주"
         }
       ]
     },
@@ -128,6 +154,7 @@
           "news_count": "{{4.news_count}}",
           "is_breaking": "{{5.is_breaking}}",
           "content_route": "{{5.content_route}}",
+          "event_category": "{{5.event_category}}",
           "news_checked_at": "{{formatDate(now, 'YYYY-MM-DD HH:mm:ss')}}"
         }
       }

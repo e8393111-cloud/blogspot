@@ -24,6 +24,13 @@
           "default": ""
         },
         {
+          "name": "event_category",
+          "type": "string",
+          "description": "감지된 이벤트 카테고리",
+          "enum": ["서비스 장애/오류", "사건/사고", "속보/긴급", "논란/이슈", "화제/핫이슈", "정책/제도 변경", "신규 출시/오픈", "unclassified_hot"],
+          "default": ""
+        },
+        {
           "name": "news_checked_at",
           "type": "datetime",
           "description": "뉴스 확인 시각",
@@ -112,9 +119,75 @@
       ]
     }
   },
-  "breaking_keywords": [
-    "장애", "오류", "먹통", "복구", "점검",
-    "접속불가", "서버다운", "긴급", "중단", "마비",
-    "다운", "불통", "지연", "차단", "중지"
-  ]
+  "news_detection_keywords": {
+    "description": "이벤트 유형별 감지 키워드 세트. 기사 제목에서 매칭하여 event_category를 판정한다.",
+
+    "outage": {
+      "label": "서비스 장애/오류",
+      "keywords": ["장애", "오류", "먹통", "복구", "점검", "접속불가", "서버다운", "중단", "마비", "다운", "불통", "지연", "차단", "중지", "접속장애", "시스템오류", "서비스중단"],
+      "content_route": "NEWS_FAST",
+      "min_match": 2,
+      "priority": 1
+    },
+
+    "accident": {
+      "label": "사건/사고",
+      "keywords": ["사고", "사망", "부상", "충돌", "폭발", "화재", "붕괴", "전복", "추락", "침몰", "매몰", "실종", "구조", "대피", "피해"],
+      "content_route": "NEWS_FAST",
+      "min_match": 2,
+      "priority": 1
+    },
+
+    "breaking": {
+      "label": "속보/긴급",
+      "keywords": ["속보", "긴급", "단독", "특보", "1보", "2보", "3보", "발표", "공식입장", "긴급회견", "브리핑"],
+      "content_route": "NEWS_FAST",
+      "min_match": 1,
+      "priority": 1
+    },
+
+    "controversy": {
+      "label": "논란/이슈",
+      "keywords": ["논란", "파문", "물의", "비판", "반발", "항의", "시위", "고발", "폭로", "해명", "사과", "사퇴", "퇴진", "탄핵", "구속", "체포", "기소"],
+      "content_route": "NEWS_FAST",
+      "min_match": 2,
+      "priority": 2
+    },
+
+    "trending": {
+      "label": "화제/핫이슈",
+      "keywords": ["화제", "폭등", "폭락", "급등", "급락", "신기록", "역대급", "최초", "첫", "돌파", "대란", "품절", "마감", "매진", "오픈런", "줄서기"],
+      "content_route": "NEWS_STANDARD",
+      "min_match": 2,
+      "priority": 3
+    },
+
+    "policy": {
+      "label": "정책/제도 변경",
+      "keywords": ["시행", "개정", "변경", "인상", "인하", "폐지", "신설", "의무화", "규제", "완화", "금지", "허용", "적용", "대상확대"],
+      "content_route": "NEWS_STANDARD",
+      "min_match": 2,
+      "priority": 3
+    },
+
+    "launch": {
+      "label": "신규 출시/오픈",
+      "keywords": ["출시", "오픈", "런칭", "공개", "발매", "사전예약", "베타", "업데이트", "신제품", "신규서비스"],
+      "content_route": "NEWS_STANDARD",
+      "min_match": 2,
+      "priority": 4
+    }
+  },
+
+  "detection_rules": {
+    "description": "카테고리 판정 규칙",
+    "rules": [
+      "1. 모든 카테고리의 키워드를 기사 제목에서 매칭한다",
+      "2. 각 카테고리별 min_match 이상 매칭되면 해당 카테고리로 판정",
+      "3. 복수 카테고리 매칭 시 priority 숫자가 낮은(=더 긴급한) 것 우선",
+      "4. 동일 priority면 매칭 수가 많은 카테고리 우선",
+      "5. 아무 카테고리도 매칭 안 되면 뉴스 3건 이상일 때 NEWS_STANDARD",
+      "6. NEWS_FAST 카테고리는 03B 즉시 호출, NEWS_STANDARD는 일반 뉴스 라인"
+    ]
+  }
 }
