@@ -1,0 +1,216 @@
+{
+  "name": "03A_실시간 뉴스 감지기",
+  "description": "구글트렌드 키워드를 받아 네이버 뉴스 API로 실시간 뉴스 여부를 판정하고, is_breaking / content_route를 결정한다.",
+  "scheduling": {
+    "type": "interval",
+    "interval_minutes": 15,
+    "note": "구글트렌드 감지 주기에 맞춰 15분 간격 실행"
+  },
+  "modules": [
+    {
+      "id": 1,
+      "name": "Trigger: Google Sheets - Watch Rows",
+      "module": "google-sheets:watchRows",
+      "note": "2_점수판에서 content_route가 비어있는 새 키워드 행을 감지",
+      "parameters": {
+        "spreadsheet_id": "{{SPREADSHEET_ID}}",
+        "sheet_name": "2_점수판",
+        "filter": "content_route = EMPTY AND keyword != EMPTY",
+        "max_results": 10
+      },
+      "output": {
+        "keyword": "{{row.keyword}}",
+        "row_number": "{{row.row_number}}",
+        "trend_score": "{{row.trend_score}}"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Naver News Search API",
+      "module": "http:makeRequest",
+      "note": "네이버 검색 API - 뉴스 검색. Client ID/Secret은 Make Connection에 저장.",
+      "parameters": {
+        "url": "https://openapi.naver.com/v1/search/news.json",
+        "method": "GET",
+        "headers": {
+          "X-Naver-Client-Id": "{{NAVER_CLIENT_ID}}",
+          "X-Naver-Client-Secret": "{{NAVER_CLIENT_SECRET}}"
+        },
+        "query_string": {
+          "query": "{{1.keyword}}",
+          "display": 10,
+          "sort": "date"
+        }
+      },
+      "output": {
+        "total": "{{body.total}}",
+        "items": "{{body.items}}"
+      },
+      "error_handling": {
+        "type": "retry",
+        "max_retries": 2,
+        "interval_seconds": 3
+      }
+    },
+    {
+      "id": 3,
+      "name": "Filter: 최근 기사 3건 이상 확인",
+      "module": "flow:filter",
+      "note": "최근 3시간 이내 기사가 3건 미만이면 여기서 중단 → content_route = SEO로 기본 처리",
+      "parameters": {
+        "condition": "{{length(3.recent_articles)}} >= 3"
+      },
+      "fallback": {
+        "action": "route_to_module",
+        "target_module_id": 7,
+        "note": "기사 부족 시 SEO 라인으로 분류"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Set Variable: 최근 기사 필터링",
+      "module": "tools:setVariable",
+      "note": "API 결과에서 최근 3시간 이내 기사만 추출하고, 제목에서 장애 키워드를 카운트",
+      "parameters": {
+        "variables": [
+          {
+            "name": "recent_articles",
+            "value": "{{filter(2.items, (item) => dateDiff(now, item.pubDate, 'hours') <= 3)}}"
+          },
+          {
+            "name": "news_count",
+            "value": "{{length(recent_articles)}}"
+          },
+          {
+            "name": "breaking_keyword_count",
+            "value": "{{count_matches_in_titles}}"
+          }
+        ]
+      },
+      "logic_note": "breaking_keywords = ['장애', '오류', '먹통', '복구', '점검', '접속불가', '서버다운', '긴급', '중단', '마비']. 기사 제목에서 이 키워드가 포함된 기사 수를 센다."
+    },
+    {
+      "id": 5,
+      "name": "Router: 뉴스 유형 판정",
+      "module": "flow:router",
+      "note": "is_breaking 여부를 판정하여 분기",
+      "routes": [
+        {
+          "name": "Breaking News (장애/사고형)",
+          "condition": "{{4.breaking_keyword_count}} >= 2",
+          "target_module_id": 6,
+          "sets": {
+            "is_breaking": "YES",
+            "content_route": "NEWS_FAST"
+          }
+        },
+        {
+          "name": "Trending News (일반 화제형)",
+          "condition": "{{4.breaking_keyword_count}} < 2 AND {{4.news_count}} >= 3",
+          "target_module_id": 6,
+          "sets": {
+            "is_breaking": "NO",
+            "content_route": "NEWS_STANDARD"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Google Sheets - Update Row (뉴스 감지 결과)",
+      "module": "google-sheets:updateRow",
+      "note": "2_점수판의 해당 키워드 행에 뉴스 감지 결과를 기록",
+      "parameters": {
+        "spreadsheet_id": "{{SPREADSHEET_ID}}",
+        "sheet_name": "2_점수판",
+        "row_number": "{{1.row_number}}",
+        "values": {
+          "news_count": "{{4.news_count}}",
+          "is_breaking": "{{5.is_breaking}}",
+          "content_route": "{{5.content_route}}",
+          "news_checked_at": "{{formatDate(now, 'YYYY-MM-DD HH:mm:ss')}}"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "name": "Google Sheets - Update Row (SEO 기본 라우팅)",
+      "module": "google-sheets:updateRow",
+      "note": "뉴스 기사가 부족할 경우 기존 SEO 라인으로 분류",
+      "parameters": {
+        "spreadsheet_id": "{{SPREADSHEET_ID}}",
+        "sheet_name": "2_점수판",
+        "row_number": "{{1.row_number}}",
+        "values": {
+          "news_count": "{{ifempty(4.news_count, 0)}}",
+          "is_breaking": "NO",
+          "content_route": "SEO",
+          "news_checked_at": "{{formatDate(now, 'YYYY-MM-DD HH:mm:ss')}}"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "name": "Google Sheets - Add Row (뉴스 기사 원본 저장)",
+      "module": "google-sheets:addRow",
+      "note": "content_route가 NEWS_FAST 또는 NEWS_STANDARD인 경우에만 실행. 수집된 기사 메타데이터를 별도 시트에 저장하여 03B에서 활용.",
+      "condition": "{{5.content_route}} != 'SEO'",
+      "parameters": {
+        "spreadsheet_id": "{{SPREADSHEET_ID}}",
+        "sheet_name": "03A_수집기사",
+        "values": {
+          "keyword": "{{1.keyword}}",
+          "news_count": "{{4.news_count}}",
+          "is_breaking": "{{5.is_breaking}}",
+          "content_route": "{{5.content_route}}",
+          "articles_json": "{{toJSON(4.recent_articles)}}",
+          "collected_at": "{{formatDate(now, 'YYYY-MM-DD HH:mm:ss')}}"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "name": "Webhook: 03B 뉴스 팩트 정리기 호출",
+      "module": "http:makeRequest",
+      "note": "content_route가 NEWS_FAST인 경우에만 실행. 03B 시나리오를 즉시 트리거.",
+      "condition": "{{5.content_route}} = 'NEWS_FAST'",
+      "parameters": {
+        "url": "{{03B_WEBHOOK_URL}}",
+        "method": "POST",
+        "body": {
+          "keyword": "{{1.keyword}}",
+          "row_number": "{{1.row_number}}",
+          "news_count": "{{4.news_count}}",
+          "is_breaking": "{{5.is_breaking}}",
+          "articles": "{{4.recent_articles}}"
+        }
+      }
+    }
+  ],
+  "connections": [
+    { "from": 1, "to": 2 },
+    { "from": 2, "to": 4 },
+    { "from": 4, "to": 3 },
+    { "from": 3, "to": 5, "label": "기사 3건 이상" },
+    { "from": 3, "to": 7, "label": "기사 부족 (fallback)" },
+    { "from": 5, "to": 6, "label": "Breaking 또는 Trending" },
+    { "from": 6, "to": 8 },
+    { "from": 8, "to": 9, "label": "NEWS_FAST만" }
+  ],
+  "environment_variables": {
+    "SPREADSHEET_ID": "Google Sheets 스프레드시트 ID",
+    "NAVER_CLIENT_ID": "네이버 개발자센터 Client ID",
+    "NAVER_CLIENT_SECRET": "네이버 개발자센터 Client Secret",
+    "03B_WEBHOOK_URL": "03B_뉴스팩트정리기 시나리오의 Webhook URL"
+  },
+  "sheets_required": {
+    "2_점수판": {
+      "existing_columns": ["keyword", "trend_score"],
+      "new_columns": ["news_count", "is_breaking", "content_route", "news_checked_at"]
+    },
+    "03A_수집기사": {
+      "columns": ["keyword", "news_count", "is_breaking", "content_route", "articles_json", "collected_at"],
+      "note": "신규 생성 필요"
+    }
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "description": "기존 시트에 추가할 컬럼 정의 - 뉴스 급행 라인용",
+  "sheets": {
+    "2_점수판": {
+      "new_columns": [
+        {
+          "name": "news_count",
+          "type": "number",
+          "description": "최근 3시간 이내 관련 뉴스 기사 수",
+          "default": 0
+        },
+        {
+          "name": "is_breaking",
+          "type": "string",
+          "description": "장애/사고형 키워드 여부",
+          "enum": ["YES", "NO"],
+          "default": ""
+        },
+        {
+          "name": "content_route",
+          "type": "string",
+          "description": "콘텐츠 라우팅 경로",
+          "enum": ["SEO", "NEWS_FAST", "NEWS_STANDARD"],
+          "default": ""
+        },
+        {
+          "name": "news_checked_at",
+          "type": "datetime",
+          "description": "뉴스 확인 시각",
+          "format": "YYYY-MM-DD HH:mm:ss"
+        }
+      ]
+    },
+    "4_채널각도": {
+      "new_columns": [
+        {
+          "name": "source_urls",
+          "type": "string",
+          "description": "출처 기사 URL 목록 (콤마 구분)"
+        },
+        {
+          "name": "fact_summary",
+          "type": "string",
+          "description": "03B에서 생성된 사실 요약 JSON 문자열"
+        },
+        {
+          "name": "content_mode",
+          "type": "string",
+          "description": "콘텐츠 성격",
+          "enum": ["evergreen", "breaking", "recovery"],
+          "default": "evergreen"
+        }
+      ]
+    },
+    "5_hub_queue": {
+      "new_columns": [
+        {
+          "name": "publish_mode",
+          "type": "string",
+          "description": "발행 모드",
+          "enum": ["auto", "semi_auto", "manual"],
+          "default": "semi_auto"
+        },
+        {
+          "name": "manual_review",
+          "type": "string",
+          "description": "수동 검토 필요 여부",
+          "enum": ["YES", "NO"],
+          "default": "NO"
+        },
+        {
+          "name": "event_expires_at",
+          "type": "datetime",
+          "description": "이슈 만료 시각 (발행 후 24시간)",
+          "format": "YYYY-MM-DD HH:mm:ss"
+        }
+      ]
+    },
+    "03A_수집기사": {
+      "note": "신규 시트 - 03A에서 수집한 기사 원본 저장용",
+      "columns": [
+        {
+          "name": "keyword",
+          "type": "string",
+          "description": "검색 키워드"
+        },
+        {
+          "name": "news_count",
+          "type": "number",
+          "description": "수집된 기사 수"
+        },
+        {
+          "name": "is_breaking",
+          "type": "string",
+          "description": "장애/사고형 여부"
+        },
+        {
+          "name": "content_route",
+          "type": "string",
+          "description": "라우팅 결과"
+        },
+        {
+          "name": "articles_json",
+          "type": "string",
+          "description": "수집된 기사 메타데이터 JSON"
+        },
+        {
+          "name": "collected_at",
+          "type": "datetime",
+          "description": "수집 시각"
+        }
+      ]
+    }
+  },
+  "breaking_keywords": [
+    "장애", "오류", "먹통", "복구", "점검",
+    "접속불가", "서버다운", "긴급", "중단", "마비",
+    "다운", "불통", "지연", "차단", "중지"
+  ]
+}

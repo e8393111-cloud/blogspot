@@ -1,0 +1,148 @@
+{
+  "name": "03B_뉴스 팩트 정리기",
+  "description": "03A에서 수집된 뉴스 기사 메타데이터를 OpenAI로 보내 사실만 추출하여 구조화된 JSON으로 정리한다. 재작성이 아닌 사실 종합.",
+  "trigger": {
+    "type": "webhook",
+    "note": "03A에서 NEWS_FAST 판정 시 즉시 호출됨"
+  },
+  "modules": [
+    {
+      "id": 1,
+      "name": "Trigger: Webhook",
+      "module": "webhook:customWebhook",
+      "note": "03A에서 POST로 전달받는 데이터",
+      "output": {
+        "keyword": "{{body.keyword}}",
+        "row_number": "{{body.row_number}}",
+        "news_count": "{{body.news_count}}",
+        "is_breaking": "{{body.is_breaking}}",
+        "articles": "{{body.articles}}"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Set Variable: 기사 메타데이터 정리",
+      "module": "tools:setVariable",
+      "note": "OpenAI에 보낼 기사 정보를 title, description, pubDate, originallink만 추출하여 정리",
+      "parameters": {
+        "variables": [
+          {
+            "name": "articles_for_ai",
+            "value": "{{map(1.articles, (a) => { title: a.title, description: a.description, pubDate: a.pubDate, originallink: a.originallink })}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "name": "OpenAI: 사실 정리",
+      "module": "openai:createChatCompletion",
+      "note": "기사 본문 전체를 보내지 않음. title/description/pubDate/originallink만 보내서 사실을 종합.",
+      "parameters": {
+        "model": "gpt-4o",
+        "temperature": 0.2,
+        "max_tokens": 1500,
+        "response_format": { "type": "json_object" },
+        "messages": [
+          {
+            "role": "system",
+            "content": "너는 뉴스 팩트체커다. 여러 기사의 제목, 요약, 발행시간, 원문링크를 받아서 사실만 추출한다.\n\n규칙:\n1. 기사 1개만으로 단정하지 않는다\n2. 최소 2개 이상 기사에서 공통으로 보이는 사실만 쓴다\n3. 회사 공식 설명이 있으면 official_explanation에 넣는다\n4. 충돌하는 내용이 있으면 confidence를 low로 하고 conflicting_info에 적는다\n5. 추측이나 의견은 절대 넣지 않는다\n\n반드시 아래 JSON 형식으로만 응답한다."
+          },
+          {
+            "role": "user",
+            "content": "키워드: {{1.keyword}}\n\n수집된 기사 {{1.news_count}}건:\n{{toJSON(2.articles_for_ai)}}\n\n위 기사들에서 공통 사실만 추출하여 아래 형식으로 정리해줘:\n{\n  \"event_type\": \"service_outage | policy_change | accident | controversy | product_launch | other\",\n  \"what_happened\": \"무슨 일이 있었는지 1~2문장\",\n  \"start_time\": \"발생 시각 (기사 기준)\",\n  \"current_status\": \"현재 상태 (정상화/진행중/미확인)\",\n  \"official_explanation\": \"회사 또는 기관의 공식 설명 (없으면 빈 문자열)\",\n  \"user_impact\": \"이용자에게 어떤 영향이 있었는지\",\n  \"what_users_can_do_now\": \"지금 사용자가 할 수 있는 것\",\n  \"confidence\": \"high | medium | low\",\n  \"conflicting_info\": \"충돌하는 내용이 있으면 여기에 (없으면 빈 문자열)\",\n  \"source_urls\": [\"원문 링크 배열\"]\n}"
+          }
+        ]
+      },
+      "output": {
+        "fact_json": "{{fromJSON(choices[0].message.content)}}"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Router: manual_review 판정",
+      "module": "flow:router",
+      "note": "confidence가 low이거나 conflicting_info가 있으면 manual_review",
+      "routes": [
+        {
+          "name": "자동 진행 가능",
+          "condition": "{{3.fact_json.confidence}} = 'high' AND {{3.fact_json.conflicting_info}} = ''",
+          "sets": {
+            "manual_review": "NO",
+            "publish_mode": "semi_auto"
+          }
+        },
+        {
+          "name": "수동 검토 필요",
+          "condition": "{{3.fact_json.confidence}} != 'high' OR {{3.fact_json.conflicting_info}} != ''",
+          "sets": {
+            "manual_review": "YES",
+            "publish_mode": "manual"
+          }
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Google Sheets - Update Row (4_채널각도)",
+      "module": "google-sheets:updateRow",
+      "note": "팩트 정리 결과를 4_채널각도 시트에 기록",
+      "parameters": {
+        "spreadsheet_id": "{{SPREADSHEET_ID}}",
+        "sheet_name": "4_채널각도",
+        "row_number": "{{1.row_number}}",
+        "values": {
+          "source_urls": "{{join(3.fact_json.source_urls, ', ')}}",
+          "fact_summary": "{{toJSON(3.fact_json)}}",
+          "content_mode": "breaking"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "name": "Google Sheets - Update Row (5_hub_queue)",
+      "module": "google-sheets:updateRow",
+      "note": "발행 큐에 수동/자동 여부 기록",
+      "parameters": {
+        "spreadsheet_id": "{{SPREADSHEET_ID}}",
+        "sheet_name": "5_hub_queue",
+        "row_number": "{{1.row_number}}",
+        "values": {
+          "publish_mode": "{{4.publish_mode}}",
+          "manual_review": "{{4.manual_review}}",
+          "event_expires_at": "{{formatDate(addHours(now, 24), 'YYYY-MM-DD HH:mm:ss')}}"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "name": "Webhook: 05N 뉴스형 제목 생성 호출",
+      "module": "http:makeRequest",
+      "note": "팩트 정리가 끝나면 05N으로 전달하여 뉴스형 제목을 생성",
+      "parameters": {
+        "url": "{{05N_WEBHOOK_URL}}",
+        "method": "POST",
+        "body": {
+          "keyword": "{{1.keyword}}",
+          "row_number": "{{1.row_number}}",
+          "fact_json": "{{3.fact_json}}",
+          "manual_review": "{{4.manual_review}}",
+          "publish_mode": "{{4.publish_mode}}"
+        }
+      }
+    }
+  ],
+  "connections": [
+    { "from": 1, "to": 2 },
+    { "from": 2, "to": 3 },
+    { "from": 3, "to": 4 },
+    { "from": 4, "to": 5 },
+    { "from": 5, "to": 6 },
+    { "from": 6, "to": 7 }
+  ],
+  "environment_variables": {
+    "SPREADSHEET_ID": "Google Sheets 스프레드시트 ID",
+    "OPENAI_API_KEY": "OpenAI API Key (Make Connection에 저장)",
+    "05N_WEBHOOK_URL": "05N_뉴스형제목생성 시나리오의 Webhook URL"
+  }
+}
