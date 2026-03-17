@@ -1,0 +1,236 @@
+{
+  "name": "황금키워드 자동 탐색 시나리오",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "restore": { "parameters": { "hook": { "label": "황금키워드 트리거" } } }
+      },
+      "parameters": { "hook": "WEBHOOK_ID", "maxResults": 1 },
+      "mapper": {}
+    },
+    {
+      "id": 2,
+      "module": "google-sheets:getValues",
+      "version": 3,
+      "metadata": {
+        "designer": { "x": 300, "y": 0 },
+        "restore": {
+          "parameters": {
+            "spreadsheetId": { "label": "씨앗 키워드 시트" },
+            "sheetId": { "label": "씨앗키워드" },
+            "valueRenderOption": { "label": "Formatted value" }
+          }
+        }
+      },
+      "parameters": {
+        "spreadsheetId": "SPREADSHEET_ID",
+        "sheetId": "씨앗키워드",
+        "range": "A2:A100",
+        "valueRenderOption": "FORMATTED_VALUE",
+        "majorDimension": "ROWS"
+      },
+      "mapper": {}
+    },
+    {
+      "id": 3,
+      "module": "util:ArrayIterator",
+      "version": 1,
+      "metadata": { "designer": { "x": 600, "y": 0 } },
+      "mapper": { "array": "{{2.values}}" },
+      "parameters": {}
+    },
+    {
+      "id": 4,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "metadata": {
+        "designer": { "x": 900, "y": 0 },
+        "restore": {
+          "parameters": {
+            "method": { "label": "POST" },
+            "bodyType": { "label": "Raw" },
+            "contentType": { "label": "JSON (application/json)" }
+          }
+        }
+      },
+      "parameters": {
+        "method": "POST",
+        "url": "https://openapi.naver.com/v1/datalab/search",
+        "headers": [
+          { "name": "X-Naver-Client-Id", "value": "NAVER_CLIENT_ID" },
+          { "name": "X-Naver-Client-Secret", "value": "NAVER_CLIENT_SECRET" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "data": "{\n  \"startDate\": \"{{formatDate(addMonths(now; -3); 'YYYY-MM-DD')}}\",\n  \"endDate\": \"{{formatDate(now; 'YYYY-MM-DD')}}\",\n  \"timeUnit\": \"month\",\n  \"keywordGroups\": [\n    {\n      \"groupName\": \"{{3.value[1]}}\",\n      \"keywords\": [\"{{3.value[1]}}\"]\n    }\n  ],\n  \"device\": \"\",\n  \"gender\": \"\",\n  \"ages\": []\n}",
+        "timeout": 30
+      },
+      "mapper": {}
+    },
+    {
+      "id": 5,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "metadata": {
+        "designer": { "x": 900, "y": 200 },
+        "restore": {
+          "parameters": {
+            "method": { "label": "GET" }
+          }
+        }
+      },
+      "parameters": {
+        "method": "GET",
+        "url": "https://openapi.naver.com/v1/search/blog.json",
+        "qs": [
+          { "name": "query", "value": "{{3.value[1]}}" },
+          { "name": "display", "value": "1" },
+          { "name": "start", "value": "1" }
+        ],
+        "headers": [
+          { "name": "X-Naver-Client-Id", "value": "NAVER_CLIENT_ID" },
+          { "name": "X-Naver-Client-Secret", "value": "NAVER_CLIENT_SECRET" }
+        ],
+        "timeout": 30
+      },
+      "mapper": {}
+    },
+    {
+      "id": 6,
+      "module": "util:SetVariables",
+      "version": 1,
+      "metadata": { "designer": { "x": 1200, "y": 0 } },
+      "mapper": {
+        "variables": [
+          {
+            "name": "keyword",
+            "value": "{{3.value[1]}}"
+          },
+          {
+            "name": "trend_avg",
+            "value": "{{if(4.data.results[]; round(average(map(4.data.results[1].data; 'ratio'))); 0)}}"
+          },
+          {
+            "name": "total_results",
+            "value": "{{toNumber(5.data.total)}}"
+          },
+          {
+            "name": "golden_score",
+            "value": "{{if(toNumber(5.data.total) > 0; round(toNumber(if(4.data.results[]; round(average(map(4.data.results[1].data; 'ratio'))); 0)) / toNumber(5.data.total) * 10000; 2); 0)}}"
+          },
+          {
+            "name": "is_golden",
+            "value": "{{if(and(toNumber(if(4.data.results[]; round(average(map(4.data.results[1].data; 'ratio'))); 0)) >= 10; toNumber(5.data.total) <= 30000; toNumber(if(4.data.results[]; round(average(map(4.data.results[1].data; 'ratio'))); 0)) / toNumber(5.data.total) * 10000 >= 0.3); 'YES'; 'NO')}}"
+          }
+        ]
+      },
+      "parameters": {}
+    },
+    {
+      "id": 7,
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "metadata": {
+        "designer": { "x": 1500, "y": 0 },
+        "restore": { "filter": { "label": "황금키워드 필터" } }
+      },
+      "filter": {
+        "name": "황금키워드 필터",
+        "conditions": [
+          [
+            {
+              "a": "{{6.is_golden}}",
+              "b": "YES",
+              "o": "text:equal"
+            }
+          ]
+        ]
+      },
+      "mapper": {}
+    },
+    {
+      "id": 8,
+      "module": "google-sheets:addRow",
+      "version": 3,
+      "metadata": {
+        "designer": { "x": 1800, "y": 0 },
+        "restore": {
+          "parameters": {
+            "spreadsheetId": { "label": "황금키워드 결과 시트" },
+            "sheetId": { "label": "황금키워드" },
+            "valueInputOption": { "label": "User entered" }
+          }
+        }
+      },
+      "parameters": {
+        "spreadsheetId": "SPREADSHEET_ID",
+        "sheetId": "황금키워드",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "mapper": {
+        "values": [
+          "{{formatDate(now; 'YYYY-MM-DD HH:mm')}}",
+          "{{6.keyword}}",
+          "{{6.trend_avg}}",
+          "{{6.total_results}}",
+          "{{6.golden_score}}",
+          "{{6.is_golden}}",
+          "=HYPERLINK(\"https://search.naver.com/search.naver?query={{encodeURL(6.keyword)}}\",\"네이버검색\")"
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "module": "google-sheets:addRow",
+      "version": 3,
+      "metadata": {
+        "designer": { "x": 1200, "y": 300 },
+        "restore": {
+          "parameters": {
+            "spreadsheetId": { "label": "전체 키워드 로그 시트" },
+            "sheetId": { "label": "전체로그" },
+            "valueInputOption": { "label": "User entered" }
+          }
+        }
+      },
+      "parameters": {
+        "spreadsheetId": "SPREADSHEET_ID",
+        "sheetId": "전체로그",
+        "valueInputOption": "USER_ENTERED"
+      },
+      "mapper": {
+        "values": [
+          "{{formatDate(now; 'YYYY-MM-DD HH:mm')}}",
+          "{{6.keyword}}",
+          "{{6.trend_avg}}",
+          "{{6.total_results}}",
+          "{{6.golden_score}}",
+          "{{6.is_golden}}"
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "slots": null,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": { "orphans": [] },
+    "zone": "eu2.make.com"
+  }
+}
