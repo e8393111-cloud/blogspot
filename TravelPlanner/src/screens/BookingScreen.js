@@ -4,7 +4,7 @@ import {
   SafeAreaView, Linking, TextInput, Alert, FlatList,
 } from 'react-native';
 import useTripStore from '../store/tripStore';
-import { getNearbyRestaurants, getNearbyAttractions } from '../services/googleMaps';
+import { getNearbyRestaurants } from '../services/googleMaps';
 
 const BOOKING_SERVICES = [
   {
@@ -67,7 +67,7 @@ const BookingScreen = () => {
   const { currentTrip } = useTripStore();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
-  const [loadingNearby, setLoadingNearby] = useState(false);
+  const [_loadingNearby, setLoadingNearby] = useState(false);
 
   const destination = currentTrip?.destination || '';
 

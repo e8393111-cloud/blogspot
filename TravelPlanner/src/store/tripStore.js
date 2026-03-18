@@ -11,7 +11,7 @@ const useTripStore = create((set, get) => ({
   addTrip: async (trip) => {
     const newTrip = {
       ...trip,
-      id: Date.now().toString(),
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
       createdAt: new Date().toISOString(),
       itinerary: [],
       places: [],
@@ -43,7 +43,7 @@ const useTripStore = create((set, get) => ({
   addPlace: async (tripId, place) => {
     const newPlace = {
       ...place,
-      id: Date.now().toString(),
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
       addedAt: new Date().toISOString(),
     };
     set((state) => ({

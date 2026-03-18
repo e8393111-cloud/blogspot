@@ -6,7 +6,18 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.[jt]sx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [],
+    "testMatch": [
+      "**/__tests__/**/*.js"
+    ]
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^3.0.1",
@@ -28,5 +39,17 @@
     "react-native-screens": "^4.24.0",
     "zustand": "^5.0.12"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
+    "@babel/eslint-parser": "^7.28.6",
+    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-react": "^7.28.5",
+    "babel-jest": "^30.3.0",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-native": "^5.0.0",
+    "jest": "^30.3.0"
+  }
 }

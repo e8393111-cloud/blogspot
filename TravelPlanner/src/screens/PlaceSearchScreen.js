@@ -4,7 +4,7 @@ import {
   TouchableOpacity, SafeAreaView, ActivityIndicator, Alert,
 } from 'react-native';
 import useTripStore from '../store/tripStore';
-import { searchPlaces, getPlacePhoto } from '../services/googleMaps';
+import { searchPlaces } from '../services/googleMaps';
 
 const PlaceSearchScreen = ({ navigation }) => {
   const { currentTrip, addPlace } = useTripStore();
