@@ -21,6 +21,19 @@ class StrategyConfig:
     rsi_oversold: float = 30.0
     bb_period: int = 20
     bb_std: float = 2.0
+    # 고급 필터
+    require_ma_alignment: bool = True     # 3중 MA 정렬 필수 (fast>signal>slow)
+    min_ma_spread_pct: float = 0.02       # 최소 MA 스프레드 (%) - 노이즈 크로스 필터
+    require_slope_confirm: bool = True    # 슬로우MA 기울기 방향 확인
+    slope_lookback: int = 10             # 기울기 계산 룩백 기간
+    rsi_momentum_confirm: bool = True    # RSI 모멘텀 방향 확인
+    min_strength: float = 0.6            # 최소 신호 강도 커트라인
+    cross_confirm_bars: int = 2          # 크로스 후 확인봉 수 (연속 유지 필요)
+    atr_period: int = 14                 # ATR 기간
+    min_atr_multiplier: float = 1.0       # 최소 ATR (평균 대비 배수) - 횡보 필터
+    min_hold_bars: int = 15              # 반대크로스 청산 전 최소 보유 봉수
+    cooldown_bars: int = 12              # 포지션 종료 후 재진입 대기 봉수
+    min_slope_abs: float = 0.5           # 슬로우MA 기울기 최소 절대값
 
 
 @dataclass

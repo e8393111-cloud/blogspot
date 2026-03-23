@@ -42,34 +42,50 @@ def generate_sample_data(days: int = 14, base_price: float = 1492.0, seed: int =
     total = days * candles_per_day
 
     # 트렌드 세그먼트 정의 (시작가, 끝가, 캔들수)
-    segments = [
+    # 실제 환율 움직임을 모방: 트렌드→조정→트렌드 반복
+    base_segments = [
+        # 사이클 1: 상승 트렌드
         (1492.0, 1494.0, 80),   # 횡보 (약 20시간)
-        (1494.0, 1510.0, 160),  # 상승 트렌드 (약 40시간) - 골든크로스 기대
+        (1494.0, 1510.0, 160),  # 상승 트렌드 (약 40시간)
         (1510.0, 1508.0, 60),   # 고점 횡보
-        (1508.0, 1482.0, 120),  # 하락 트렌드 (약 30시간) - 데드크로스 기대
+        # 사이클 2: 하락 후 V자 반등
+        (1508.0, 1482.0, 120),  # 하락 트렌드 (약 30시간)
         (1482.0, 1484.0, 60),   # 바닥 횡보
-        (1484.0, 1504.0, 140),  # V자 반등 상승 - 골든크로스 기대
+        (1484.0, 1504.0, 140),  # V자 반등 상승
+        # 사이클 3: 추가 상승 후 조정
         (1504.0, 1506.0, 80),   # 횡보
         (1506.0, 1520.0, 140),  # 추가 상승
         (1520.0, 1515.0, 80),   # 조정
+        # 사이클 4: 하락 후 재상승
         (1515.0, 1500.0, 120),  # 하락
-        (1500.0, 1510.0, 100),  # 반등
+        (1500.0, 1502.0, 60),   # 바닥 횡보
+        (1502.0, 1518.0, 140),  # 재상승
+        # 사이클 5: 고점 조정 후 급락, 반등
+        (1518.0, 1516.0, 60),   # 횡보
+        (1516.0, 1495.0, 100),  # 급락
+        (1495.0, 1497.0, 50),   # 바닥 횡보
+        (1497.0, 1515.0, 130),  # 반등
+        # 사이클 6: 상승 지속
+        (1515.0, 1525.0, 120),  # 상승
+        (1525.0, 1522.0, 60),   # 조정
+        (1522.0, 1530.0, 100),  # 재상승
+        (1530.0, 1520.0, 80),   # 하락
     ]
 
     prices = []
-    for start_p, end_p, n_candles in segments:
-        for j in range(n_candles):
-            t = j / max(n_candles - 1, 1)
-            p = start_p + (end_p - start_p) * t + rng.normal(0, 0.4)
-            prices.append(p)
+    cycle = 0
+    while len(prices) < total:
+        drift = cycle * 2.0  # 사이클마다 약간의 상승 추세
+        for start_p, end_p, n_candles in base_segments:
+            for j in range(n_candles):
+                t = j / max(n_candles - 1, 1)
+                p = start_p + drift + (end_p - start_p) * t + rng.normal(0, 0.4)
+                prices.append(p)
+                if len(prices) >= total:
+                    break
             if len(prices) >= total:
                 break
-        if len(prices) >= total:
-            break
-
-    # 부족한 경우 마지막 가격 기준 횡보로 채움
-    while len(prices) < total:
-        prices.append(prices[-1] + rng.normal(0, 0.3))
+        cycle += 1
 
     prices = prices[:total]
 
@@ -109,6 +125,7 @@ class Backtester:
         trades_log = []
         equity_curve = []
         min_bars = self.config.strategy.slow_ma + 2
+        cooldown_remaining = 0  # 쿨다운 카운터
 
         logger.info(f"백테스트 시작: {len(data)}개 캔들, {data.index[0]} ~ {data.index[-1]}")
 
@@ -118,13 +135,18 @@ class Backtester:
             price = data["close"].iloc[i]
             ts = data.index[i]
 
+            if cooldown_remaining > 0:
+                cooldown_remaining -= 1
+
             # 포지션 보유 시 종료 조건 체크
             if position is not None:
                 position["highest"] = max(position["highest"], price)
+                position["bars_held"] = position.get("bars_held", 0) + 1
                 exit_sig = self.strategy.check_exit(
                     position["entry_price"], price, position["side"],
                     position["highest"],
                     cfg.stop_loss_pct, cfg.take_profit_pct, cfg.trailing_stop_pct,
+                    df=window, bars_held=position["bars_held"],
                 )
                 if exit_sig is not None:
                     # 포지션 종료
@@ -145,9 +167,10 @@ class Backtester:
                         "reason": exit_sig.reason,
                     })
                     position = None
+                    cooldown_remaining = self.config.strategy.cooldown_bars
 
-            # 신규 진입
-            if position is None:
+            # 신규 진입 (쿨다운 경과 후에만)
+            if position is None and cooldown_remaining <= 0:
                 if signal.signal == Signal.BUY:
                     amount = min(cfg.trade_amount, cfg.max_position) / price
                     position = {

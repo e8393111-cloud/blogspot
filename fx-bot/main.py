@@ -13,6 +13,8 @@ import time
 from datetime import datetime
 from pathlib import Path
 
+import pandas as pd
+
 from config import Config
 from strategy import MACrossStrategy, Signal
 from broker import create_broker, Position
@@ -99,18 +101,20 @@ class FXTradingBot:
             self.notifier.notify_trade("sell", order.price, amount, order.order_id)
             self._log_trade("SELL", "sell", order.price, amount, order.order_id, signal_obj.reason)
 
-    def _check_position_exit(self, current_price: float) -> None:
+    def _check_position_exit(self, current_price: float, candles: pd.DataFrame = None) -> None:
         """포지션 종료 조건 체크"""
         if self._position is None:
             return
 
         cfg = self.config.trade
         self._position["highest"] = max(self._position["highest"], current_price)
+        self._position["bars_held"] = self._position.get("bars_held", 0) + 1
 
         exit_sig = self.strategy.check_exit(
             self._position["entry_price"], current_price,
             self._position["side"], self._position["highest"],
             cfg.stop_loss_pct, cfg.take_profit_pct, cfg.trailing_stop_pct,
+            df=candles, bars_held=self._position["bars_held"],
         )
 
         if exit_sig is not None:
@@ -139,7 +143,7 @@ class FXTradingBot:
         current_price = float(candles["close"].iloc[-1])
 
         # 포지션 종료 조건 체크
-        self._check_position_exit(current_price)
+        self._check_position_exit(current_price, candles)
 
         # 신호 생성
         signal_obj = self.strategy.generate_signal(candles)
