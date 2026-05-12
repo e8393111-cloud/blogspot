@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Pipeline output
+out/
+*.png
+!samples/**/*.png
+
+# Secrets / env
+.env
+.env.local
+*.local
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Fonts you drop in locally
+renderer/fonts/*.ttf
+renderer/fonts/*.otf
+renderer/fonts/*.ttc
