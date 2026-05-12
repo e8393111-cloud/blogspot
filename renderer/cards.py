@@ -287,3 +287,16 @@ def to_png_bytes(img: Image.Image) -> bytes:
     buf = io.BytesIO()
     img.save(buf, format="PNG", optimize=True)
     return buf.getvalue()
+
+
+def to_jpeg_bytes(img: Image.Image, quality: int = 88) -> bytes:
+    buf = io.BytesIO()
+    img.convert("RGB").save(buf, format="JPEG", quality=quality, optimize=True, progressive=True)
+    return buf.getvalue()
+
+
+def encode(img: Image.Image, fmt: str) -> tuple[bytes, str, str]:
+    """Return (bytes, file_extension, mime_type) for the requested format."""
+    if (fmt or "jpeg").lower() in ("jpg", "jpeg"):
+        return to_jpeg_bytes(img), "jpg", "image/jpeg"
+    return to_png_bytes(img), "png", "image/png"

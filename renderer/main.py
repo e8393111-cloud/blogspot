@@ -24,7 +24,7 @@ from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel, Field
 
-from cards import render_slides, to_png_bytes
+from cards import encode, render_slides
 from fonts import fonts_available
 from theme import THEMES
 
@@ -71,6 +71,7 @@ class RenderRequest(BaseModel):
     slides: list[Slide] = Field(..., min_length=1)
     theme: str | None = None
     handle: str | None = None
+    image_format: str = "jpeg"  # "jpeg" (Instagram requires JPEG) or "png"
     caption: str | None = None
     hashtags: list[str] | None = None
 
@@ -79,7 +80,7 @@ class RenderRequest(BaseModel):
 def index() -> dict:
     return {
         "service": "cardnews-renderer",
-        "endpoints": ["POST /render", "GET /img/{token}/{name}.png", "GET /health"],
+        "endpoints": ["POST /render", "GET /img/{token}/{n}.jpg", "GET /health"],
         "themes": list(THEMES.keys()),
     }
 
@@ -110,11 +111,14 @@ def render(req: RenderRequest, request: Request, x_api_key: str | None = Header(
     except RuntimeError as e:  # missing fonts, etc.
         raise HTTPException(status_code=500, detail=str(e))
 
+    encoded = [encode(im, req.image_format) for im in images]
+    ext = encoded[0][1] if encoded else "jpg"
+    mime = encoded[0][2] if encoded else "image/jpeg"
     token = secrets.token_urlsafe(12)
-    _STORE[token] = {"ts": time.time(), "images": [to_png_bytes(im) for im in images]}
+    _STORE[token] = {"ts": time.time(), "images": [b for b, _, _ in encoded], "ext": ext, "mime": mime}
 
     base = _base_url(request)
-    urls = [f"{base}/img/{token}/{i}.png" for i in range(1, len(images) + 1)]
+    urls = [f"{base}/img/{token}/{i}.{ext}" for i in range(1, len(images) + 1)]
     return JSONResponse(
         {
             "token": token,
@@ -141,6 +145,6 @@ def get_image(token: str, name: str) -> Response:
         raise HTTPException(status_code=404, detail="image index out of range")
     return Response(
         content=entry["images"][idx - 1],
-        media_type="image/png",
+        media_type=entry.get("mime", "image/jpeg"),
         headers={"Cache-Control": f"public, max-age={TTL_SECONDS}"},
     )
