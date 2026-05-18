@@ -1,0 +1,276 @@
+{
+  "name": "인스타 카드뉴스 자동발행",
+  "flow": [
+    {
+      "id": 1,
+      "module": "rss:TriggerNewArticles",
+      "version": 5,
+      "parameters": {
+        "url": "{{BLOG_FEED_URL}}",
+        "include": [],
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "restore": {},
+        "expect": [],
+        "notes": "블로그/RSS 새 글 트리거. Blogger면 https://블로그/feeds/posts/default"
+      }
+    },
+    {
+      "id": 2,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": false, "useNewZLibDeCompress": true },
+      "mapper": {
+        "url": "https://api.anthropic.com/v1/messages",
+        "method": "post",
+        "headers": [
+          { "name": "x-api-key", "value": "{{ANTHROPIC_API_KEY}}" },
+          { "name": "anthropic-version", "value": "2023-06-01" },
+          { "name": "content-type", "value": "application/json" }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "",
+        "shareCookies": false,
+        "ca": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "serializeUrl": false,
+        "data": "{\n  \"model\": \"claude-opus-4-7\",\n  \"max_tokens\": 4000,\n  \"thinking\": { \"type\": \"adaptive\" },\n  \"output_config\": { \"effort\": \"medium\", \"format\": { \"type\": \"json_schema\", \"schema\": { \"type\": \"object\", \"additionalProperties\": false, \"properties\": { \"slug\": {\"type\":\"string\"}, \"topic\": {\"type\":\"string\"}, \"slides\": {\"type\":\"array\",\"items\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"role\":{\"type\":\"string\",\"enum\":[\"cover\",\"body\",\"cta\"]},\"tag\":{\"type\":\"string\"},\"headline\":{\"type\":\"string\"},\"subhead\":{\"type\":\"string\"},\"body\":{\"type\":\"string\"},\"handle\":{\"type\":\"string\"}},\"required\":[\"role\",\"headline\"]}}, \"caption\": {\"type\":\"string\"}, \"hashtags\": {\"type\":\"array\",\"items\":{\"type\":\"string\"}} }, \"required\": [\"slug\",\"topic\",\"slides\",\"caption\",\"hashtags\"] } } },\n  \"system\": \"<<< prompts/cardnews_system.md 전체를 \\n 이스케이프해서 여기에 붙여넣으세요 >>>\",\n  \"messages\": [ { \"role\": \"user\", \"content\": \"HANDLE: {{IG_HANDLE}}\\n\\nSOURCE_URL: {{1.url}}\\n\\nARTICLE:\\n{{1.content}}\" } ]\n}"
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 },
+        "restore": {},
+        "expect": [],
+        "notes": "Claude로 카드뉴스 JSON 생성. data의 system 값을 prompts/cardnews_system.md로 교체하세요."
+      }
+    },
+    {
+      "id": 3,
+      "module": "json:ParseJSON",
+      "version": 1,
+      "parameters": { "type": "" },
+      "mapper": {
+        "json": "{{last(2.body.content).text}}"
+      },
+      "metadata": {
+        "designer": { "x": 600, "y": 0 },
+        "restore": {},
+        "expect": [],
+        "notes": "Claude 응답의 마지막 텍스트 블록(=카드뉴스 JSON)을 파싱. Data structure는 samples/sample_cards.json로 Generate."
+      }
+    },
+    {
+      "id": 4,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": false, "useNewZLibDeCompress": true },
+      "mapper": {
+        "url": "{{RENDERER_BASE_URL}}/render",
+        "method": "post",
+        "headers": [
+          { "name": "X-Api-Key", "value": "{{RENDERER_API_KEY}}" },
+          { "name": "content-type", "value": "application/json" }
+        ],
+        "qs": [],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "",
+        "shareCookies": false,
+        "ca": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "serializeUrl": false,
+        "data": "{\n  \"theme\": \"{{CARDNEWS_THEME}}\",\n  \"handle\": \"{{IG_HANDLE}}\",\n  \"slides\": {{3.slides}},\n  \"caption\": {{3.caption}},\n  \"hashtags\": {{3.hashtags}}\n}"
+      },
+      "metadata": {
+        "designer": { "x": 900, "y": 0 },
+        "restore": {},
+        "expect": [],
+        "notes": "렌더러 호출 → { token, count, images[], caption, hashtags }"
+      }
+    },
+    {
+      "id": 5,
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "array": "{{4.body.images}}"
+      },
+      "metadata": {
+        "designer": { "x": 1200, "y": 0 },
+        "restore": {},
+        "expect": [],
+        "notes": "이미지 URL 배열을 한 장씩 순회"
+      }
+    },
+    {
+      "id": 6,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": false, "useNewZLibDeCompress": true },
+      "mapper": {
+        "url": "https://graph.facebook.com/v21.0/{{IG_USER_ID}}/media",
+        "method": "post",
+        "headers": [],
+        "qs": [
+          { "name": "image_url", "value": "{{5.value}}" },
+          { "name": "is_carousel_item", "value": "true" },
+          { "name": "access_token", "value": "{{IG_ACCESS_TOKEN}}" }
+        ],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "",
+        "shareCookies": false,
+        "ca": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "serializeUrl": false,
+        "data": ""
+      },
+      "metadata": {
+        "designer": { "x": 1500, "y": 0 },
+        "restore": {},
+        "expect": [],
+        "notes": "캐러셀 아이템 컨테이너 생성 → { id }"
+      }
+    },
+    {
+      "id": 7,
+      "module": "builtin:BasicAggregator",
+      "version": 1,
+      "parameters": { "feeder": 5 },
+      "mapper": {
+        "id": "{{6.body.id}}"
+      },
+      "metadata": {
+        "designer": { "x": 1800, "y": 0 },
+        "restore": {},
+        "expect": [],
+        "notes": "Array aggregator: 컨테이너 ID들을 배열로 모음 (Source module = Iterator)"
+      }
+    },
+    {
+      "id": 8,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": false, "useNewZLibDeCompress": true },
+      "mapper": {
+        "url": "https://graph.facebook.com/v21.0/{{IG_USER_ID}}/media",
+        "method": "post",
+        "headers": [],
+        "qs": [
+          { "name": "media_type", "value": "CAROUSEL" },
+          { "name": "children", "value": "{{join(7.array; \",\")}}" },
+          { "name": "caption", "value": "{{3.caption}}\n\n{{join(3.hashtags; \" \")}}" },
+          { "name": "access_token", "value": "{{IG_ACCESS_TOKEN}}" }
+        ],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "",
+        "shareCookies": false,
+        "ca": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "serializeUrl": false,
+        "data": ""
+      },
+      "metadata": {
+        "designer": { "x": 2100, "y": 0 },
+        "restore": {},
+        "expect": [],
+        "notes": "캐러셀 부모 컨테이너 생성 → { id = creation_id }"
+      }
+    },
+    {
+      "id": 9,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": false, "useNewZLibDeCompress": true },
+      "mapper": {
+        "url": "https://graph.facebook.com/v21.0/{{IG_USER_ID}}/media_publish",
+        "method": "post",
+        "headers": [],
+        "qs": [
+          { "name": "creation_id", "value": "{{8.body.id}}" },
+          { "name": "access_token", "value": "{{IG_ACCESS_TOKEN}}" }
+        ],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "authUser": "",
+        "authPass": "",
+        "timeout": "",
+        "shareCookies": false,
+        "ca": "",
+        "rejectUnauthorized": true,
+        "followRedirect": true,
+        "useQuerystring": false,
+        "gzip": true,
+        "useMtls": false,
+        "contentType": "application/json",
+        "serializeUrl": false,
+        "data": ""
+      },
+      "metadata": {
+        "designer": { "x": 2400, "y": 0 },
+        "restore": {},
+        "expect": [],
+        "notes": "실제 게시. 처음에는 이 모듈을 비활성화하고 8번까지만 테스트한 뒤 켜세요."
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "slots": null,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": { "orphans": [] },
+    "zone": "us2.make.com",
+    "notes": [
+      {
+        "moduleIds": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        "content": "<p>인스타 카드뉴스 자동발행: RSS → Claude → 렌더러 → Instagram 캐러셀. 자세한 설정은 저장소의 make/SETUP.md 참고. 가져온 뒤 커스텀 변수(ANTHROPIC_API_KEY, RENDERER_BASE_URL, RENDERER_API_KEY, IG_USER_ID, IG_ACCESS_TOKEN, IG_HANDLE, CARDNEWS_THEME, BLOG_FEED_URL)를 채우고, 2번 모듈 data의 system 값을 prompts/cardnews_system.md로 교체하세요.</p>",
+        "isFilterNote": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+# Render.com blueprint — one-click deploy of the card-news renderer.
+# In Render: New + > Blueprint > point at this repo. It reads renderer/render.yaml.
+# After deploy, set PUBLIC_BASE_URL to the service URL Render gives you
+# (e.g. https://cardnews-renderer.onrender.com) and copy RENDER_API_KEY for Make.com.
+services:
+  - type: web
+    name: cardnews-renderer
+    runtime: docker
+    plan: free
+    dockerfilePath: ./renderer/Dockerfile
+    dockerContext: ./renderer
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PUBLIC_BASE_URL
+        sync: false              # set this to the deployed URL after first deploy
+      - key: RENDER_API_KEY
+        generateValue: true      # Render generates a secret; copy it into Make.com
+      - key: RENDER_TTL_SECONDS
+        value: "7200"
