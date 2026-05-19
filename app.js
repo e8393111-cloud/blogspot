@@ -905,7 +905,7 @@ if ('serviceWorker' in navigator) {
 window.addEventListener('resize', debounce(drawWeightChart, 150));
 
 // ===== AI: Gemini =====
-const GEMINI_MODEL = 'gemini-2.0-flash';
+const GEMINI_MODEL = 'gemini-2.5-flash';
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 const GEMINI_TIMEOUT_MS = 30000;
 const CHAT_HISTORY_MAX = 20;
