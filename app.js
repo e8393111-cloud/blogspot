@@ -248,9 +248,14 @@ ${recentWeight ? `체중: ${recentWeight}kg` : '체중: 모름 (평균 70kg 가�
     const obj = safeJSONParse(text);
     if (!obj || obj.kcal == null) throw new Error('응답을 해석하지 못했어요');
     const kcalRounded = Math.round(obj.kcal);
-    $('#ex-kcal').value = kcalRounded;
-    const intensityLabel = { light: '가벼움', moderate: '보통', vigorous: '격렬' }[obj.intensity] || '';
-    toast(`${type} ${minutes}분: ${kcalRounded}kcal${intensityLabel ? ` (${intensityLabel})` : ''}`);
+    // Race guard: user may have typed kcal during the await — don't overwrite.
+    if ($('#ex-kcal').value) {
+      toast(`(AI 추정값 ${kcalRounded}kcal은 무시됐어요)`);
+    } else {
+      $('#ex-kcal').value = kcalRounded;
+      const intensityLabel = { light: '가벼움', moderate: '보통', vigorous: '격렬' }[obj.intensity] || '';
+      toast(`${type} ${minutes}분: ${kcalRounded}kcal${intensityLabel ? ` (${intensityLabel})` : ''}`);
+    }
   } catch (err) {
     toast(`추정 실패: ${err.message}`, 'error');
   } finally {
@@ -258,6 +263,26 @@ ${recentWeight ? `체중: ${recentWeight}kg` : '체중: 모름 (평균 70kg 가�
     btn.disabled = false;
     btn.textContent = origText;
   }
+});
+
+// Exercise: auto-estimate when type+minutes are set and field is blurred
+let lastEstimatedExercise = '';
+function tryAutoExercise() {
+  if (exAiPending) return;
+  const type = $('#ex-type').value;
+  const minutes = +$('#ex-minutes').value;
+  if (!minutes || minutes < 1) return;
+  const key = `${type}-${minutes}`;
+  if (key === lastEstimatedExercise) return;
+  if ($('#ex-kcal').value) return;
+  if (!getApiKey()) return; // silent: no key configured
+  lastEstimatedExercise = key;
+  $('#ex-ai-estimate').click();
+}
+$('#ex-minutes').addEventListener('blur', tryAutoExercise);
+$('#ex-type').addEventListener('change', () => {
+  lastEstimatedExercise = ''; // invalidate cache when user changes type
+  tryAutoExercise();
 });
 
 // ===== Diet =====
@@ -1098,10 +1123,15 @@ $('#d-ai-estimate').addEventListener('click', async () => {
     const text = await geminiGenerate({ prompt, json: true });
     const obj = safeJSONParse(text);
     if (!obj || !obj.kcal) throw new Error('응답을 해석하지 못했어요');
-    if (obj.food && obj.food !== food) $('#d-food').value = obj.food;
     const kcalRounded = Math.round(obj.kcal);
-    $('#d-kcal').value = kcalRounded;
-    toast(`${obj.food || food}: ${kcalRounded}kcal (${obj.portion || '1인분'})`);
+    // Race guard: user may have typed kcal during the await — don't overwrite.
+    if ($('#d-kcal').value) {
+      toast(`(AI 추정값 ${kcalRounded}kcal은 무시됐어요)`);
+    } else {
+      if (obj.food && obj.food !== food) $('#d-food').value = obj.food;
+      $('#d-kcal').value = kcalRounded;
+      toast(`${obj.food || food}: ${kcalRounded}kcal (${obj.portion || '1인분'})`);
+    }
   } catch (err) {
     toast(`추정 실패: ${err.message}`, 'error');
   } finally {
@@ -1109,6 +1139,21 @@ $('#d-ai-estimate').addEventListener('click', async () => {
     btn.disabled = false;
     btn.textContent = origText;
   }
+});
+
+// Food: auto-estimate on blur if conditions met
+let lastEstimatedFood = '';
+$('#d-food').addEventListener('input', () => {
+  if (!$('#d-food').value.trim()) lastEstimatedFood = '';
+});
+$('#d-food').addEventListener('blur', () => {
+  if (foodAiPending) return;
+  const food = $('#d-food').value.trim();
+  if (!food || food === lastEstimatedFood) return;
+  if ($('#d-kcal').value) return;
+  if (!getApiKey()) return; // silent: no key configured
+  lastEstimatedFood = food;
+  $('#d-ai-estimate').click();
 });
 
 // ----- AI: Build recent context for chat/report -----

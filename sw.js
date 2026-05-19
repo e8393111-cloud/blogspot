@@ -1,6 +1,6 @@
 // 빌드 시 자동 치환되거나 ASSETS 변경 시 수동으로 올린다.
 // 어떤 자산 하나라도 변하면 이 버전 문자열을 갱신해야 새 캐시가 활성화됨.
-const VERSION = 'v9-2026-05-19-gemini-2.5';
+const VERSION = 'v10-2026-05-19-auto-ai-on-blur';
 const CACHE = `health-app-${VERSION}`;
 
 const ASSETS = [
