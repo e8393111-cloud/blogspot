@@ -21,6 +21,7 @@ const defaultState = {
   meds: [],        // {id, name, time, notify}
   medLog: {},      // { 'YYYY-MM-DD': { medId: true } }
   water: {},       // { 'YYYY-MM-DD': count }
+  steps: {},       // { 'YYYY-MM-DD': stepCount }
   inbody: [],      // {id, at, weight, smm, bfm, bfp, bmi, bmr, note, source}
   gemini: { apiKey: '', chatHistory: [] },
   // Bump and add a migration block in load() when making breaking schema changes.
@@ -169,7 +170,7 @@ function renderViewFor(name) {
   if (name === 'home') return renderHome();
   if (name === 'exercise') { renderHome(); renderExercise(); return; }
   if (name === 'diet') { renderHome(); renderDiet(); return; }
-  if (name === 'body') { renderHome(); renderWeight(); renderSleep(); renderBody(); renderInbody(); return; }
+  if (name === 'body') { renderHome(); renderWeight(); renderSleep(); renderBody(); renderInbody(); renderSteps(); return; }
   if (name === 'meds') { renderHome(); renderMeds(); checkNotifyBanner(); return; }
   if (name === 'ai') { renderAI(); return; }
 }
@@ -218,6 +219,42 @@ function renderExercise() {
   `).join('') : '<li class="empty">아직 운동 기록이 없어요</li>';
 }
 
+// Exercise AI calorie estimation
+$('#ex-ai-estimate').addEventListener('click', async () => {
+  const type = $('#ex-type').value;
+  const minutes = +$('#ex-minutes').value;
+  if (!minutes || minutes < 1) { toast('먼저 시간을 입력해주세요', 'error'); return; }
+  if (!getApiKey()) {
+    toast('AI 탭에서 Gemini API 키를 먼저 설정해주세요', 'error');
+    switchTab('ai');
+    return;
+  }
+  const btn = $('#ex-ai-estimate');
+  btn.disabled = true;
+  const origText = btn.textContent;
+  btn.textContent = '⏳ 추정 중...';
+  const recentWeight = state.weight[0]?.kg;
+  try {
+    const prompt = `한국 성인 기준 다음 운동의 소모 칼로리를 추정해줘.
+운동: ${type}
+시간: ${minutes}분
+${recentWeight ? `체중: ${recentWeight}kg` : '체중: 모름 (평균 70kg 가정)'}
+다음 JSON 형식으로만 답변 (다른 설명/마크다운 금지):
+{"kcal":추정칼로리숫자,"intensity":"light|moderate|vigorous","note":"한 줄 근거 (MET 등)"}`;
+    const text = await geminiGenerate({ prompt, json: true });
+    const obj = safeJSONParse(text);
+    if (!obj || obj.kcal == null) throw new Error('응답을 해석하지 못했어요');
+    $('#ex-kcal').value = Math.round(obj.kcal);
+    const intensityLabel = { light: '가벼움', moderate: '보통', vigorous: '격렬' }[obj.intensity] || '';
+    toast(`${type} ${minutes}분: ${obj.kcal}kcal${intensityLabel ? ` (${intensityLabel})` : ''}`);
+  } catch (err) {
+    toast(`추정 실패: ${err.message}`, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = origText;
+  }
+});
+
 // ===== Diet =====
 $('#form-diet').addEventListener('submit', (e) => {
   e.preventDefault();
@@ -252,6 +289,55 @@ function renderDiet() {
       <button class="delete-btn" data-del="diet" data-id="${it.id}" aria-label="삭제">×</button>
     </li>
   `).join('') : '<li class="empty">오늘 식사 기록이 없어요</li>';
+}
+
+// ===== Steps =====
+function estimateStepsKcal(steps, weightKg) {
+  // Rough: 60kg basis ~30 kcal per 1000 steps. Scale linearly by weight.
+  const w = weightKg && weightKg > 30 ? weightKg : 60;
+  return Math.round(steps * 0.03 * (w / 60));
+}
+function estimateStepsKm(steps) {
+  // Average stride ~0.76 m
+  return +(steps * 0.00076).toFixed(2);
+}
+
+$('#form-steps').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const date = fd.get('date');
+  const count = validNumber(fd.get('count'), { min: 0, max: 200000 });
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) { toast('날짜를 선택해주세요', 'error'); return; }
+  if (count == null) { toast('걸음수를 0~200000 사이로 입력해주세요', 'error'); return; }
+  state.steps[date] = count;
+  if (!save()) return;
+  e.target.reset();
+  $('#st-date').value = todayKey();
+  renderHome(); renderSteps();
+  toast(`${date} 걸음수 저장됨`);
+});
+
+function renderSteps() {
+  const dateInput = $('#st-date');
+  if (dateInput && !dateInput.value) dateInput.value = todayKey();
+  const ul = $('#list-steps');
+  const entries = Object.entries(state.steps)
+    .sort((a, b) => b[0].localeCompare(a[0]))
+    .slice(0, 14);
+  const recentWeight = state.weight[0]?.kg;
+  ul.innerHTML = entries.length ? entries.map(([date, count]) => {
+    const km = estimateStepsKm(count);
+    const kcal = estimateStepsKcal(count, recentWeight);
+    return `
+      <li>
+        <div class="item-main">
+          <span class="item-title">${count.toLocaleString()}걸음</span>
+          <span class="meta">${date} · ${km}km · 약 ${kcal}kcal${recentWeight ? '' : ' (체중 미설정, 70kg 기준)'}</span>
+        </div>
+        <button class="delete-btn" data-del-steps="${date}" aria-label="삭제">×</button>
+      </li>
+    `;
+  }).join('') : '<li class="empty">아직 걸음수 기록이 없어요</li>';
 }
 
 // ===== Weight =====
@@ -694,6 +780,8 @@ function renderHome() {
 
   $('#summary-exercise').textContent = `${todayExercise.length}회`;
   $('#summary-meals').textContent = `${todayDiet.length}회`;
+  const todaySteps = state.steps[k];
+  $('#summary-steps').textContent = todaySteps != null ? `${todaySteps.toLocaleString()}걸음` : '기록 없음';
   $('#summary-weight').textContent = state.weight[0] ? `${state.weight[0].kg} kg` : '기록 없음';
   const ySleep = state.sleep.find(s => localDateKey(new Date(s.at)) === yk);
   $('#summary-sleep').textContent = ySleep ? `${sleepHours(ySleep.start, ySleep.end)}시간` : '기록 없음';
@@ -716,6 +804,17 @@ function renderBody() {
 
 // ===== Event delegation =====
 document.addEventListener('click', async (e) => {
+  const delSteps = e.target.closest('[data-del-steps]');
+  if (delSteps) {
+    const date = delSteps.dataset.delSteps;
+    const ok = await confirmDialog('삭제할까요?', `${date} 걸음수 기록을 삭제합니다.`);
+    if (!ok) return;
+    delete state.steps[date];
+    if (!save()) return;
+    renderHome(); renderSteps();
+    toast('삭제했어요');
+    return;
+  }
   const delBtn = e.target.closest('[data-del]');
   if (delBtn) {
     const list = delBtn.dataset.del;
@@ -1014,7 +1113,7 @@ function buildRecentContext(days = 7) {
   }
 
   const dailyAgg = {};
-  dailyKeys.forEach(k => { dailyAgg[k] = { caloriesIn: 0, caloriesOut: 0, meals: 0, exerciseMin: 0, water: state.water[k] || 0, medsTaken: 0, medsTotal: state.meds.length }; });
+  dailyKeys.forEach(k => { dailyAgg[k] = { caloriesIn: 0, caloriesOut: 0, meals: 0, exerciseMin: 0, water: state.water[k] || 0, steps: state.steps[k] || 0, medsTaken: 0, medsTotal: state.meds.length }; });
 
   state.diet.filter(d => inRange(d.at)).forEach(d => {
     const k = localDateKey(new Date(d.at));

@@ -47,6 +47,7 @@
         <ul class="summary-list">
           <li>🏃 운동 <span id="summary-exercise">0회</span></li>
           <li>🍱 식사 <span id="summary-meals">0회</span></li>
+          <li>👟 걸음수 <span id="summary-steps">기록 없음</span></li>
           <li>⚖️ 최근 체중 <span id="summary-weight">기록 없음</span></li>
           <li>😴 어제 수면 <span id="summary-sleep">기록 없음</span></li>
           <li>💊 오늘 복약 <span id="summary-meds">0/0</span></li>
@@ -75,12 +76,17 @@
           <option value="자전거">자전거</option>
           <option value="수영">수영</option>
           <option value="헬스">헬스</option>
+          <option value="필라테스">필라테스</option>
           <option value="요가">요가</option>
+          <option value="등산">등산</option>
           <option value="기타">기타</option>
         </select>
         <label for="ex-minutes">시간 (분)</label>
         <input id="ex-minutes" type="number" name="minutes" min="1" max="1440" inputmode="numeric" required />
-        <label for="ex-kcal">소모 칼로리 (kcal)</label>
+        <div class="label-row">
+          <label for="ex-kcal">소모 칼로리 (kcal)</label>
+          <button id="ex-ai-estimate" type="button" class="inline-ai-btn">🤖 AI 추정</button>
+        </div>
         <input id="ex-kcal" type="number" name="kcal" min="0" max="10000" inputmode="numeric" />
         <label for="ex-note">메모</label>
         <input id="ex-note" type="text" name="note" placeholder="(선택)" maxlength="200" />
@@ -141,6 +147,20 @@
           <button id="water-minus" type="button" aria-label="물 한 잔 빼기">-</button>
           <button id="water-plus" class="primary" type="button" aria-label="물 한 잔 추가">물 +1잔</button>
         </div>
+      </div>
+
+      <form id="form-steps" class="card form" novalidate>
+        <h2>👟 걸음수 기록</h2>
+        <p class="hint">삼성헬스/애플헬스/구글핏에서 본 하루 누적 걸음수를 입력하세요. 같은 날짜를 다시 입력하면 덮어씁니다.</p>
+        <label for="st-date">날짜</label>
+        <input id="st-date" type="date" name="date" required />
+        <label for="st-count">걸음수</label>
+        <input id="st-count" type="number" name="count" min="0" max="200000" inputmode="numeric" required placeholder="예: 8500" />
+        <button type="submit" class="primary">저장</button>
+      </form>
+      <div class="card">
+        <h2>최근 걸음수</h2>
+        <ul id="list-steps" class="record-list compact" aria-label="걸음수 기록"></ul>
       </div>
 
       <form id="form-weight" class="card form" novalidate>
