@@ -221,6 +221,9 @@ function renderExercise() {
 
 // Exercise AI calorie estimation
 let exAiPending = false;
+let exKcalIsAI = false; // tracks whether #ex-kcal was last set by AI vs user
+$('#ex-kcal').addEventListener('input', () => { exKcalIsAI = false; });
+$('#form-exercise').addEventListener('reset', () => { exKcalIsAI = false; });
 $('#ex-ai-estimate').addEventListener('click', async () => {
   if (exAiPending) { toast('이미 추정 중이에요', 'error'); return; }
   const type = $('#ex-type').value;
@@ -253,6 +256,7 @@ ${recentWeight ? `체중: ${recentWeight}kg` : '체중: 모름 (평균 70kg 가�
       toast(`(AI 추정값 ${kcalRounded}kcal은 무시됐어요)`);
     } else {
       $('#ex-kcal').value = kcalRounded;
+      exKcalIsAI = true;
       const intensityLabel = { light: '가벼움', moderate: '보통', vigorous: '격렬' }[obj.intensity] || '';
       toast(`${type} ${minutes}분: ${kcalRounded}kcal${intensityLabel ? ` (${intensityLabel})` : ''}`);
     }
@@ -274,8 +278,13 @@ function tryAutoExercise() {
   if (!minutes || minutes < 1) return;
   const key = `${type}-${minutes}`;
   if (key === lastEstimatedExercise) return;
-  if ($('#ex-kcal').value) return;
   if (!getApiKey()) return; // silent: no key configured
+  // If kcal is filled by user, preserve it. If filled by previous AI run, replace it.
+  if ($('#ex-kcal').value) {
+    if (!exKcalIsAI) return;
+    $('#ex-kcal').value = '';
+    exKcalIsAI = false;
+  }
   lastEstimatedExercise = key;
   $('#ex-ai-estimate').click();
 }
@@ -1101,6 +1110,9 @@ $('#d-photo').addEventListener('change', async (e) => {
 
 // ----- AI: Food text calorie estimation -----
 let foodAiPending = false;
+let foodKcalIsAI = false; // tracks whether #d-kcal was last set by AI vs user
+$('#d-kcal').addEventListener('input', () => { foodKcalIsAI = false; });
+$('#form-diet').addEventListener('reset', () => { foodKcalIsAI = false; });
 $('#d-ai-estimate').addEventListener('click', async () => {
   if (foodAiPending) { toast('이미 추정 중이에요', 'error'); return; }
   const food = $('#d-food').value.trim();
@@ -1130,6 +1142,7 @@ $('#d-ai-estimate').addEventListener('click', async () => {
     } else {
       if (obj.food && obj.food !== food) $('#d-food').value = obj.food;
       $('#d-kcal').value = kcalRounded;
+      foodKcalIsAI = true;
       toast(`${obj.food || food}: ${kcalRounded}kcal (${obj.portion || '1인분'})`);
     }
   } catch (err) {
@@ -1150,8 +1163,13 @@ $('#d-food').addEventListener('blur', () => {
   if (foodAiPending) return;
   const food = $('#d-food').value.trim();
   if (!food || food === lastEstimatedFood) return;
-  if ($('#d-kcal').value) return;
   if (!getApiKey()) return; // silent: no key configured
+  // If kcal is filled by user, preserve. If by previous AI run, replace.
+  if ($('#d-kcal').value) {
+    if (!foodKcalIsAI) return;
+    $('#d-kcal').value = '';
+    foodKcalIsAI = false;
+  }
   lastEstimatedFood = food;
   $('#d-ai-estimate').click();
 });
