@@ -1139,6 +1139,9 @@ $('#ai-chat-input').addEventListener('keydown', (e) => {
 
 // ----- AI: Weekly report -----
 function renderReportMarkdown(md) {
+  // Security: escapeHtml MUST run first so the regex captures only escaped text.
+  // Output is written via innerHTML; preserve this order if adding markdown rules.
+  // Avoid attribute-bearing patterns (links, code blocks) without further escaping.
   const esc = escapeHtml(md);
   return esc
     .replace(/^###\s+(.+)$/gm, '<h3>$1</h3>')
