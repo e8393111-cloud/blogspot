@@ -259,3 +259,53 @@ button.ghost {
   max-width: 100%;
   margin-bottom: 8px;
 }
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.grid-2 label { margin-bottom: 0; }
+
+.hint {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+textarea#inbody-csv {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--text);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  resize: vertical;
+}
+textarea#inbody-csv:focus { outline: 2px solid var(--primary); border-color: var(--primary); }
+
+input[type="file"]#inbody-file {
+  display: block;
+  width: 100%;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+#inbody-import-result {
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.inbody-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.inbody-stats strong { color: var(--text); font-weight: 600; }

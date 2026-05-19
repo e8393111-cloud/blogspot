@@ -9,6 +9,7 @@ const defaultState = {
   meds: [],        // {id, name, time, notify}
   medLog: {},      // { 'YYYY-MM-DD': { medId: true } }
   water: {},       // { 'YYYY-MM-DD': count }
+  inbody: [],      // {id, at, weight, smm, bfm, bfp, bmi, bmr, height, note}
 };
 
 function load() {
@@ -219,6 +220,182 @@ function renderSleep() {
   `).join('') : '<li class="empty">아직 수면 기록이 없어요</li>';
 }
 
+// ===== InBody =====
+$('#form-inbody').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const num = (k) => {
+    const v = fd.get(k);
+    return v === '' || v == null ? null : +v;
+  };
+  state.inbody.unshift({
+    id: uid(),
+    at: new Date(fd.get('at')).toISOString(),
+    weight: num('weight'),
+    bmi: num('bmi'),
+    smm: num('smm'),
+    bfm: num('bfm'),
+    bfp: num('bfp'),
+    bmr: num('bmr'),
+    note: fd.get('note') || '',
+    source: 'manual',
+  });
+  state.inbody.sort((a, b) => b.at.localeCompare(a.at));
+  // 체중 그래프와 동기화
+  const w = num('weight');
+  if (w != null) {
+    state.weight.unshift({ id: uid(), kg: w, at: new Date(fd.get('at')).toISOString() });
+    state.weight.sort((a, b) => b.at.localeCompare(a.at));
+  }
+  save(); e.target.reset(); renderAll();
+});
+
+const INBODY_COLUMN_MAP = {
+  at: ['측정일시', '측정일자', '측정일', 'date', 'datetime', 'test date', 'measurement date'],
+  weight: ['체중', 'weight', 'wt'],
+  bmi: ['bmi', '체질량지수'],
+  smm: ['골격근량', 'smm', 'skeletal muscle', 'skeletal muscle mass'],
+  bfm: ['체지방량', 'bfm', 'body fat mass'],
+  bfp: ['체지방률', 'pbf', 'percent body fat', 'body fat %', 'bf%'],
+  bmr: ['기초대사량', 'bmr', 'basal metabolic rate'],
+};
+
+function parseCSV(text) {
+  const rows = [];
+  let cur = '', row = [], inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (text[i + 1] === '"') { cur += '"'; i++; }
+        else inQuotes = false;
+      } else cur += ch;
+    } else {
+      if (ch === '"') inQuotes = true;
+      else if (ch === ',') { row.push(cur); cur = ''; }
+      else if (ch === '\n') { row.push(cur); rows.push(row); cur = ''; row = []; }
+      else if (ch !== '\r') cur += ch;
+    }
+  }
+  if (cur || row.length) { row.push(cur); rows.push(row); }
+  return rows.filter(r => r.some(c => c && c.trim() !== ''));
+}
+
+function mapInbodyHeader(headers) {
+  const idx = {};
+  headers.forEach((h, i) => {
+    const norm = String(h || '').trim().toLowerCase();
+    for (const [field, keys] of Object.entries(INBODY_COLUMN_MAP)) {
+      if (idx[field] != null) continue;
+      if (keys.some(k => norm === k.toLowerCase() || norm.includes(k.toLowerCase()))) {
+        idx[field] = i;
+      }
+    }
+  });
+  return idx;
+}
+
+function parseInbodyDate(s) {
+  if (!s) return null;
+  const trimmed = String(s).trim();
+  const d = new Date(trimmed);
+  if (!isNaN(d.getTime())) return d.toISOString();
+  // YYYY.MM.DD HH:mm 또는 YYYY-MM-DD HH:mm 같은 형식 처리
+  const m = trimmed.match(/(\d{4})[.\-\/](\d{1,2})[.\-\/](\d{1,2})(?:[ T](\d{1,2}):(\d{2}))?/);
+  if (m) {
+    const [, y, mo, dy, hh = '0', mi = '0'] = m;
+    const d2 = new Date(+y, +mo - 1, +dy, +hh, +mi);
+    return isNaN(d2.getTime()) ? null : d2.toISOString();
+  }
+  return null;
+}
+
+function importInbodyCSV(text) {
+  const rows = parseCSV(text);
+  if (rows.length < 2) return { imported: 0, error: 'CSV에 데이터 행이 없어요' };
+  const headers = rows[0];
+  const idx = mapInbodyHeader(headers);
+  if (idx.at == null && idx.weight == null) {
+    return { imported: 0, error: '체중 또는 측정일 컬럼을 찾을 수 없어요' };
+  }
+  let imported = 0, skipped = 0;
+  const seen = new Set(state.inbody.map(r => r.at + '|' + r.weight));
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    const at = parseInbodyDate(idx.at != null ? row[idx.at] : null) || new Date().toISOString();
+    const weight = idx.weight != null && row[idx.weight] !== '' ? +row[idx.weight] : null;
+    if (weight == null || isNaN(weight)) { skipped++; continue; }
+    const key = at + '|' + weight;
+    if (seen.has(key)) { skipped++; continue; }
+    seen.add(key);
+    const pick = (f) => {
+      if (idx[f] == null) return null;
+      const v = row[idx[f]];
+      if (v === '' || v == null) return null;
+      const n = +String(v).replace(/[^\d.\-]/g, '');
+      return isNaN(n) ? null : n;
+    };
+    state.inbody.push({
+      id: uid(), at, weight,
+      bmi: pick('bmi'), smm: pick('smm'), bfm: pick('bfm'),
+      bfp: pick('bfp'), bmr: pick('bmr'),
+      note: '', source: 'inbody-csv',
+    });
+    state.weight.push({ id: uid(), kg: weight, at });
+    imported++;
+  }
+  state.inbody.sort((a, b) => b.at.localeCompare(a.at));
+  state.weight.sort((a, b) => b.at.localeCompare(a.at));
+  save();
+  return { imported, skipped };
+}
+
+$('#inbody-file').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const text = await file.text();
+  $('#inbody-csv').value = text;
+});
+
+$('#inbody-import').addEventListener('click', () => {
+  const text = $('#inbody-csv').value.trim();
+  const out = $('#inbody-import-result');
+  if (!text) { out.textContent = 'CSV를 붙여넣거나 파일을 선택해주세요'; return; }
+  try {
+    const r = importInbodyCSV(text);
+    if (r.error) {
+      out.textContent = `❌ ${r.error}`;
+    } else {
+      out.textContent = `✅ ${r.imported}건 가져옴${r.skipped ? `, ${r.skipped}건 건너뜀(중복/오류)` : ''}`;
+      $('#inbody-csv').value = '';
+      $('#inbody-file').value = '';
+    }
+    renderAll();
+  } catch (err) {
+    out.textContent = `❌ 파싱 오류: ${err.message}`;
+  }
+});
+
+function renderInbody() {
+  const ul = $('#list-inbody');
+  const items = state.inbody.slice(0, 20);
+  ul.innerHTML = items.length ? items.map(it => `
+    <li>
+      <div class="item-main">
+        <span class="item-title">${it.weight ?? '-'} kg ${it.bmi != null ? `· BMI ${it.bmi}` : ''}</span>
+        <span class="meta">${fmtDate(it.at)} ${fmtTime(it.at)}${it.source === 'inbody-csv' ? ' · InBody' : ''}</span>
+        <div class="inbody-stats">
+          ${it.smm != null ? `<span>골격근 <strong>${it.smm}kg</strong></span>` : ''}
+          ${it.bfm != null ? `<span>체지방 <strong>${it.bfm}kg</strong></span>` : ''}
+          ${it.bfp != null ? `<span>체지방률 <strong>${it.bfp}%</strong></span>` : ''}
+          ${it.bmr != null ? `<span>기초대사 <strong>${it.bmr}kcal</strong></span>` : ''}
+        </div>
+      </div>
+      <button class="delete-btn" data-del="inbody" data-id="${it.id}">×</button>
+    </li>
+  `).join('') : '<li class="empty">InBody 기록이 없어요. 수동 입력하거나 CSV를 가져와보세요</li>';
+}
+
 // ===== Water =====
 $('#water-plus').addEventListener('click', () => addWater(1));
 $('#water-minus').addEventListener('click', () => addWater(-1));
@@ -325,6 +502,7 @@ function renderAll() {
   renderWeight();
   renderSleep();
   renderBody();
+  renderInbody();
   renderMeds();
 }
 
