@@ -26,6 +26,12 @@
           <span id="greeting">안녕하세요 👋</span>
           <small id="today-date"></small>
         </div>
+        <div id="hero-deficit" class="hero-deficit" hidden>
+          <div class="hero-deficit-label">오늘 적자</div>
+          <div class="hero-deficit-value"><span id="hero-deficit-value">0</span> <small>kcal</small></div>
+          <div class="hero-deficit-bar"><div id="hero-deficit-bar"></div></div>
+          <div class="hero-deficit-target" id="hero-deficit-target"></div>
+        </div>
         <div class="hero-stats">
           <div class="stat">
             <div class="stat-value" id="stat-calories-in">0</div>
@@ -33,7 +39,7 @@
           </div>
           <div class="stat">
             <div class="stat-value" id="stat-calories-out">0</div>
-            <div class="stat-label">소모 kcal</div>
+            <div class="stat-label">운동 kcal</div>
           </div>
           <div class="stat">
             <div class="stat-value" id="stat-water">0</div>
@@ -137,6 +143,49 @@
 
     <!-- 체중/물/수면 -->
     <section class="view" id="view-body" data-view="body" role="tabpanel" aria-labelledby="tab-body">
+      <form id="form-profile" class="card form" novalidate>
+        <h2>🎯 다이어트 목표 설정</h2>
+        <p class="hint">프로필과 목표를 한 번 설정하면 홈 화면에 일일 적자 진척률이 표시되고 AI 코치가 맞춤 조언을 합니다.</p>
+        <div class="grid-2">
+          <div>
+            <label for="pf-sex">성별</label>
+            <select id="pf-sex" name="sex" required>
+              <option value="">선택</option>
+              <option value="male">남</option>
+              <option value="female">여</option>
+            </select>
+          </div>
+          <div>
+            <label for="pf-age">나이</label>
+            <input id="pf-age" type="number" name="age" min="10" max="120" inputmode="numeric" />
+          </div>
+          <div>
+            <label for="pf-height">키 (cm)</label>
+            <input id="pf-height" type="number" name="heightCm" min="100" max="250" inputmode="numeric" />
+          </div>
+          <div>
+            <label for="pf-activity">활동량</label>
+            <select id="pf-activity" name="activityLevel">
+              <option value="sedentary">거의 안 함</option>
+              <option value="light">가벼움 (주 1-3회)</option>
+              <option value="moderate" selected>보통 (주 3-5회)</option>
+              <option value="active">활발 (주 6-7회)</option>
+              <option value="very_active">매우 활발</option>
+            </select>
+          </div>
+          <div>
+            <label for="pf-target-kg">목표 체중 (kg)</label>
+            <input id="pf-target-kg" type="number" name="targetKg" step="0.1" min="20" max="400" inputmode="decimal" />
+          </div>
+          <div>
+            <label for="pf-target-date">목표 날짜</label>
+            <input id="pf-target-date" type="date" name="targetDate" />
+          </div>
+        </div>
+        <button type="submit" class="primary">저장</button>
+        <div id="pf-summary" class="profile-summary" aria-live="polite"></div>
+      </form>
+
       <div class="card">
         <h2>💧 물 마시기</h2>
         <div class="water-display">
