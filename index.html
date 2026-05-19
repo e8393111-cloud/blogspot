@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#10b981" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>내 건강관리</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./icons/icon.svg" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1 id="page-title">홈</h1>
+    <button id="install-btn" class="install-btn" hidden>설치</button>
+  </header>
+
+  <main id="app">
+    <!-- 홈 -->
+    <section class="view active" data-view="home">
+      <div class="card hero">
+        <div class="hero-greeting">
+          <span id="greeting">안녕하세요 👋</span>
+          <small id="today-date"></small>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-value" id="stat-calories-in">0</div>
+            <div class="stat-label">섭취 kcal</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="stat-calories-out">0</div>
+            <div class="stat-label">소모 kcal</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="stat-water">0</div>
+            <div class="stat-label">물 (잔)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>오늘의 요약</h2>
+        <ul class="summary-list">
+          <li>🏃 운동 <span id="summary-exercise">0회</span></li>
+          <li>🍱 식사 <span id="summary-meals">0회</span></li>
+          <li>⚖️ 최근 체중 <span id="summary-weight">기록 없음</span></li>
+          <li>😴 어제 수면 <span id="summary-sleep">기록 없음</span></li>
+          <li>💊 오늘 복약 <span id="summary-meds">0/0</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>빠른 기록</h2>
+        <div class="quick-actions">
+          <button data-quick="water">💧 물 +1잔</button>
+          <button data-quick="exercise">🏃 운동</button>
+          <button data-quick="meal">🍱 식사</button>
+          <button data-quick="weight">⚖️ 체중</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 운동 -->
+    <section class="view" data-view="exercise">
+      <form id="form-exercise" class="card form">
+        <h2>운동 기록 추가</h2>
+        <label>종류
+          <select name="type" required>
+            <option value="걷기">걷기</option>
+            <option value="달리기">달리기</option>
+            <option value="자전거">자전거</option>
+            <option value="수영">수영</option>
+            <option value="헬스">헬스</option>
+            <option value="요가">요가</option>
+            <option value="기타">기타</option>
+          </select>
+        </label>
+        <label>시간 (분)
+          <input type="number" name="minutes" min="1" required />
+        </label>
+        <label>소모 칼로리 (kcal)
+          <input type="number" name="kcal" min="0" />
+        </label>
+        <label>메모
+          <input type="text" name="note" placeholder="(선택)" />
+        </label>
+        <button type="submit" class="primary">저장</button>
+      </form>
+      <div class="card">
+        <h2>최근 운동</h2>
+        <ul id="list-exercise" class="record-list"></ul>
+      </div>
+    </section>
+
+    <!-- 식단 -->
+    <section class="view" data-view="diet">
+      <form id="form-diet" class="card form">
+        <h2>식사 추가</h2>
+        <label>끼니
+          <select name="meal">
+            <option value="아침">아침</option>
+            <option value="점심">점심</option>
+            <option value="저녁">저녁</option>
+            <option value="간식">간식</option>
+          </select>
+        </label>
+        <label>음식
+          <input type="text" name="food" required placeholder="예: 김치찌개" />
+        </label>
+        <label>칼로리 (kcal)
+          <input type="number" name="kcal" min="0" required />
+        </label>
+        <button type="submit" class="primary">저장</button>
+      </form>
+      <div class="card">
+        <h2>오늘의 식사</h2>
+        <ul id="list-diet" class="record-list"></ul>
+      </div>
+    </section>
+
+    <!-- 체중/물/수면 -->
+    <section class="view" data-view="body">
+      <div class="card">
+        <h2>💧 물 마시기</h2>
+        <div class="water-display">
+          <div class="water-count" id="water-count">0</div>
+          <div class="water-label">잔 / 8잔 목표</div>
+        </div>
+        <div class="water-actions">
+          <button id="water-minus">-</button>
+          <button id="water-plus" class="primary">물 +1잔</button>
+        </div>
+      </div>
+
+      <form id="form-weight" class="card form">
+        <h2>⚖️ 체중 기록</h2>
+        <label>체중 (kg)
+          <input type="number" name="kg" step="0.1" required />
+        </label>
+        <button type="submit" class="primary">저장</button>
+      </form>
+      <div class="card">
+        <h2>체중 추이</h2>
+        <canvas id="weight-chart" height="180"></canvas>
+        <ul id="list-weight" class="record-list compact"></ul>
+      </div>
+
+      <form id="form-sleep" class="card form">
+        <h2>😴 수면 기록</h2>
+        <label>잠든 시각
+          <input type="time" name="sleepStart" required />
+        </label>
+        <label>일어난 시각
+          <input type="time" name="sleepEnd" required />
+        </label>
+        <button type="submit" class="primary">저장</button>
+      </form>
+      <div class="card">
+        <h2>최근 수면</h2>
+        <ul id="list-sleep" class="record-list compact"></ul>
+      </div>
+    </section>
+
+    <!-- 복약 -->
+    <section class="view" data-view="meds">
+      <form id="form-med" class="card form">
+        <h2>💊 복약 추가</h2>
+        <label>약 이름
+          <input type="text" name="name" required placeholder="예: 비타민D" />
+        </label>
+        <label>복용 시각
+          <input type="time" name="time" required />
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" name="notify" checked />
+          알림 받기
+        </label>
+        <button type="submit" class="primary">추가</button>
+      </form>
+      <div class="card">
+        <h2>오늘의 복약</h2>
+        <ul id="list-meds" class="record-list"></ul>
+      </div>
+      <div class="card subtle">
+        알림은 앱이 열려 있을 때 동작합니다. 브라우저 알림 권한을 허용해주세요.
+        <button id="enable-notify" class="ghost">알림 권한 요청</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button class="tab active" data-tab="home">🏠<span>홈</span></button>
+    <button class="tab" data-tab="exercise">🏃<span>운동</span></button>
+    <button class="tab" data-tab="diet">🍱<span>식단</span></button>
+    <button class="tab" data-tab="body">💧<span>몸</span></button>
+    <button class="tab" data-tab="meds">💊<span>복약</span></button>
+  </nav>
+
+  <script src="./app.js"></script>
+</body>
+</html>
