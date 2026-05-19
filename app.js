@@ -27,10 +27,16 @@ let state = load();
 // ===== Utils =====
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-const todayKey = () => new Date().toISOString().slice(0, 10);
+const localDateKey = (d = new Date()) => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+};
+const todayKey = () => localDateKey();
 const yesterdayKey = () => {
   const d = new Date(); d.setDate(d.getDate() - 1);
-  return d.toISOString().slice(0, 10);
+  return localDateKey(d);
 };
 const fmtTime = (iso) => new Date(iso).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
 const fmtDate = (iso) => new Date(iso).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' });
@@ -95,7 +101,7 @@ $('#form-diet').addEventListener('submit', (e) => {
 function renderDiet() {
   const ul = $('#list-diet');
   const today = todayKey();
-  const items = state.diet.filter(d => d.at.slice(0, 10) === today);
+  const items = state.diet.filter(d => localDateKey(new Date(d.at)) === today);
   ul.innerHTML = items.length ? items.map(it => `
     <li>
       <div class="item-main">
@@ -261,8 +267,8 @@ $('#enable-notify').addEventListener('click', async () => {
   alert(perm === 'granted' ? '알림이 활성화됐어요 ✅' : '알림 권한이 거부되었어요');
 });
 
-// 매분 체크: 복약 시각 도달 시 알림
-let lastNotifiedKey = '';
+// 매 30초 체크: 복약 시각 도달 시 알림 (약별로 하루 1회만 발송)
+const notifiedTags = new Set();
 setInterval(checkMedReminders, 30 * 1000);
 function checkMedReminders() {
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
@@ -271,11 +277,10 @@ function checkMedReminders() {
   const k = todayKey();
   state.meds.forEach(m => {
     if (!m.notify || m.time !== hhmm) return;
-    const taken = state.medLog[k]?.[m.id];
-    if (taken) return;
+    if (state.medLog[k]?.[m.id]) return;
     const tag = `${k}-${m.id}`;
-    if (tag === lastNotifiedKey) return;
-    lastNotifiedKey = tag;
+    if (notifiedTags.has(tag)) return;
+    notifiedTags.add(tag);
     new Notification('💊 복약 알림', { body: `${m.name} 복용 시간이에요` });
   });
 }
@@ -287,9 +292,9 @@ function renderHome() {
 
   $('#today-date').textContent = new Date().toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' });
 
-  const todayDiet = state.diet.filter(d => d.at.slice(0, 10) === k);
+  const todayDiet = state.diet.filter(d => localDateKey(new Date(d.at)) === k);
   const caloriesIn = todayDiet.reduce((a, b) => a + (b.kcal || 0), 0);
-  const todayExercise = state.exercise.filter(d => d.at.slice(0, 10) === k);
+  const todayExercise = state.exercise.filter(d => localDateKey(new Date(d.at)) === k);
   const caloriesOut = todayExercise.reduce((a, b) => a + (b.kcal || 0), 0);
   const water = state.water[k] || 0;
 
@@ -300,7 +305,7 @@ function renderHome() {
   $('#summary-exercise').textContent = `${todayExercise.length}회`;
   $('#summary-meals').textContent = `${todayDiet.length}회`;
   $('#summary-weight').textContent = state.weight[0] ? `${state.weight[0].kg} kg` : '기록 없음';
-  const ySleep = state.sleep.find(s => s.at.slice(0, 10) === yk) || state.sleep[0];
+  const ySleep = state.sleep.find(s => localDateKey(new Date(s.at)) === yk) || state.sleep[0];
   $('#summary-sleep').textContent = ySleep ? `${sleepHours(ySleep.start, ySleep.end)}시간` : '기록 없음';
 
   const log = state.medLog[k] || {};
