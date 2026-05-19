@@ -434,6 +434,31 @@ input[type="file"]#inbody-file {
   .profile-summary .warn { color: #fbbf24; }
 }
 
+.backup-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 6px;
+}
+.backup-actions button,
+.backup-actions .backup-import-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--primary-text);
+  border: 1px solid var(--primary-text);
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 44px;
+  text-align: center;
+}
+.backup-actions .backup-import-label:active,
+.backup-actions button:active { background: rgba(4,120,87,0.08); }
+
 /* Modal */
 .modal[hidden] { display: none; }
 .modal {

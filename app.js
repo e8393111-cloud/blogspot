@@ -1558,6 +1558,73 @@ ${JSON.stringify(ctx, null, 0)}
   }
 });
 
+// ===== Backup / restore =====
+const BACKUP_APP_ID = 'naehealth-v1';
+
+$('#export-backup').addEventListener('click', () => {
+  const cloned = JSON.parse(JSON.stringify(state));
+  if (cloned.gemini) delete cloned.gemini.apiKey;
+  const payload = {
+    app: BACKUP_APP_ID,
+    version: state.schemaVersion || 1,
+    exportedAt: new Date().toISOString(),
+    data: cloned,
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `health-backup-${todayKey()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  $('#backup-status').textContent = `✅ 백업 파일을 다운로드했어요 (${todayKey()})`;
+  toast('백업 파일 다운로드 완료');
+});
+
+$('#import-backup-file').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) { toast('파일이 너무 커요 (최대 10MB)', 'error'); return; }
+  let payload;
+  try {
+    const text = await file.text();
+    payload = JSON.parse(text);
+  } catch {
+    $('#backup-status').textContent = '❌ JSON 파일을 읽지 못했어요';
+    toast('JSON 파싱 실패', 'error');
+    return;
+  }
+  if (payload?.app !== BACKUP_APP_ID || !payload?.data) {
+    $('#backup-status').textContent = '❌ 이 앱의 백업 파일이 아니에요';
+    toast('백업 파일 형식이 달라요', 'error');
+    return;
+  }
+  const exportedAt = payload.exportedAt ? payload.exportedAt.slice(0, 10) : '날짜 미상';
+  const ok = await confirmDialog(
+    '백업 복원',
+    `${exportedAt} 백업으로 현재 기기 데이터를 모두 덮어씁니다. AI 키는 그대로 유지돼요. 진행할까요?`
+  );
+  if (!ok) return;
+  const preservedKey = state.gemini?.apiKey || '';
+  try {
+    const merged = { ...structuredClone(defaultState), ...payload.data };
+    merged.gemini = { ...(merged.gemini || {}), apiKey: preservedKey };
+    state = merged;
+    if (!save()) throw new Error('저장 실패');
+    chatHistory = (state.gemini?.chatHistory || []).slice(-CHAT_HISTORY_MAX);
+    renderHome();
+    renderViewFor(getCurrentTab());
+    $('#backup-status').textContent = `✅ ${exportedAt} 백업으로 복원 완료`;
+    toast('백업 복원 완료 🎉');
+  } catch (err) {
+    $('#backup-status').textContent = `❌ 복원 실패: ${err.message}`;
+    toast(`복원 실패: ${err.message}`, 'error');
+  }
+});
+
 // ===== Init =====
 renderHome();
 renderViewFor(getCurrentTab());
