@@ -247,7 +247,7 @@
       <div class="card chat-card">
         <h2>💬 AI 건강 코치</h2>
         <p class="hint">최근 기록을 보고 자유롭게 질문하세요. 예: "오늘 저녁 뭐 먹을까?", "어제 운동량 어때?"</p>
-        <div id="ai-chat-log" class="chat-log" aria-live="polite" aria-atomic="false"></div>
+        <div id="ai-chat-log" class="chat-log" role="log" aria-label="대화 기록"></div>
         <form id="ai-chat-form" class="chat-form">
           <label for="ai-chat-input" class="visually-hidden">메시지</label>
           <textarea id="ai-chat-input" rows="2" placeholder="질문을 입력하세요..." maxlength="1000"></textarea>

@@ -22,7 +22,8 @@ const defaultState = {
   medLog: {},      // { 'YYYY-MM-DD': { medId: true } }
   water: {},       // { 'YYYY-MM-DD': count }
   inbody: [],      // {id, at, weight, smm, bfm, bfp, bmi, bmr, note, source}
-  gemini: { apiKey: '' },
+  gemini: { apiKey: '', chatHistory: [] },
+  // Bump and add a migration block in load() when making breaking schema changes.
   schemaVersion: 3,
 };
 
@@ -99,21 +100,37 @@ function toast(message, kind = 'info') {
 function confirmDialog(title, body) {
   return new Promise((resolve) => {
     const modal = $('#modal');
+    const appRoot = $('#app');
+    const previouslyFocused = document.activeElement;
     $('#modal-title').textContent = title;
     $('#modal-body').textContent = body;
     modal.hidden = false;
+    appRoot.setAttribute('aria-hidden', 'true');
+    const focusables = [$('#modal-cancel'), $('#modal-confirm')];
     const cleanup = (result) => {
       modal.hidden = true;
+      appRoot.removeAttribute('aria-hidden');
       $('#modal-confirm').removeEventListener('click', onConfirm);
       $('#modal-cancel').removeEventListener('click', onCancel);
       modal.removeEventListener('click', onBackdrop);
       document.removeEventListener('keydown', onKey);
+      if (previouslyFocused && typeof previouslyFocused.focus === 'function') {
+        try { previouslyFocused.focus(); } catch {}
+      }
       resolve(result);
     };
     const onConfirm = () => cleanup(true);
     const onCancel = () => cleanup(false);
     const onBackdrop = (e) => { if (e.target === modal) cleanup(false); };
-    const onKey = (e) => { if (e.key === 'Escape') cleanup(false); };
+    const onKey = (e) => {
+      if (e.key === 'Escape') { cleanup(false); return; }
+      if (e.key !== 'Tab') return;
+      const first = focusables[0], last = focusables[focusables.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+      else if (!modal.contains(active)) { e.preventDefault(); first.focus(); }
+    };
     $('#modal-confirm').addEventListener('click', onConfirm);
     $('#modal-cancel').addEventListener('click', onCancel);
     modal.addEventListener('click', onBackdrop);
@@ -341,6 +358,7 @@ $('#form-sleep').addEventListener('submit', (e) => {
   const fd = new FormData(e.target);
   const start = fd.get('sleepStart'), end = fd.get('sleepEnd');
   if (!start || !end) { toast('잠든 시각과 일어난 시각을 모두 입력해주세요', 'error'); return; }
+  if (start === end) { toast('잠든 시각과 일어난 시각이 같아요', 'error'); return; }
   state.sleep.unshift({ id: uid(), start, end, at: new Date().toISOString() });
   if (!save()) return;
   e.target.reset();
@@ -704,6 +722,12 @@ document.addEventListener('click', async (e) => {
     const id = delBtn.dataset.id;
     const ok = await confirmDialog('삭제할까요?', '이 기록을 영구적으로 삭제합니다.');
     if (!ok) return;
+    if (list === 'inbody') {
+      const ib = state.inbody.find(x => x.id === id);
+      if (ib) {
+        state.weight = state.weight.filter(w => !(w.at === ib.at && w.kg === ib.weight));
+      }
+    }
     state[list] = state[list].filter(x => x.id !== id);
     if (!save()) return;
     renderViewFor(getCurrentTab());
@@ -778,10 +802,19 @@ window.addEventListener('resize', debounce(drawWeightChart, 150));
 // ===== AI: Gemini =====
 const GEMINI_MODEL = 'gemini-2.0-flash';
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
-let chatHistory = []; // {role: 'user'|'model', parts: [{text}]}
+const GEMINI_TIMEOUT_MS = 30000;
+const CHAT_HISTORY_MAX = 20;
+let chatHistory = (state.gemini?.chatHistory || []).slice(-CHAT_HISTORY_MAX);
+let chatPending = false;
+let photoPending = false;
 
 function getApiKey() {
   return (state.gemini?.apiKey || '').trim();
+}
+
+function persistChatHistory() {
+  state.gemini.chatHistory = chatHistory.slice(-CHAT_HISTORY_MAX);
+  save();
 }
 
 function readFileAsDataURL(file) {
@@ -811,12 +844,26 @@ async function geminiGenerate({ prompt, imageDataUrl, history = [], systemInstru
   };
   if (systemInstruction) body.systemInstruction = { parts: [{ text: systemInstruction }] };
 
-  const res = await fetch(`${GEMINI_ENDPOINT}?key=${encodeURIComponent(key)}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS);
+  let res;
+  try {
+    res = await fetch(`${GEMINI_ENDPOINT}?key=${encodeURIComponent(key)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+  } catch (err) {
+    if (err.name === 'AbortError') throw new Error('응답이 너무 오래 걸려요 (30초 초과). 잠시 후 다시 시도해주세요.');
+    throw new Error(`네트워크 오류: ${err.message}`);
+  } finally {
+    clearTimeout(timer);
+  }
   if (!res.ok) {
+    if (res.status === 429) throw new Error('요청이 너무 많아요. 무료 한도를 초과했을 수 있어요. 잠시 후 다시 시도해주세요.');
+    if (res.status === 400) throw new Error('API 키가 올바르지 않거나 요청 형식 오류예요.');
+    if (res.status === 403) throw new Error('API 키 권한이 없거나 사용량이 차단됐어요.');
     const errText = await res.text().catch(() => '');
     let msg = `API 오류 (${res.status})`;
     try {
@@ -883,6 +930,7 @@ $('#d-photo').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   e.target.value = '';
   if (!file) return;
+  if (photoPending) { toast('이미 분석 중이에요', 'error'); return; }
   if (file.size > 8 * 1024 * 1024) { toast('이미지가 너무 커요 (최대 8MB)', 'error'); return; }
   if (!getApiKey()) {
     toast('AI 탭에서 Gemini API 키를 먼저 설정해주세요', 'error');
@@ -890,7 +938,12 @@ $('#d-photo').addEventListener('change', async (e) => {
     return;
   }
   const status = $('#d-photo-status');
+  const label = $('#d-photo-label');
   status.textContent = '⏳ 사진 분석 중...';
+  photoPending = true;
+  label.setAttribute('aria-disabled', 'true');
+  label.style.pointerEvents = 'none';
+  label.style.opacity = '0.6';
   try {
     const dataUrl = await readFileAsDataURL(file);
     const prompt = `이 사진의 음식을 한국 식품 영양 기준으로 분석해줘.
@@ -908,6 +961,11 @@ $('#d-photo').addEventListener('change', async (e) => {
   } catch (err) {
     status.textContent = `❌ ${err.message}`;
     toast(err.message, 'error');
+  } finally {
+    photoPending = false;
+    label.removeAttribute('aria-disabled');
+    label.style.pointerEvents = '';
+    label.style.opacity = '';
   }
 });
 
@@ -999,54 +1057,67 @@ const COACH_SYSTEM = `당신은 따뜻하고 실용적인 한국어 건강·다�
 - 숫자가 있으면 구체적으로 인용하세요.`;
 
 // ----- AI: Chat -----
+function appendChatMsg(role, text, opts = {}) {
+  const log = $('#ai-chat-log');
+  const div = document.createElement('div');
+  const cls = role === 'user' ? 'user' : 'assistant';
+  div.className = `chat-msg ${cls}${opts.thinking ? ' thinking' : ''}${opts.error ? ' error' : ''}`;
+  div.textContent = text;
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+  return div;
+}
+
 function renderChatLog() {
   const log = $('#ai-chat-log');
-  log.innerHTML = chatHistory.map(turn => {
-    const cls = turn.role === 'user' ? 'user' : 'assistant';
+  log.textContent = '';
+  chatHistory.forEach(turn => {
     const text = (turn.parts || []).map(p => p.text).join('');
-    return `<div class="chat-msg ${cls}">${escapeHtml(text)}</div>`;
-  }).join('');
-  log.scrollTop = log.scrollHeight;
+    appendChatMsg(turn.role === 'user' ? 'user' : 'model', text);
+  });
 }
 
 $('#ai-chat-form').addEventListener('submit', async (e) => {
   e.preventDefault();
+  if (chatPending) return;
   const input = $('#ai-chat-input');
+  const submitBtn = e.target.querySelector('[type="submit"]');
   const msg = input.value.trim();
   if (!msg) return;
   if (!getApiKey()) { toast('API 키를 먼저 설정해주세요', 'error'); return; }
 
-  chatHistory.push({ role: 'user', parts: [{ text: msg }] });
-  input.value = '';
-  renderChatLog();
+  chatPending = true;
+  submitBtn.disabled = true;
+  input.disabled = true;
 
-  const log = $('#ai-chat-log');
-  const thinking = document.createElement('div');
-  thinking.className = 'chat-msg assistant thinking';
-  thinking.textContent = '⏳ 답변 생성 중...';
-  log.appendChild(thinking);
-  log.scrollTop = log.scrollHeight;
+  chatHistory.push({ role: 'user', parts: [{ text: msg }] });
+  appendChatMsg('user', msg);
+  input.value = '';
+  const thinking = appendChatMsg('model', '⏳ 답변 생성 중...', { thinking: true });
 
   try {
     const ctx = buildRecentContext(7);
-    const isFirstTurn = chatHistory.length === 1;
-    let prompt = msg;
-    if (isFirstTurn) {
-      prompt = `[사용자의 최근 기록 데이터(JSON)]\n${JSON.stringify(ctx, null, 0)}\n\n[질문]\n${msg}`;
-    }
+    const systemWithCtx = `${COACH_SYSTEM}\n\n[참고용 최근 기록 데이터(JSON)]\n${JSON.stringify(ctx)}`;
     const histForApi = chatHistory.slice(0, -1).map(t => ({ role: t.role, parts: t.parts }));
     const reply = await geminiGenerate({
-      prompt,
+      prompt: msg,
       history: histForApi,
-      systemInstruction: COACH_SYSTEM,
+      systemInstruction: systemWithCtx,
     });
     thinking.remove();
     chatHistory.push({ role: 'model', parts: [{ text: reply }] });
-    renderChatLog();
+    chatHistory = chatHistory.slice(-CHAT_HISTORY_MAX);
+    appendChatMsg('model', reply);
+    persistChatHistory();
   } catch (err) {
     thinking.remove();
-    chatHistory.push({ role: 'model', parts: [{ text: `❌ ${err.message}` }] });
-    renderChatLog();
+    appendChatMsg('model', `❌ ${err.message}`, { error: true });
+    chatHistory.pop(); // remove the user message we couldn't answer so retry works
+  } finally {
+    chatPending = false;
+    submitBtn.disabled = false;
+    input.disabled = false;
+    input.focus();
   }
 });
 
@@ -1055,6 +1126,7 @@ $('#ai-chat-clear').addEventListener('click', async () => {
   const ok = await confirmDialog('대화 초기화', '지금까지의 대화 기록을 모두 지울까요?');
   if (!ok) return;
   chatHistory = [];
+  persistChatHistory();
   renderChatLog();
 });
 
