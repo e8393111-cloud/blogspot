@@ -23,6 +23,8 @@ const defaultState = {
   water: {},       // { 'YYYY-MM-DD': count }
   steps: {},       // { 'YYYY-MM-DD': stepCount }
   inbody: [],      // {id, at, weight, smm, bfm, bfp, bmi, bmr, note, source}
+  profile: {},     // {sex, age, heightCm, activityLevel}
+  goal: {},        // {targetKg, targetDate}
   gemini: { apiKey: '', chatHistory: [] },
   // Bump and add a migration block in load() when making breaking schema changes.
   schemaVersion: 3,
@@ -170,7 +172,7 @@ function renderViewFor(name) {
   if (name === 'home') return renderHome();
   if (name === 'exercise') { renderHome(); renderExercise(); return; }
   if (name === 'diet') { renderHome(); renderDiet(); return; }
-  if (name === 'body') { renderHome(); renderWeight(); renderSleep(); renderBody(); renderInbody(); renderSteps(); return; }
+  if (name === 'body') { renderHome(); renderWeight(); renderSleep(); renderBody(); renderInbody(); renderSteps(); renderProfile(); return; }
   if (name === 'meds') { renderHome(); renderMeds(); checkNotifyBanner(); return; }
   if (name === 'ai') { renderAI(); return; }
 }
@@ -221,6 +223,9 @@ function renderExercise() {
 
 // Exercise AI calorie estimation
 let exAiPending = false;
+let exKcalIsAI = false; // tracks whether #ex-kcal was last set by AI vs user
+$('#ex-kcal').addEventListener('input', () => { exKcalIsAI = false; });
+$('#form-exercise').addEventListener('reset', () => { exKcalIsAI = false; });
 $('#ex-ai-estimate').addEventListener('click', async () => {
   if (exAiPending) { toast('이미 추정 중이에요', 'error'); return; }
   const type = $('#ex-type').value;
@@ -248,9 +253,15 @@ ${recentWeight ? `체중: ${recentWeight}kg` : '체중: 모름 (평균 70kg 가�
     const obj = safeJSONParse(text);
     if (!obj || obj.kcal == null) throw new Error('응답을 해석하지 못했어요');
     const kcalRounded = Math.round(obj.kcal);
-    $('#ex-kcal').value = kcalRounded;
-    const intensityLabel = { light: '가벼움', moderate: '보통', vigorous: '격렬' }[obj.intensity] || '';
-    toast(`${type} ${minutes}분: ${kcalRounded}kcal${intensityLabel ? ` (${intensityLabel})` : ''}`);
+    // Race guard: user may have typed kcal during the await — don't overwrite.
+    if ($('#ex-kcal').value) {
+      toast(`(AI 추정값 ${kcalRounded}kcal은 무시됐어요)`);
+    } else {
+      $('#ex-kcal').value = kcalRounded;
+      exKcalIsAI = true;
+      const intensityLabel = { light: '가벼움', moderate: '보통', vigorous: '격렬' }[obj.intensity] || '';
+      toast(`${type} ${minutes}분: ${kcalRounded}kcal${intensityLabel ? ` (${intensityLabel})` : ''}`);
+    }
   } catch (err) {
     toast(`추정 실패: ${err.message}`, 'error');
   } finally {
@@ -258,6 +269,31 @@ ${recentWeight ? `체중: ${recentWeight}kg` : '체중: 모름 (평균 70kg 가�
     btn.disabled = false;
     btn.textContent = origText;
   }
+});
+
+// Exercise: auto-estimate when type+minutes are set and field is blurred
+let lastEstimatedExercise = '';
+function tryAutoExercise() {
+  if (exAiPending) return;
+  const type = $('#ex-type').value;
+  const minutes = +$('#ex-minutes').value;
+  if (!minutes || minutes < 1) return;
+  const key = `${type}-${minutes}`;
+  if (key === lastEstimatedExercise) return;
+  if (!getApiKey()) return; // silent: no key configured
+  // If kcal is filled by user, preserve it. If filled by previous AI run, replace it.
+  if ($('#ex-kcal').value) {
+    if (!exKcalIsAI) return;
+    $('#ex-kcal').value = '';
+    exKcalIsAI = false;
+  }
+  lastEstimatedExercise = key;
+  $('#ex-ai-estimate').click();
+}
+$('#ex-minutes').addEventListener('blur', tryAutoExercise);
+$('#ex-type').addEventListener('change', () => {
+  lastEstimatedExercise = ''; // invalidate cache when user changes type
+  tryAutoExercise();
 });
 
 // ===== Diet =====
@@ -294,6 +330,108 @@ function renderDiet() {
       <button class="delete-btn" data-del="diet" data-id="${it.id}" aria-label="삭제">×</button>
     </li>
   `).join('') : '<li class="empty">오늘 식사 기록이 없어요</li>';
+}
+
+// ===== Diet goal math =====
+const ACTIVITY_MULT = {
+  sedentary: 1.2, light: 1.375, moderate: 1.55, active: 1.725, very_active: 1.9,
+};
+const KCAL_PER_KG_FAT = 7700;
+
+function calculateBMR(sex, weightKg, heightCm, age) {
+  // Mifflin-St Jeor
+  const base = 10 * weightKg + 6.25 * heightCm - 5 * age;
+  return sex === 'female' ? base - 161 : base + 5;
+}
+
+function dietContext() {
+  // Returns { profile, goal, currentWeight, bmr, tdee, dailyDeficit, dailyTarget, daysToTarget }
+  // or null if profile/weight insufficient.
+  const p = state.profile || {};
+  const g = state.goal || {};
+  const currentWeight = state.weight[0]?.kg;
+  if (!p.sex || !p.age || !p.heightCm || !currentWeight) return null;
+  const bmr = calculateBMR(p.sex, currentWeight, p.heightCm, +p.age);
+  const tdee = bmr * (ACTIVITY_MULT[p.activityLevel] || ACTIVITY_MULT.moderate);
+  let dailyDeficit = null, dailyTarget = null, daysToTarget = null;
+  if (g.targetKg && g.targetDate) {
+    const kgToLose = currentWeight - +g.targetKg;
+    const today = new Date(todayKey()).getTime();
+    const target = new Date(g.targetDate).getTime();
+    daysToTarget = Math.max(1, Math.round((target - today) / 86400000));
+    if (kgToLose > 0) {
+      dailyDeficit = (kgToLose * KCAL_PER_KG_FAT) / daysToTarget;
+      dailyTarget = Math.round(tdee - dailyDeficit);
+    }
+  }
+  return { profile: p, goal: g, currentWeight, bmr: Math.round(bmr), tdee: Math.round(tdee), dailyDeficit, dailyTarget, daysToTarget };
+}
+
+function todayDeficit(caloriesIn, caloriesOut, tdee) {
+  // Positive = burned more than ate today (good for losing).
+  return (tdee + caloriesOut) - caloriesIn;
+}
+
+// ----- Profile / Goal form -----
+$('#form-profile').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const sex = fd.get('sex');
+  const age = +fd.get('age');
+  const heightCm = +fd.get('heightCm');
+  const activityLevel = fd.get('activityLevel') || 'moderate';
+  if (!sex || !(age >= 10 && age <= 120) || !(heightCm >= 100 && heightCm <= 250)) {
+    toast('성별, 나이(10~120), 키(100~250) 모두 입력해주세요', 'error');
+    return;
+  }
+  state.profile = { sex, age, heightCm, activityLevel };
+  const targetKg = +fd.get('targetKg');
+  const targetDate = fd.get('targetDate');
+  if (targetKg && targetDate) {
+    if (!(targetKg >= 20 && targetKg <= 400)) { toast('목표 체중을 20~400 사이로', 'error'); return; }
+    state.goal = { targetKg, targetDate };
+  } else {
+    state.goal = {};
+  }
+  if (!save()) return;
+  renderProfile();
+  renderHome();
+  drawWeightChart();
+  toast('저장됐어요');
+});
+
+function renderProfile() {
+  const p = state.profile || {}, g = state.goal || {};
+  if (p.sex) $('#pf-sex').value = p.sex;
+  if (p.age) $('#pf-age').value = p.age;
+  if (p.heightCm) $('#pf-height').value = p.heightCm;
+  if (p.activityLevel) $('#pf-activity').value = p.activityLevel;
+  if (g.targetKg) $('#pf-target-kg').value = g.targetKg;
+  if (g.targetDate) $('#pf-target-date').value = g.targetDate;
+
+  const out = $('#pf-summary');
+  const ctx = dietContext();
+  if (!ctx) {
+    out.innerHTML = '<span class="hint">프로필을 모두 입력하고 체중을 한 번 기록하면 일일 칼로리 목표가 계산돼요.</span>';
+    return;
+  }
+  const lines = [];
+  lines.push(`<div><strong>기초대사량(BMR):</strong> ${ctx.bmr} kcal</div>`);
+  lines.push(`<div><strong>총 소비량(TDEE):</strong> ${ctx.tdee} kcal/일</div>`);
+  if (ctx.dailyTarget != null) {
+    const dd = Math.round(ctx.dailyDeficit);
+    let safety = '';
+    if (dd > 1000) safety = ' <span class="warn">⚠️ 너무 공격적이에요 (하루 1000kcal 초과). 기한을 늘리세요.</span>';
+    else if (dd > 750) safety = ' <span class="warn">⚠️ 다소 공격적 (주 0.7kg 이상)</span>';
+    lines.push(`<div><strong>일일 섭취 목표:</strong> ${ctx.dailyTarget} kcal (적자 ${dd}/일)${safety}</div>`);
+    lines.push(`<div><strong>예상 페이스:</strong> 주 -${((ctx.dailyDeficit * 7) / KCAL_PER_KG_FAT).toFixed(2)} kg</div>`);
+    lines.push(`<div><strong>D-${ctx.daysToTarget}일</strong> 까지 ${ctx.currentWeight}kg → ${ctx.goal.targetKg}kg</div>`);
+  } else if (ctx.goal?.targetKg && ctx.goal?.targetDate) {
+    lines.push('<div class="warn">목표 체중이 현재 체중 이상이에요. 감량 도구입니다.</div>');
+  } else {
+    lines.push('<div class="hint">목표 체중·날짜도 입력하면 일일 칼로리 목표가 자동 계산돼요.</div>');
+  }
+  out.innerHTML = lines.join('');
 }
 
 // ===== Steps =====
@@ -398,7 +536,9 @@ function drawWeightChart() {
     return;
   }
 
+  const goalKg = state.goal?.targetKg;
   const vals = data.map(d => d.kg);
+  if (goalKg) vals.push(goalKg);
   const min = Math.min(...vals) - 0.5, max = Math.max(...vals) + 0.5;
   const pad = 28;
   const range = Math.max(max - min, 0.1);
@@ -442,6 +582,51 @@ function drawWeightChart() {
   ctx.fillStyle = labelColor;
   ctx.font = 'bold 12px sans-serif';
   ctx.fillText(`${last.kg}kg`, lx - 8, ly - 6);
+
+  // Goal line + ETA overlay
+  if (goalKg && goalKg >= min && goalKg <= max) {
+    const gy = h - pad - (goalKg - min) * yScale;
+    ctx.strokeStyle = '#ef4444';
+    ctx.setLineDash([6, 4]);
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(pad, gy); ctx.lineTo(w - pad, gy); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 11px sans-serif';
+    ctx.fillText(`목표 ${goalKg}kg`, pad + 4, gy - 4);
+  }
+
+  // ETA from linear regression of recent points
+  if (goalKg && data.length >= 3) {
+    const start = new Date(data[0].at).getTime();
+    const pts = data.map(d => ({ x: (new Date(d.at).getTime() - start) / 86400000, y: d.kg }));
+    const n = pts.length;
+    const sx = pts.reduce((a, p) => a + p.x, 0);
+    const sy = pts.reduce((a, p) => a + p.y, 0);
+    const sxy = pts.reduce((a, p) => a + p.x * p.y, 0);
+    const sxx = pts.reduce((a, p) => a + p.x * p.x, 0);
+    const denom = (n * sxx - sx * sx);
+    if (denom !== 0) {
+      const slope = (n * sxy - sx * sy) / denom;
+      const intercept = (sy - slope * sx) / n;
+      const todayX = (Date.now() - start) / 86400000;
+      const currentTrend = slope * todayX + intercept;
+      ctx.textAlign = 'right';
+      ctx.fillStyle = labelColor;
+      ctx.font = '10px sans-serif';
+      if (slope >= -0.001) {
+        ctx.fillText('현 페이스: 정체/증가', w - pad, h - pad + 16);
+      } else {
+        const daysToTarget = (currentTrend - goalKg) / -slope;
+        if (daysToTarget > 0 && daysToTarget < 3650) {
+          const etaDate = new Date(Date.now() + daysToTarget * 86400000);
+          const etaStr = etaDate.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' });
+          ctx.fillText(`현 페이스 → ${etaStr} 도달 예상`, w - pad, h - pad + 16);
+        }
+      }
+    }
+  }
 }
 
 // ===== Sleep =====
@@ -784,6 +969,32 @@ function renderHome() {
   $('#stat-water').textContent = water;
   $('#water-goal').textContent = LIMITS.waterGoal;
 
+  // Diet deficit card
+  const ctx = dietContext();
+  const heroDeficit = $('#hero-deficit');
+  if (ctx && ctx.dailyDeficit != null) {
+    const actualDeficit = todayDeficit(caloriesIn, caloriesOut, ctx.tdee);
+    const targetDeficit = ctx.dailyDeficit;
+    $('#hero-deficit-value').textContent = `${actualDeficit >= 0 ? '−' : '+'}${Math.abs(Math.round(actualDeficit))}`;
+    const pct = Math.max(0, Math.min(100, (actualDeficit / targetDeficit) * 100));
+    $('#hero-deficit-bar').style.width = `${pct}%`;
+    const remaining = Math.round(targetDeficit - actualDeficit);
+    let targetText;
+    if (actualDeficit >= targetDeficit) {
+      targetText = `🎉 목표 달성! (목표 −${Math.round(targetDeficit)})`;
+    } else if (actualDeficit > 0) {
+      targetText = `목표 −${Math.round(targetDeficit)} · ${remaining}kcal 부족`;
+    } else {
+      targetText = `목표 −${Math.round(targetDeficit)} · ${Math.abs(remaining)}kcal 초과 섭취 중`;
+    }
+    $('#hero-deficit-target').textContent = targetText;
+    heroDeficit.hidden = false;
+    heroDeficit.classList.toggle('positive', actualDeficit >= 0);
+    heroDeficit.classList.toggle('hit', actualDeficit >= targetDeficit);
+  } else {
+    heroDeficit.hidden = true;
+  }
+
   $('#summary-exercise').textContent = `${todayExercise.length}회`;
   $('#summary-meals').textContent = `${todayDiet.length}회`;
   const todaySteps = state.steps[k];
@@ -1076,6 +1287,9 @@ $('#d-photo').addEventListener('change', async (e) => {
 
 // ----- AI: Food text calorie estimation -----
 let foodAiPending = false;
+let foodKcalIsAI = false; // tracks whether #d-kcal was last set by AI vs user
+$('#d-kcal').addEventListener('input', () => { foodKcalIsAI = false; });
+$('#form-diet').addEventListener('reset', () => { foodKcalIsAI = false; });
 $('#d-ai-estimate').addEventListener('click', async () => {
   if (foodAiPending) { toast('이미 추정 중이에요', 'error'); return; }
   const food = $('#d-food').value.trim();
@@ -1098,10 +1312,16 @@ $('#d-ai-estimate').addEventListener('click', async () => {
     const text = await geminiGenerate({ prompt, json: true });
     const obj = safeJSONParse(text);
     if (!obj || !obj.kcal) throw new Error('응답을 해석하지 못했어요');
-    if (obj.food && obj.food !== food) $('#d-food').value = obj.food;
     const kcalRounded = Math.round(obj.kcal);
-    $('#d-kcal').value = kcalRounded;
-    toast(`${obj.food || food}: ${kcalRounded}kcal (${obj.portion || '1인분'})`);
+    // Race guard: user may have typed kcal during the await — don't overwrite.
+    if ($('#d-kcal').value) {
+      toast(`(AI 추정값 ${kcalRounded}kcal은 무시됐어요)`);
+    } else {
+      if (obj.food && obj.food !== food) $('#d-food').value = obj.food;
+      $('#d-kcal').value = kcalRounded;
+      foodKcalIsAI = true;
+      toast(`${obj.food || food}: ${kcalRounded}kcal (${obj.portion || '1인분'})`);
+    }
   } catch (err) {
     toast(`추정 실패: ${err.message}`, 'error');
   } finally {
@@ -1109,6 +1329,26 @@ $('#d-ai-estimate').addEventListener('click', async () => {
     btn.disabled = false;
     btn.textContent = origText;
   }
+});
+
+// Food: auto-estimate on blur if conditions met
+let lastEstimatedFood = '';
+$('#d-food').addEventListener('input', () => {
+  if (!$('#d-food').value.trim()) lastEstimatedFood = '';
+});
+$('#d-food').addEventListener('blur', () => {
+  if (foodAiPending) return;
+  const food = $('#d-food').value.trim();
+  if (!food || food === lastEstimatedFood) return;
+  if (!getApiKey()) return; // silent: no key configured
+  // If kcal is filled by user, preserve. If by previous AI run, replace.
+  if ($('#d-kcal').value) {
+    if (!foodKcalIsAI) return;
+    $('#d-kcal').value = '';
+    foodKcalIsAI = false;
+  }
+  lastEstimatedFood = food;
+  $('#d-ai-estimate').click();
 });
 
 // ----- AI: Build recent context for chat/report -----
@@ -1149,6 +1389,14 @@ function buildRecentContext(days = 7) {
     weight: i.weight, bmi: i.bmi, smm: i.smm, bfp: i.bfp, bmr: i.bmr,
   }));
 
+  const dctx = dietContext();
+  // Per-day deficit if TDEE is known, plus weekly aggregates
+  if (dctx) {
+    Object.keys(dailyAgg).forEach(k => {
+      const d = dailyAgg[k];
+      d.netDeficit = Math.round((dctx.tdee + (d.caloriesOut || 0)) - (d.caloriesIn || 0));
+    });
+  }
   return {
     today: todayKey(),
     period: `최근 ${days}일`,
@@ -1157,14 +1405,26 @@ function buildRecentContext(days = 7) {
     recentInbody,
     meds: state.meds.map(m => ({ name: m.name, time: m.time })),
     waterGoal: LIMITS.waterGoal,
+    profile: state.profile?.sex ? state.profile : null,
+    goal: state.goal?.targetKg ? state.goal : null,
+    computed: dctx ? {
+      bmr: dctx.bmr,
+      tdee: dctx.tdee,
+      dailyDeficitTarget: dctx.dailyDeficit ? Math.round(dctx.dailyDeficit) : null,
+      dailyIntakeTarget: dctx.dailyTarget,
+      daysToTarget: dctx.daysToTarget,
+      kgToLose: dctx.goal?.targetKg ? +(dctx.currentWeight - dctx.goal.targetKg).toFixed(1) : null,
+    } : null,
   };
 }
 
-const COACH_SYSTEM = `당신은 따뜻하고 실용적인 한국어 건강·다이어트 코치입니다.
-- 사용자의 최근 기록 데이터를 보고 구체적이고 실행 가능한 조언을 해주세요.
-- 의학적 진단이나 치료법은 제시하지 말고, 우려가 있으면 전문의 상담을 권하세요.
+const COACH_SYSTEM = `당신은 따뜻하고 실용적인 한국어 다이어트 코치입니다. 사용자는 체중 감량이 목표입니다.
+- 컨텍스트의 profile(키/나이/성별/활동량), goal(목표 체중·날짜), computed(BMR·TDEE·일일 칼로리 목표·페이스)와 최근 7일 daily 기록을 활용해 다이어트 관점에서 조언하세요.
+- 핵심 평가 축: 일일 적자(deficit) 달성 여부, 주간 페이스, 운동·식사·걸음수·수면 패턴.
+- "오늘 적자 350kcal로 목표보다 150kcal 부족하니..." 처럼 구체적 숫자를 인용하세요.
+- 의학적 진단·치료법은 제시하지 말고, 우려가 있으면 전문의 상담을 권하세요.
 - 답변은 짧고 친근하게, 핵심만 (보통 3~5문장).
-- 숫자가 있으면 구체적으로 인용하세요.`;
+- profile 미설정이면 그 사실을 알리고 설정을 권장한 뒤 가능한 범위에서 답하세요.`;
 
 // ----- AI: Chat -----
 function appendChatMsg(role, text, opts = {}) {
