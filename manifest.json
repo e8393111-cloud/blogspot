@@ -1,7 +1,7 @@
 {
   "name": "내 건강관리",
   "short_name": "건강관리",
-  "description": "운동, 식단, 체중, 수면, 복약을 한곳에서 관리하는 PWA",
+  "description": "운동, 식단/칼로리, 체중·물·수면, 복약, InBody 연동을 한곳에서 관리하는 PWA",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -11,10 +11,28 @@
   "lang": "ko",
   "icons": [
     {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
       "src": "./icons/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }
