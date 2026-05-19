@@ -287,6 +287,17 @@
         <h2>최근 수면</h2>
         <ul id="list-sleep" class="record-list compact" aria-label="수면 기록"></ul>
       </div>
+
+      <div class="card">
+        <h2>💾 데이터 백업</h2>
+        <p class="hint">모든 기록을 JSON 파일로 내보내거나 다른 기기에서 복원할 수 있어요. AI 키는 백업에 포함되지 않으니 새 기기에선 한 번 다시 입력해주세요.</p>
+        <div class="backup-actions">
+          <button id="export-backup" type="button" class="ghost">📤 내보내기</button>
+          <label for="import-backup-file" class="backup-import-label">📥 가져오기</label>
+          <input id="import-backup-file" type="file" accept="application/json,.json" class="visually-hidden" />
+        </div>
+        <div id="backup-status" class="hint" aria-live="polite"></div>
+      </div>
     </section>
 
     <!-- AI 코치 -->

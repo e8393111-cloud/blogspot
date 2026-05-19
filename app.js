@@ -1558,6 +1558,224 @@ ${JSON.stringify(ctx, null, 0)}
   }
 });
 
+// ===== Backup / restore =====
+const BACKUP_APP_ID = 'naehealth-v1';
+
+// Sanitize a parsed backup payload into a fresh state object.
+// Any field that cannot be coerced to its expected type is dropped, so a
+// tampered backup (e.g. string injected where a number is expected) cannot
+// reach the unsafe innerHTML renders that assume numeric fields.
+function sanitizeImportedData(raw) {
+  const num = (v, opts = {}) => {
+    const n = +v;
+    if (!Number.isFinite(n)) return null;
+    if (opts.min != null && n < opts.min) return null;
+    if (opts.max != null && n > opts.max) return null;
+    return opts.int ? Math.round(n) : n;
+  };
+  const str = (v, max = 200) => typeof v === 'string' ? v.slice(0, max) : '';
+  const idOr = (v) => typeof v === 'string' && v.length > 0 && v.length <= 64 ? v : uid();
+  const iso = (v) => {
+    if (typeof v !== 'string') return null;
+    const d = new Date(v);
+    return isNaN(d.getTime()) ? null : d.toISOString();
+  };
+  const dateKey = (v) => (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v)) ? v : null;
+  const timeStr = (v) => (typeof v === 'string' && /^\d{2}:\d{2}$/.test(v)) ? v : null;
+  const arr = (v) => Array.isArray(v) ? v : [];
+  const obj = (v) => v && typeof v === 'object' && !Array.isArray(v) ? v : {};
+  const bool = (v) => v === true;
+  const oneOf = (v, allowed) => allowed.includes(v) ? v : null;
+
+  const out = structuredClone(defaultState);
+
+  out.exercise = arr(raw.exercise).map(it => {
+    const o = obj(it);
+    const at = iso(o.at);
+    const minutes = num(o.minutes, { min: 1, max: 1440, int: true });
+    if (!at || minutes == null) return null;
+    return {
+      id: idOr(o.id), at, minutes,
+      type: str(o.type, 50) || '기타',
+      kcal: num(o.kcal, { min: 0, max: 10000, int: true }) ?? 0,
+      note: str(o.note, 200),
+    };
+  }).filter(Boolean);
+
+  out.diet = arr(raw.diet).map(it => {
+    const o = obj(it);
+    const at = iso(o.at);
+    const kcal = num(o.kcal, { min: 0, max: 10000, int: true });
+    const food = str(o.food, 100);
+    if (!at || kcal == null || !food) return null;
+    return { id: idOr(o.id), at, kcal, food, meal: str(o.meal, 20) || '간식' };
+  }).filter(Boolean);
+
+  out.weight = arr(raw.weight).map(it => {
+    const o = obj(it);
+    const at = iso(o.at);
+    const kg = num(o.kg, { min: 20, max: 400 });
+    if (!at || kg == null) return null;
+    return { id: idOr(o.id), at, kg };
+  }).filter(Boolean);
+
+  out.sleep = arr(raw.sleep).map(it => {
+    const o = obj(it);
+    const at = iso(o.at);
+    const start = timeStr(o.start);
+    const end = timeStr(o.end);
+    if (!at || !start || !end) return null;
+    return { id: idOr(o.id), at, start, end };
+  }).filter(Boolean);
+
+  out.meds = arr(raw.meds).map(it => {
+    const o = obj(it);
+    const name = str(o.name, 50);
+    const time = timeStr(o.time);
+    if (!name || !time) return null;
+    return { id: idOr(o.id), name, time, notify: bool(o.notify) };
+  }).filter(Boolean);
+
+  const medLog = obj(raw.medLog);
+  Object.keys(medLog).forEach(k => {
+    if (!dateKey(k)) return;
+    const inner = obj(medLog[k]);
+    const cleaned = {};
+    Object.keys(inner).forEach(medId => {
+      if (typeof medId !== 'string' || medId.length > 64) return;
+      if (inner[medId] === true) cleaned[medId] = true;
+    });
+    if (Object.keys(cleaned).length) out.medLog[k] = cleaned;
+  });
+
+  const water = obj(raw.water);
+  Object.keys(water).forEach(k => {
+    if (!dateKey(k)) return;
+    const v = num(water[k], { min: 0, max: 99, int: true });
+    if (v != null) out.water[k] = v;
+  });
+
+  const steps = obj(raw.steps);
+  Object.keys(steps).forEach(k => {
+    if (!dateKey(k)) return;
+    const v = num(steps[k], { min: 0, max: 200000, int: true });
+    if (v != null) out.steps[k] = v;
+  });
+
+  out.inbody = arr(raw.inbody).map(it => {
+    const o = obj(it);
+    const at = iso(o.at);
+    const weight = num(o.weight, { min: 20, max: 400 });
+    if (!at || weight == null) return null;
+    return {
+      id: idOr(o.id), at, weight,
+      bmi: num(o.bmi, { min: 5, max: 80 }),
+      smm: num(o.smm, { min: 0, max: 100 }),
+      bfm: num(o.bfm, { min: 0, max: 200 }),
+      bfp: num(o.bfp, { min: 1, max: 80 }),
+      bmr: num(o.bmr, { min: 500, max: 5000 }),
+      note: str(o.note, 200),
+      source: oneOf(o.source, ['manual', 'inbody-csv']) || 'manual',
+    };
+  }).filter(Boolean);
+
+  const pf = obj(raw.profile);
+  const profileSanitized = {
+    sex: oneOf(pf.sex, ['male', 'female']) || undefined,
+    age: num(pf.age, { min: 10, max: 120, int: true }) || undefined,
+    heightCm: num(pf.heightCm, { min: 100, max: 250, int: true }) || undefined,
+    activityLevel: oneOf(pf.activityLevel, ['sedentary', 'light', 'moderate', 'active', 'very_active']) || undefined,
+  };
+  Object.keys(profileSanitized).forEach(k => profileSanitized[k] === undefined && delete profileSanitized[k]);
+  out.profile = profileSanitized;
+
+  const g = obj(raw.goal);
+  const tk = num(g.targetKg, { min: 20, max: 400 });
+  const td = dateKey(g.targetDate);
+  out.goal = (tk != null && td) ? { targetKg: tk, targetDate: td } : {};
+
+  const gem = obj(raw.gemini);
+  const chatHistorySanitized = arr(gem.chatHistory).map(turn => {
+    const t = obj(turn);
+    const role = oneOf(t.role, ['user', 'model']);
+    const parts = arr(t.parts).map(p => {
+      const text = str(obj(p).text, 10000);
+      return text ? { text } : null;
+    }).filter(Boolean);
+    if (!role || !parts.length) return null;
+    return { role, parts };
+  }).filter(Boolean).slice(-CHAT_HISTORY_MAX);
+  out.gemini = { apiKey: '', chatHistory: chatHistorySanitized };
+
+  out.schemaVersion = num(raw.schemaVersion, { min: 1, max: 100, int: true }) ?? defaultState.schemaVersion;
+
+  return out;
+}
+
+$('#export-backup').addEventListener('click', () => {
+  const cloned = JSON.parse(JSON.stringify(state));
+  if (cloned.gemini) delete cloned.gemini.apiKey;
+  const payload = {
+    app: BACKUP_APP_ID,
+    version: state.schemaVersion || 1,
+    exportedAt: new Date().toISOString(),
+    data: cloned,
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `health-backup-${todayKey()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  $('#backup-status').textContent = `✅ 백업 파일을 다운로드했어요 (${todayKey()})`;
+  toast('백업 파일 다운로드 완료');
+});
+
+$('#import-backup-file').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) { toast('파일이 너무 커요 (최대 10MB)', 'error'); return; }
+  let payload;
+  try {
+    const text = await file.text();
+    payload = JSON.parse(text);
+  } catch {
+    $('#backup-status').textContent = '❌ JSON 파일을 읽지 못했어요';
+    toast('JSON 파싱 실패', 'error');
+    return;
+  }
+  if (payload?.app !== BACKUP_APP_ID || !payload?.data) {
+    $('#backup-status').textContent = '❌ 이 앱의 백업 파일이 아니에요';
+    toast('백업 파일 형식이 달라요', 'error');
+    return;
+  }
+  const exportedAt = payload.exportedAt ? payload.exportedAt.slice(0, 10) : '날짜 미상';
+  const ok = await confirmDialog(
+    '백업 복원',
+    `${exportedAt} 백업으로 현재 기기 데이터를 모두 덮어씁니다. AI 키는 그대로 유지돼요. 진행할까요?`
+  );
+  if (!ok) return;
+  const preservedKey = state.gemini?.apiKey || '';
+  try {
+    const sanitized = sanitizeImportedData(payload.data);
+    sanitized.gemini.apiKey = preservedKey;
+    state = sanitized;
+    if (!save()) throw new Error('저장 실패');
+    chatHistory = (state.gemini?.chatHistory || []).slice(-CHAT_HISTORY_MAX);
+    renderHome();
+    renderViewFor(getCurrentTab());
+    $('#backup-status').textContent = `✅ ${exportedAt} 백업으로 복원 완료`;
+    toast('백업 복원 완료 🎉');
+  } catch (err) {
+    $('#backup-status').textContent = `❌ 복원 실패: ${err.message}`;
+    toast(`복원 실패: ${err.message}`, 'error');
+  }
+});
+
 // ===== Init =====
 renderHome();
 renderViewFor(getCurrentTab());
