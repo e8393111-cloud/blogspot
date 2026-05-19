@@ -22,7 +22,8 @@ const defaultState = {
   medLog: {},      // { 'YYYY-MM-DD': { medId: true } }
   water: {},       // { 'YYYY-MM-DD': count }
   inbody: [],      // {id, at, weight, smm, bfm, bfp, bmi, bmr, note, source}
-  schemaVersion: 2,
+  gemini: { apiKey: '' },
+  schemaVersion: 3,
 };
 
 function load() {
@@ -122,7 +123,7 @@ function confirmDialog(title, body) {
 }
 
 // ===== Tabs =====
-const titleMap = { home: '홈', exercise: '운동', diet: '식단', body: '몸 관리', meds: '복약' };
+const titleMap = { home: '홈', exercise: '운동', diet: '식단', body: '몸 관리', meds: '복약', ai: 'AI 코치' };
 $$('.tab').forEach(t => {
   t.addEventListener('click', () => switchTab(t.dataset.tab));
 });
@@ -153,6 +154,7 @@ function renderViewFor(name) {
   if (name === 'diet') { renderHome(); renderDiet(); return; }
   if (name === 'body') { renderHome(); renderWeight(); renderSleep(); renderBody(); renderInbody(); return; }
   if (name === 'meds') { renderHome(); renderMeds(); checkNotifyBanner(); return; }
+  if (name === 'ai') { renderAI(); return; }
 }
 
 // ===== Form validation helper =====
@@ -772,6 +774,344 @@ if ('serviceWorker' in navigator) {
 
 // ===== Resize debounce =====
 window.addEventListener('resize', debounce(drawWeightChart, 150));
+
+// ===== AI: Gemini =====
+const GEMINI_MODEL = 'gemini-2.0-flash';
+const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+let chatHistory = []; // {role: 'user'|'model', parts: [{text}]}
+
+function getApiKey() {
+  return (state.gemini?.apiKey || '').trim();
+}
+
+function readFileAsDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = () => reject(new Error('파일을 읽지 못했어요'));
+    r.readAsDataURL(file);
+  });
+}
+
+async function geminiGenerate({ prompt, imageDataUrl, history = [], systemInstruction, json = false }) {
+  const key = getApiKey();
+  if (!key) throw new Error('Gemini API 키를 먼저 설정해주세요 (AI 탭)');
+
+  const userParts = [];
+  if (imageDataUrl) {
+    const m = imageDataUrl.match(/^data:(.+?);base64,(.+)$/);
+    if (!m) throw new Error('이미지 형식을 처리할 수 없어요');
+    userParts.push({ inlineData: { mimeType: m[1], data: m[2] } });
+  }
+  if (prompt) userParts.push({ text: prompt });
+
+  const body = {
+    contents: [...history, { role: 'user', parts: userParts }],
+    generationConfig: json ? { responseMimeType: 'application/json', temperature: 0.2 } : { temperature: 0.6 },
+  };
+  if (systemInstruction) body.systemInstruction = { parts: [{ text: systemInstruction }] };
+
+  const res = await fetch(`${GEMINI_ENDPOINT}?key=${encodeURIComponent(key)}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const errText = await res.text().catch(() => '');
+    let msg = `API 오류 (${res.status})`;
+    try {
+      const errJson = JSON.parse(errText);
+      if (errJson?.error?.message) msg = errJson.error.message;
+    } catch { msg = errText.slice(0, 200) || msg; }
+    throw new Error(msg);
+  }
+  const data = await res.json();
+  const candidate = data?.candidates?.[0];
+  if (!candidate) throw new Error('AI 응답이 비어있어요');
+  if (candidate.finishReason === 'SAFETY') throw new Error('안전 필터에 의해 차단됐어요');
+  const text = (candidate.content?.parts || []).map(p => p.text).filter(Boolean).join('');
+  if (!text) throw new Error('AI가 빈 응답을 반환했어요');
+  return text;
+}
+
+function safeJSONParse(text) {
+  try { return JSON.parse(text); } catch {}
+  const m = text.match(/\{[\s\S]*\}/);
+  if (m) { try { return JSON.parse(m[0]); } catch {} }
+  return null;
+}
+
+// ----- AI: API key UI -----
+function renderAI() {
+  const input = $('#ai-key');
+  if (!getApiKey()) {
+    input.value = '';
+    $('#ai-key-status').textContent = '아직 키가 설정되지 않았어요.';
+  } else {
+    input.value = getApiKey();
+    $('#ai-key-status').textContent = '✅ 키가 저장되어 있어요.';
+  }
+  renderChatLog();
+}
+
+$('#ai-key-save').addEventListener('click', () => {
+  const v = $('#ai-key').value.trim();
+  if (!v) { toast('API 키를 입력해주세요', 'error'); return; }
+  if (!/^AIza[\w-]{20,}$/.test(v)) {
+    toast('Gemini 키 형식이 아닌 것 같아요 (AIza... 로 시작)', 'error');
+    return;
+  }
+  state.gemini.apiKey = v;
+  if (!save()) return;
+  $('#ai-key-status').textContent = '✅ 저장됐어요.';
+  toast('API 키를 저장했어요');
+});
+
+$('#ai-key-clear').addEventListener('click', async () => {
+  if (!getApiKey()) return;
+  const ok = await confirmDialog('API 키 삭제', '저장된 Gemini API 키를 삭제할까요? AI 기능이 작동하지 않게 됩니다.');
+  if (!ok) return;
+  state.gemini.apiKey = '';
+  if (!save()) return;
+  $('#ai-key').value = '';
+  $('#ai-key-status').textContent = '키가 삭제됐어요.';
+  toast('키를 삭제했어요');
+});
+
+// ----- AI: Food photo analysis -----
+$('#d-photo').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  if (file.size > 8 * 1024 * 1024) { toast('이미지가 너무 커요 (최대 8MB)', 'error'); return; }
+  if (!getApiKey()) {
+    toast('AI 탭에서 Gemini API 키를 먼저 설정해주세요', 'error');
+    switchTab('ai');
+    return;
+  }
+  const status = $('#d-photo-status');
+  status.textContent = '⏳ 사진 분석 중...';
+  try {
+    const dataUrl = await readFileAsDataURL(file);
+    const prompt = `이 사진의 음식을 한국 식품 영양 기준으로 분석해줘.
+다음 JSON 형식으로만 답변 (다른 설명/마크다운 금지):
+{"food":"음식 이름(한글, 가장 대표적인 것 1개)","portion":"추정 분량 (예: 1인분, 200g)","kcal":추정칼로리숫자,"confidence":"high|medium|low","note":"추가 메모 또는 추정 근거 (한 문장)"}`;
+    const text = await geminiGenerate({ prompt, imageDataUrl: dataUrl, json: true });
+    const obj = safeJSONParse(text);
+    if (!obj || !obj.food || !obj.kcal) {
+      throw new Error('응답을 해석하지 못했어요');
+    }
+    $('#d-food').value = obj.food;
+    $('#d-kcal').value = Math.round(obj.kcal);
+    const conf = { high: '✅ 신뢰도 높음', medium: '⚠️ 신뢰도 보통', low: '⚠️ 신뢰도 낮음' }[obj.confidence] || '';
+    status.textContent = `${obj.food} · ${obj.kcal}kcal (${obj.portion || '-'}) ${conf}${obj.note ? '\n💡 ' + obj.note : ''}`;
+  } catch (err) {
+    status.textContent = `❌ ${err.message}`;
+    toast(err.message, 'error');
+  }
+});
+
+// ----- AI: Food text calorie estimation -----
+$('#d-ai-estimate').addEventListener('click', async () => {
+  const food = $('#d-food').value.trim();
+  if (!food) { toast('먼저 음식 이름을 입력해주세요', 'error'); return; }
+  if (!getApiKey()) {
+    toast('AI 탭에서 Gemini API 키를 먼저 설정해주세요', 'error');
+    switchTab('ai');
+    return;
+  }
+  const btn = $('#d-ai-estimate');
+  btn.disabled = true;
+  const origText = btn.textContent;
+  btn.textContent = '⏳ 추정 중...';
+  try {
+    const prompt = `다음 한국 음식의 1인분 기준 칼로리를 추정해줘.
+음식: "${food}"
+다음 JSON 형식으로만 답변 (다른 설명/마크다운 금지):
+{"food":"정규화된 한글 이름","kcal":추정칼로리숫자,"portion":"기준 분량","confidence":"high|medium|low"}`;
+    const text = await geminiGenerate({ prompt, json: true });
+    const obj = safeJSONParse(text);
+    if (!obj || !obj.kcal) throw new Error('응답을 해석하지 못했어요');
+    if (obj.food && obj.food !== food) $('#d-food').value = obj.food;
+    $('#d-kcal').value = Math.round(obj.kcal);
+    toast(`${obj.food || food}: ${obj.kcal}kcal (${obj.portion || '1인분'})`);
+  } catch (err) {
+    toast(`추정 실패: ${err.message}`, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = origText;
+  }
+});
+
+// ----- AI: Build recent context for chat/report -----
+function buildRecentContext(days = 7) {
+  const now = new Date();
+  const startMs = now.getTime() - days * 24 * 60 * 60 * 1000;
+  const inRange = (iso) => new Date(iso).getTime() >= startMs;
+
+  const dailyKeys = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(now); d.setDate(d.getDate() - i);
+    dailyKeys.push(localDateKey(d));
+  }
+
+  const dailyAgg = {};
+  dailyKeys.forEach(k => { dailyAgg[k] = { caloriesIn: 0, caloriesOut: 0, meals: 0, exerciseMin: 0, water: state.water[k] || 0, medsTaken: 0, medsTotal: state.meds.length }; });
+
+  state.diet.filter(d => inRange(d.at)).forEach(d => {
+    const k = localDateKey(new Date(d.at));
+    if (dailyAgg[k]) { dailyAgg[k].caloriesIn += d.kcal || 0; dailyAgg[k].meals++; }
+  });
+  state.exercise.filter(e => inRange(e.at)).forEach(e => {
+    const k = localDateKey(new Date(e.at));
+    if (dailyAgg[k]) { dailyAgg[k].caloriesOut += e.kcal || 0; dailyAgg[k].exerciseMin += e.minutes || 0; }
+  });
+  state.sleep.filter(s => inRange(s.at)).forEach(s => {
+    const k = localDateKey(new Date(s.at));
+    if (dailyAgg[k]) dailyAgg[k].sleepHours = +sleepHours(s.start, s.end);
+  });
+  Object.keys(state.medLog).forEach(k => {
+    if (dailyAgg[k]) dailyAgg[k].medsTaken = Object.values(state.medLog[k]).filter(Boolean).length;
+  });
+
+  const recentWeight = state.weight.filter(w => inRange(w.at)).slice(0, 14)
+    .map(w => ({ date: localDateKey(new Date(w.at)), kg: w.kg }));
+  const recentInbody = state.inbody.slice(0, 3).map(i => ({
+    date: localDateKey(new Date(i.at)),
+    weight: i.weight, bmi: i.bmi, smm: i.smm, bfp: i.bfp, bmr: i.bmr,
+  }));
+
+  return {
+    today: todayKey(),
+    period: `최근 ${days}일`,
+    daily: dailyAgg,
+    recentWeight,
+    recentInbody,
+    meds: state.meds.map(m => ({ name: m.name, time: m.time })),
+    waterGoal: LIMITS.waterGoal,
+  };
+}
+
+const COACH_SYSTEM = `당신은 따뜻하고 실용적인 한국어 건강·다이어트 코치입니다.
+- 사용자의 최근 기록 데이터를 보고 구체적이고 실행 가능한 조언을 해주세요.
+- 의학적 진단이나 치료법은 제시하지 말고, 우려가 있으면 전문의 상담을 권하세요.
+- 답변은 짧고 친근하게, 핵심만 (보통 3~5문장).
+- 숫자가 있으면 구체적으로 인용하세요.`;
+
+// ----- AI: Chat -----
+function renderChatLog() {
+  const log = $('#ai-chat-log');
+  log.innerHTML = chatHistory.map(turn => {
+    const cls = turn.role === 'user' ? 'user' : 'assistant';
+    const text = (turn.parts || []).map(p => p.text).join('');
+    return `<div class="chat-msg ${cls}">${escapeHtml(text)}</div>`;
+  }).join('');
+  log.scrollTop = log.scrollHeight;
+}
+
+$('#ai-chat-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const input = $('#ai-chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  if (!getApiKey()) { toast('API 키를 먼저 설정해주세요', 'error'); return; }
+
+  chatHistory.push({ role: 'user', parts: [{ text: msg }] });
+  input.value = '';
+  renderChatLog();
+
+  const log = $('#ai-chat-log');
+  const thinking = document.createElement('div');
+  thinking.className = 'chat-msg assistant thinking';
+  thinking.textContent = '⏳ 답변 생성 중...';
+  log.appendChild(thinking);
+  log.scrollTop = log.scrollHeight;
+
+  try {
+    const ctx = buildRecentContext(7);
+    const isFirstTurn = chatHistory.length === 1;
+    let prompt = msg;
+    if (isFirstTurn) {
+      prompt = `[사용자의 최근 기록 데이터(JSON)]\n${JSON.stringify(ctx, null, 0)}\n\n[질문]\n${msg}`;
+    }
+    const histForApi = chatHistory.slice(0, -1).map(t => ({ role: t.role, parts: t.parts }));
+    const reply = await geminiGenerate({
+      prompt,
+      history: histForApi,
+      systemInstruction: COACH_SYSTEM,
+    });
+    thinking.remove();
+    chatHistory.push({ role: 'model', parts: [{ text: reply }] });
+    renderChatLog();
+  } catch (err) {
+    thinking.remove();
+    chatHistory.push({ role: 'model', parts: [{ text: `❌ ${err.message}` }] });
+    renderChatLog();
+  }
+});
+
+$('#ai-chat-clear').addEventListener('click', async () => {
+  if (chatHistory.length === 0) return;
+  const ok = await confirmDialog('대화 초기화', '지금까지의 대화 기록을 모두 지울까요?');
+  if (!ok) return;
+  chatHistory = [];
+  renderChatLog();
+});
+
+$('#ai-chat-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+    e.preventDefault();
+    $('#ai-chat-form').requestSubmit();
+  }
+});
+
+// ----- AI: Weekly report -----
+function renderReportMarkdown(md) {
+  const esc = escapeHtml(md);
+  return esc
+    .replace(/^###\s+(.+)$/gm, '<h3>$1</h3>')
+    .replace(/^##\s+(.+)$/gm, '<h3>$1</h3>')
+    .replace(/^-\s+(.+)$/gm, '• $1')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
+
+$('#ai-report-btn').addEventListener('click', async () => {
+  if (!getApiKey()) { toast('API 키를 먼저 설정해주세요', 'error'); return; }
+  const btn = $('#ai-report-btn');
+  const out = $('#ai-report-result');
+  btn.disabled = true;
+  const orig = btn.textContent;
+  btn.textContent = '⏳ 리포트 생성 중...';
+  out.innerHTML = '';
+  try {
+    const ctx = buildRecentContext(7);
+    const prompt = `아래는 사용자의 최근 7일 건강 기록 데이터(JSON)입니다.
+${JSON.stringify(ctx, null, 0)}
+
+이 데이터를 분석해서 다음 형식으로 한국어 주간 리포트를 작성해줘:
+
+## 📊 한 줄 요약
+(전체적인 한 주 평가, 2~3문장)
+
+## ✅ 잘한 점
+- (구체적 데이터 인용한 잘한 점 2~3개)
+
+## ⚠️ 개선할 점
+- (수치 근거 있는 우려/패턴 2~3개)
+
+## 🎯 다음 주 목표
+- (실행 가능한 구체적 목표 3개, 숫자 포함)
+
+마크다운(## 헤딩, - 리스트, **굵게**)을 사용하되 코드블록은 사용하지 마세요.`;
+    const text = await geminiGenerate({ prompt });
+    out.innerHTML = renderReportMarkdown(text);
+  } catch (err) {
+    out.innerHTML = `<div class="chat-msg error">${escapeHtml('❌ ' + err.message)}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = orig;
+  }
+});
 
 // ===== Init =====
 renderHome();
