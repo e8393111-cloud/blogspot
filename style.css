@@ -129,12 +129,15 @@ html, body {
 .summary-list { list-style: none; padding: 0; margin: 0; }
 .summary-list li {
   display: flex; justify-content: space-between;
+  align-items: center;
+  gap: 8px;
   padding: 10px 0;
   border-bottom: 1px solid var(--border);
   font-size: 14px;
+  flex-wrap: wrap;
 }
 .summary-list li:last-child { border-bottom: none; }
-.summary-list li span { color: var(--muted); font-weight: 600; }
+.summary-list li span { color: var(--muted); font-weight: 600; flex-shrink: 0; }
 
 .quick-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
 .quick-actions button {

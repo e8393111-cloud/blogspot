@@ -220,7 +220,9 @@ function renderExercise() {
 }
 
 // Exercise AI calorie estimation
+let exAiPending = false;
 $('#ex-ai-estimate').addEventListener('click', async () => {
+  if (exAiPending) { toast('이미 추정 중이에요', 'error'); return; }
   const type = $('#ex-type').value;
   const minutes = +$('#ex-minutes').value;
   if (!minutes || minutes < 1) { toast('먼저 시간을 입력해주세요', 'error'); return; }
@@ -230,6 +232,7 @@ $('#ex-ai-estimate').addEventListener('click', async () => {
     return;
   }
   const btn = $('#ex-ai-estimate');
+  exAiPending = true;
   btn.disabled = true;
   const origText = btn.textContent;
   btn.textContent = '⏳ 추정 중...';
@@ -244,12 +247,14 @@ ${recentWeight ? `체중: ${recentWeight}kg` : '체중: 모름 (평균 70kg 가�
     const text = await geminiGenerate({ prompt, json: true });
     const obj = safeJSONParse(text);
     if (!obj || obj.kcal == null) throw new Error('응답을 해석하지 못했어요');
-    $('#ex-kcal').value = Math.round(obj.kcal);
+    const kcalRounded = Math.round(obj.kcal);
+    $('#ex-kcal').value = kcalRounded;
     const intensityLabel = { light: '가벼움', moderate: '보통', vigorous: '격렬' }[obj.intensity] || '';
-    toast(`${type} ${minutes}분: ${obj.kcal}kcal${intensityLabel ? ` (${intensityLabel})` : ''}`);
+    toast(`${type} ${minutes}분: ${kcalRounded}kcal${intensityLabel ? ` (${intensityLabel})` : ''}`);
   } catch (err) {
     toast(`추정 실패: ${err.message}`, 'error');
   } finally {
+    exAiPending = false;
     btn.disabled = false;
     btn.textContent = origText;
   }
@@ -306,15 +311,16 @@ $('#form-steps').addEventListener('submit', (e) => {
   e.preventDefault();
   const fd = new FormData(e.target);
   const date = fd.get('date');
-  const count = validNumber(fd.get('count'), { min: 0, max: 200000 });
+  const count = validNumber(fd.get('count'), { min: 1, max: 200000 });
   if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) { toast('날짜를 선택해주세요', 'error'); return; }
-  if (count == null) { toast('걸음수를 0~200000 사이로 입력해주세요', 'error'); return; }
+  if (count == null) { toast('걸음수를 1~200000 사이로 입력해주세요', 'error'); return; }
+  const overwriting = date in state.steps;
   state.steps[date] = count;
   if (!save()) return;
   e.target.reset();
   $('#st-date').value = todayKey();
   renderHome(); renderSteps();
-  toast(`${date} 걸음수 저장됨`);
+  toast(overwriting ? `${date} 걸음수 덮어썼어요` : `${date} 걸음수 저장됨`);
 });
 
 function renderSteps() {
@@ -332,9 +338,9 @@ function renderSteps() {
       <li>
         <div class="item-main">
           <span class="item-title">${count.toLocaleString()}걸음</span>
-          <span class="meta">${date} · ${km}km · 약 ${kcal}kcal${recentWeight ? '' : ' (체중 미설정, 70kg 기준)'}</span>
+          <span class="meta">${escapeHtml(date)} · ${km}km · 약 ${kcal}kcal${recentWeight ? ' (현재 체중 기준)' : ' (체중 미설정, 70kg 기준)'}</span>
         </div>
-        <button class="delete-btn" data-del-steps="${date}" aria-label="삭제">×</button>
+        <button class="delete-btn" data-del-steps="${escapeHtml(date)}" aria-label="삭제">×</button>
       </li>
     `;
   }).join('') : '<li class="empty">아직 걸음수 기록이 없어요</li>';
@@ -1069,7 +1075,9 @@ $('#d-photo').addEventListener('change', async (e) => {
 });
 
 // ----- AI: Food text calorie estimation -----
+let foodAiPending = false;
 $('#d-ai-estimate').addEventListener('click', async () => {
+  if (foodAiPending) { toast('이미 추정 중이에요', 'error'); return; }
   const food = $('#d-food').value.trim();
   if (!food) { toast('먼저 음식 이름을 입력해주세요', 'error'); return; }
   if (!getApiKey()) {
@@ -1078,6 +1086,7 @@ $('#d-ai-estimate').addEventListener('click', async () => {
     return;
   }
   const btn = $('#d-ai-estimate');
+  foodAiPending = true;
   btn.disabled = true;
   const origText = btn.textContent;
   btn.textContent = '⏳ 추정 중...';
@@ -1090,11 +1099,13 @@ $('#d-ai-estimate').addEventListener('click', async () => {
     const obj = safeJSONParse(text);
     if (!obj || !obj.kcal) throw new Error('응답을 해석하지 못했어요');
     if (obj.food && obj.food !== food) $('#d-food').value = obj.food;
-    $('#d-kcal').value = Math.round(obj.kcal);
-    toast(`${obj.food || food}: ${obj.kcal}kcal (${obj.portion || '1인분'})`);
+    const kcalRounded = Math.round(obj.kcal);
+    $('#d-kcal').value = kcalRounded;
+    toast(`${obj.food || food}: ${kcalRounded}kcal (${obj.portion || '1인분'})`);
   } catch (err) {
     toast(`추정 실패: ${err.message}`, 'error');
   } finally {
+    foodAiPending = false;
     btn.disabled = false;
     btn.textContent = origText;
   }
