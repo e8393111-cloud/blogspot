@@ -177,8 +177,8 @@ const CONFIG = {
   //    나온 주소를 그대로 붙여넣으세요. 예) https://docs.google.com/.../pub?gid=0&single=true&output=csv
   SHEET_CSV_URL: "",
 
-  // 2) 시트 열 이름 매핑. 비워두면 자동으로 찾습니다(제목/title, 링크/link/url, 날짜/date/pubDate 등).
-  COLUMNS: { title: "", url: "", date: "" },
+  // 2) 시트 열 이름 매핑. (발행완료 시트 기준: 제목 / GUID=깨끗한 링크 / 발행일)
+  COLUMNS: { title: "제목", url: "GUID", date: "발행일" },
 
   // 3) 화면에 보일 최대 글 개수 (최신 발행순)
   MAX_ITEMS: 5,
