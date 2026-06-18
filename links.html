@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>여행·맛집·캠핑 기록 | 링크 모음</title>
+<meta name="description" content="여행·맛집·캠핑 블로그 글 모음. 최근 발행한 글을 한 곳에서 확인하세요." />
+<meta name="theme-color" content="#a7e8d2" />
+<!-- Open Graph (쓰레드/카톡 공유 미리보기) -->
+<meta property="og:title" content="여행·맛집·캠핑 기록" />
+<meta property="og:description" content="실패 없는 곳만 골라서 올려요 — 최근 글 모음" />
+<meta property="og:type" content="website" />
+<style>
+  /* ============================================================
+     CONFIG는 페이지 하단 <script>의 CONFIG 객체에서 수정하세요.
+     색상 토큰만 빠르게 바꾸려면 아래 :root 변수를 조정하면 됩니다.
+     ============================================================ */
+  :root {
+    --bg: #d9f3ea;            /* 페이지 배경 — 파스텔 민트 */
+    --bg-grad: #eafaf4;       /* 상단 그라데이션 밝은 민트 */
+    --card: #ffffff;
+    --accent: #1aa179;        /* 민트/틸 액센트 */
+    --accent-dark: #128062;
+    --text: #143a30;          /* 짙은 민트빛 본문 */
+    --muted: #5b7d72;
+    --border: #cdeae0;
+    --shadow: 0 2px 8px rgba(26,161,121,0.10), 0 1px 2px rgba(20,58,48,0.06);
+    --shadow-hover: 0 6px 18px rgba(26,161,121,0.18);
+    --radius: 16px;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e2a22;
+      --bg-grad: #123a2f;
+      --card: #15332a;
+      --accent: #3fd4a6;
+      --accent-dark: #2bbf91;
+      --text: #e6fff5;
+      --muted: #9cc4b6;
+      --border: #1f4a3c;
+      --shadow: 0 2px 8px rgba(0,0,0,0.35);
+      --shadow-hover: 0 6px 18px rgba(0,0,0,0.45);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+      "Noto Sans KR", Roboto, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    background:
+      linear-gradient(180deg, var(--bg-grad) 0%, var(--bg) 38%);
+    min-height: 100vh;
+    padding: calc(24px + var(--safe-top)) 16px calc(40px + var(--safe-bottom));
+  }
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  .visually-hidden {
+    position: absolute !important; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+    white-space: nowrap; border: 0;
+  }
+
+  .wrap { max-width: 480px; margin: 0 auto; }
+
+  /* ---- 프로필 ---- */
+  .profile { text-align: center; padding: 8px 0 4px; }
+  .avatar {
+    width: 96px; height: 96px; border-radius: 50%;
+    margin: 0 auto 14px; display: block;
+    object-fit: cover; background: var(--card);
+    border: 4px solid #ffffff;
+    box-shadow: var(--shadow);
+  }
+  .avatar.placeholder {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px; color: var(--accent);
+  }
+  .name { font-size: 22px; font-weight: 800; margin: 0 0 6px; letter-spacing: -0.3px; }
+  .bio { font-size: 15px; color: var(--muted); margin: 0 auto; max-width: 320px; line-height: 1.5; }
+
+  /* ---- 버튼 공통 ---- */
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; min-height: 56px; padding: 14px 18px;
+    border-radius: var(--radius); border: 1px solid var(--border);
+    background: var(--card); color: var(--text);
+    font-size: 16px; font-weight: 700; text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: transform .12s ease, box-shadow .12s ease;
+    text-align: center; word-break: keep-all;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .btn:active { transform: translateY(0); }
+  .btn .emoji { font-size: 18px; }
+
+  /* 고정(상단) 버튼은 강조 */
+  .btn--primary {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+    color: #ffffff; border: none;
+  }
+  .btn--primary:hover { box-shadow: var(--shadow-hover); }
+
+  /* ---- 섹션 ---- */
+  .section { margin-top: 26px; }
+  .section-title {
+    font-size: 14px; font-weight: 800; color: var(--accent-dark);
+    text-align: center; margin: 0 0 14px; letter-spacing: 0.2px;
+  }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+
+  /* 최근 글 버튼: 제목 + 날짜 */
+  .post-btn { flex-direction: column; gap: 4px; min-height: 60px; text-align: center; }
+  .post-btn .post-title {
+    font-size: 15.5px; font-weight: 700; line-height: 1.35;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .post-btn .post-date { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+  /* ---- 상태(로딩/에러/빈목록) ---- */
+  .state { text-align: center; color: var(--muted); font-size: 14px; padding: 4px 0 2px; }
+  .state a { color: var(--accent-dark); font-weight: 700; }
+  .skeleton {
+    min-height: 60px; border-radius: var(--radius);
+    background: linear-gradient(100deg, var(--card) 30%, var(--bg-grad) 50%, var(--card) 70%);
+    background-size: 200% 100%; animation: shimmer 1.3s infinite linear;
+    border: 1px solid var(--border);
+  }
+  @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+  @media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }
+
+  /* ---- 푸터 ---- */
+  .footer { text-align: center; margin-top: 32px; font-size: 12px; color: var(--muted); }
+  .footer .dot { opacity: 0.5; }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <!-- 프로필 -->
+    <header class="profile">
+      <img id="avatar" class="avatar" alt="프로필 이미지" />
+      <h1 class="name" id="name">여행·맛집·캠핑 기록</h1>
+      <p class="bio" id="bio">실패 없는 곳만 골라서 올려요 📍<br />주말마다 떠나는 여행·맛집·캠핑 기록</p>
+    </header>
+
+    <!-- 고정 버튼 -->
+    <nav class="section stack" id="fixed-links" aria-label="대표 링크"></nav>
+
+    <!-- 최근 글 -->
+    <section class="section" aria-labelledby="recent-title">
+      <h2 class="section-title" id="recent-title">📝 최근 글</h2>
+      <div class="stack" id="posts" aria-live="polite"></div>
+    </section>
+
+    <footer class="footer">
+      <span id="footer-text">여행·맛집·캠핑 기록</span>
+    </footer>
+  </main>
+
+<script>
+/* =================================================================
+   ⚙️  CONFIG — 여기만 수정하면 됩니다
+   ================================================================= */
+const CONFIG = {
+  // 1) 구글시트를 "파일 → 공유 → 웹에 게시 → (해당 시트) → CSV" 로 게시한 뒤
+  //    나온 주소를 그대로 붙여넣으세요. 예) https://docs.google.com/.../pub?gid=0&single=true&output=csv
+  SHEET_CSV_URL: "",
+
+  // 2) 시트 열 이름 매핑. 비워두면 자동으로 찾습니다(제목/title, 링크/link/url, 날짜/date/pubDate 등).
+  COLUMNS: { title: "", url: "", date: "" },
+
+  // 3) 화면에 보일 최대 글 개수 (최신 발행순)
+  MAX_ITEMS: 5,
+
+  // 4) 프로필
+  PROFILE: {
+    name: "여행·맛집·캠핑 기록",
+    bio: "실패 없는 곳만 골라서 올려요 📍<br>주말마다 떠나는 여행·맛집·캠핑 기록",
+    avatar: "icons/icon-192.png", // 원하는 프로필 이미지 경로/URL로 교체
+  },
+
+  // 5) 상단 고정 버튼 (블로그 메인, 이웃추가 등). 필요 없으면 빈 배열 []
+  FIXED_LINKS: [
+    { label: "네이버 블로그 바로가기", emoji: "📗", url: "https://blog.naver.com/", primary: true },
+    // { label: "블로그 이웃 추가", emoji: "➕", url: "https://blog.naver.com/" },
+  ],
+
+  FOOTER: "여행·맛집·캠핑 기록",
+};
+/* ================================================================= */
+
+(function () {
+  "use strict";
+
+  // ---------- 프로필 / 고정버튼 / 푸터 렌더 ----------
+  const $ = (id) => document.getElementById(id);
+
+  function setText(el, val) { if (val != null && val !== "") el.innerHTML = val; }
+
+  setText($("name"), CONFIG.PROFILE.name);
+  setText($("bio"), CONFIG.PROFILE.bio);
+  if (CONFIG.FOOTER) $("footer-text").textContent = CONFIG.FOOTER;
+
+  const avatar = $("avatar");
+  if (CONFIG.PROFILE.avatar) {
+    avatar.src = CONFIG.PROFILE.avatar;
+    avatar.onerror = () => showAvatarFallback();
+  } else {
+    showAvatarFallback();
+  }
+  function showAvatarFallback() {
+    avatar.removeAttribute("src");
+    avatar.classList.add("placeholder");
+    avatar.textContent = "🧭";
+  }
+
+  const fixedWrap = $("fixed-links");
+  (CONFIG.FIXED_LINKS || []).forEach((l) => {
+    if (!l.url) return;
+    const a = document.createElement("a");
+    a.className = "btn" + (l.primary ? " btn--primary" : "");
+    a.href = l.url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.innerHTML = (l.emoji ? `<span class="emoji" aria-hidden="true">${l.emoji}</span>` : "") +
+      `<span>${escapeHtml(l.label)}</span>`;
+    fixedWrap.appendChild(a);
+  });
+
+  // ---------- 최근 글 로드 ----------
+  const postsWrap = $("posts");
+
+  if (!CONFIG.SHEET_CSV_URL) {
+    renderState('구글시트 CSV 주소가 아직 설정되지 않았어요. <br>CONFIG의 <b>SHEET_CSV_URL</b>을 채워주세요.');
+    return;
+  }
+
+  showSkeletons(CONFIG.MAX_ITEMS);
+
+  fetch(CONFIG.SHEET_CSV_URL, { cache: "no-store" })
+    .then((res) => {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.text();
+    })
+    .then((csv) => {
+      const rows = parseCSV(csv);
+      if (rows.length < 2) { renderState("아직 등록된 글이 없어요."); return; }
+      const posts = mapRows(rows);
+      if (posts.length === 0) { renderState("아직 등록된 글이 없어요."); return; }
+      renderPosts(posts.slice(0, CONFIG.MAX_ITEMS));
+    })
+    .catch((err) => {
+      console.error("[links] 글 불러오기 실패:", err);
+      renderState('글을 불러오지 못했어요. 잠시 후 새로고침 해주세요.');
+    });
+
+  // ---------- 렌더 helpers ----------
+  function showSkeletons(n) {
+    postsWrap.innerHTML = "";
+    for (let i = 0; i < n; i++) {
+      const d = document.createElement("div");
+      d.className = "skeleton";
+      postsWrap.appendChild(d);
+    }
+  }
+
+  function renderState(html) {
+    postsWrap.innerHTML = `<p class="state">${html}</p>`;
+  }
+
+  function renderPosts(posts) {
+    postsWrap.innerHTML = "";
+    posts.forEach((p) => {
+      const a = document.createElement("a");
+      a.className = "btn post-btn";
+      a.href = p.url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      const dateHtml = p.dateLabel ? `<span class="post-date">${escapeHtml(p.dateLabel)}</span>` : "";
+      a.innerHTML = `<span class="post-title">${escapeHtml(p.title)}</span>${dateHtml}`;
+      postsWrap.appendChild(a);
+    });
+  }
+
+  // ---------- 행 → 글 객체 매핑 + 정렬 ----------
+  function mapRows(rows) {
+    const header = rows[0].map((h) => (h || "").trim());
+    const lower = header.map((h) => h.toLowerCase());
+
+    const findCol = (manual, candidates) => {
+      if (manual) {
+        const i = header.indexOf(manual);
+        if (i !== -1) return i;
+      }
+      for (const c of candidates) {
+        const i = lower.indexOf(c);
+        if (i !== -1) return i;
+      }
+      // 부분 일치
+      for (let i = 0; i < lower.length; i++) {
+        if (candidates.some((c) => lower[i].includes(c))) return i;
+      }
+      return -1;
+    };
+
+    const tIdx = findCol(CONFIG.COLUMNS.title, ["제목", "title", "글제목", "subject"]);
+    const uIdx = findCol(CONFIG.COLUMNS.url, ["링크", "url", "link", "주소", "rss"]);
+    const dIdx = findCol(CONFIG.COLUMNS.date, ["날짜", "date", "pubdate", "발행", "게시", "작성"]);
+
+    const out = [];
+    for (let r = 1; r < rows.length; r++) {
+      const row = rows[r];
+      if (!row || row.length === 0) continue;
+      const url = (uIdx !== -1 ? row[uIdx] : "") || "";
+      let title = (tIdx !== -1 ? row[tIdx] : "") || "";
+      if (!url.trim()) continue;
+      if (!title.trim()) title = url.trim();
+      const rawDate = dIdx !== -1 ? (row[dIdx] || "") : "";
+      out.push({
+        title: title.trim(),
+        url: url.trim(),
+        ts: parseDate(rawDate),
+        dateLabel: formatDate(rawDate),
+      });
+    }
+
+    // 날짜 정보가 있으면 최신순 정렬, 없으면 시트의 마지막(=최신 추가) 행이 위로 오도록 역순.
+    const hasDates = out.some((p) => p.ts != null);
+    if (hasDates) {
+      out.sort((a, b) => (b.ts || 0) - (a.ts || 0));
+    } else {
+      out.reverse();
+    }
+    return out;
+  }
+
+  function parseDate(s) {
+    if (!s) return null;
+    const t = Date.parse(s);
+    return isNaN(t) ? null : t;
+  }
+
+  function formatDate(s) {
+    const t = parseDate(s);
+    if (t == null) return "";
+    const d = new Date(t);
+    const y = d.getFullYear(), m = d.getMonth() + 1, day = d.getDate();
+    return `${y}.${String(m).padStart(2, "0")}.${String(day).padStart(2, "0")}`;
+  }
+
+  // ---------- 경량 CSV 파서 (따옴표·콤마·줄바꿈 처리) ----------
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], field = "", inQuotes = false;
+    text = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (inQuotes) {
+        if (ch === '"') {
+          if (text[i + 1] === '"') { field += '"'; i++; }
+          else { inQuotes = false; }
+        } else { field += ch; }
+      } else {
+        if (ch === '"') { inQuotes = true; }
+        else if (ch === ",") { row.push(field); field = ""; }
+        else if (ch === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
+        else { field += ch; }
+      }
+    }
+    if (field !== "" || row.length > 0) { row.push(field); rows.push(row); }
+    // 완전히 빈 행 제거
+    return rows.filter((r) => r.some((c) => (c || "").trim() !== ""));
+  }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+})();
+</script>
+</body>
+</html>
