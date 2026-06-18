@@ -173,14 +173,13 @@
    ⚙️  CONFIG — 여기만 수정하면 됩니다
    ================================================================= */
 const CONFIG = {
-  // 1) 구글시트를 "파일 → 공유 → 웹에 게시 → (해당 시트) → CSV" 로 게시한 뒤
-  //    나온 주소를 그대로 붙여넣으세요. 예) https://docs.google.com/.../pub?gid=0&single=true&output=csv
-  SHEET_CSV_URL: "",
+  // 1) 최근 글 데이터 파일 (Make 시나리오가 GitHub에 써넣는 posts.json).
+  //    같은 폴더(같은 사이트)에 있으므로 상대경로면 됩니다. 구글시트 공개 불필요.
+  //    스키마: { "posts": [ { "title": "...", "url": "...", "date": "2026-06-17" }, ... ] }
+  //    ("posts" 없이 배열만 와도 OK. url 대신 link, date 대신 pubDate 키도 허용.)
+  POSTS_URL: "posts.json",
 
-  // 2) 시트 열 이름 매핑. (발행완료 시트 기준: 제목 / GUID=깨끗한 링크 / 발행일)
-  COLUMNS: { title: "제목", url: "GUID", date: "발행일" },
-
-  // 3) 화면에 보일 최대 글 개수 (최신 발행순)
+  // 2) 화면에 보일 최대 글 개수 (최신 발행순)
   MAX_ITEMS: 5,
 
   // 4) 프로필
@@ -238,25 +237,23 @@ const CONFIG = {
     fixedWrap.appendChild(a);
   });
 
-  // ---------- 최근 글 로드 ----------
+  // ---------- 최근 글 로드 (posts.json) ----------
   const postsWrap = $("posts");
 
-  if (!CONFIG.SHEET_CSV_URL) {
-    renderState('구글시트 CSV 주소가 아직 설정되지 않았어요. <br>CONFIG의 <b>SHEET_CSV_URL</b>을 채워주세요.');
+  if (!CONFIG.POSTS_URL) {
+    renderState('글 데이터 경로(POSTS_URL)가 설정되지 않았어요.');
     return;
   }
 
   showSkeletons(CONFIG.MAX_ITEMS);
 
-  fetch(CONFIG.SHEET_CSV_URL, { cache: "no-store" })
+  fetch(CONFIG.POSTS_URL, { cache: "no-store" })
     .then((res) => {
       if (!res.ok) throw new Error("HTTP " + res.status);
-      return res.text();
+      return res.json();
     })
-    .then((csv) => {
-      const rows = parseCSV(csv);
-      if (rows.length < 2) { renderState("아직 등록된 글이 없어요."); return; }
-      const posts = mapRows(rows);
+    .then((data) => {
+      const posts = normalizePosts(data);
       if (posts.length === 0) { renderState("아직 등록된 글이 없어요."); return; }
       renderPosts(posts.slice(0, CONFIG.MAX_ITEMS));
     })
@@ -293,54 +290,31 @@ const CONFIG = {
     });
   }
 
-  // ---------- 행 → 글 객체 매핑 + 정렬 ----------
-  function mapRows(rows) {
-    const header = rows[0].map((h) => (h || "").trim());
-    const lower = header.map((h) => h.toLowerCase());
-
-    const findCol = (manual, candidates) => {
-      if (manual) {
-        const i = header.indexOf(manual);
-        if (i !== -1) return i;
-      }
-      for (const c of candidates) {
-        const i = lower.indexOf(c);
-        if (i !== -1) return i;
-      }
-      // 부분 일치
-      for (let i = 0; i < lower.length; i++) {
-        if (candidates.some((c) => lower[i].includes(c))) return i;
-      }
-      return -1;
-    };
-
-    const tIdx = findCol(CONFIG.COLUMNS.title, ["제목", "title", "글제목", "subject"]);
-    const uIdx = findCol(CONFIG.COLUMNS.url, ["링크", "url", "link", "주소", "rss"]);
-    const dIdx = findCol(CONFIG.COLUMNS.date, ["날짜", "date", "pubdate", "발행", "게시", "작성"]);
-
+  // ---------- JSON → 글 객체 정규화 + 정렬 ----------
+  // 허용 형태: 배열 그대로  또는  { posts: [...] }
+  // 각 항목 키: title(또는 subject) / url(또는 link) / date(또는 pubDate, published)
+  function normalizePosts(data) {
+    const arr = Array.isArray(data)
+      ? data
+      : (data && Array.isArray(data.posts) ? data.posts : []);
     const out = [];
-    for (let r = 1; r < rows.length; r++) {
-      const row = rows[r];
-      if (!row || row.length === 0) continue;
-      const url = (uIdx !== -1 ? row[uIdx] : "") || "";
-      let title = (tIdx !== -1 ? row[tIdx] : "") || "";
-      if (!url.trim()) continue;
-      if (!title.trim()) title = url.trim();
-      const rawDate = dIdx !== -1 ? (row[dIdx] || "") : "";
+    arr.forEach((p) => {
+      if (!p) return;
+      const url = String(p.url || p.link || "").trim();
+      let title = String(p.title || p.subject || "").trim();
+      if (!url) return;
+      if (!title) title = url;
+      const rawDate = String(p.date || p.pubDate || p.published || "");
       out.push({
-        title: title.trim(),
-        url: url.trim(),
+        title,
+        url,
         ts: parseDate(rawDate),
         dateLabel: formatDate(rawDate),
       });
-    }
-
-    // 날짜 정보가 있으면 최신순 정렬, 없으면 시트의 마지막(=최신 추가) 행이 위로 오도록 역순.
-    const hasDates = out.some((p) => p.ts != null);
-    if (hasDates) {
+    });
+    // 날짜가 있으면 최신순 정렬, 없으면 받은 순서 유지(= Make가 최신순으로 넣어준다는 가정).
+    if (out.some((p) => p.ts != null)) {
       out.sort((a, b) => (b.ts || 0) - (a.ts || 0));
-    } else {
-      out.reverse();
     }
     return out;
   }
@@ -357,30 +331,6 @@ const CONFIG = {
     const d = new Date(t);
     const y = d.getFullYear(), m = d.getMonth() + 1, day = d.getDate();
     return `${y}.${String(m).padStart(2, "0")}.${String(day).padStart(2, "0")}`;
-  }
-
-  // ---------- 경량 CSV 파서 (따옴표·콤마·줄바꿈 처리) ----------
-  function parseCSV(text) {
-    const rows = [];
-    let row = [], field = "", inQuotes = false;
-    text = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-    for (let i = 0; i < text.length; i++) {
-      const ch = text[i];
-      if (inQuotes) {
-        if (ch === '"') {
-          if (text[i + 1] === '"') { field += '"'; i++; }
-          else { inQuotes = false; }
-        } else { field += ch; }
-      } else {
-        if (ch === '"') { inQuotes = true; }
-        else if (ch === ",") { row.push(field); field = ""; }
-        else if (ch === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
-        else { field += ch; }
-      }
-    }
-    if (field !== "" || row.length > 0) { row.push(field); rows.push(row); }
-    // 완전히 빈 행 제거
-    return rows.filter((r) => r.some((c) => (c || "").trim() !== ""));
   }
 
   function escapeHtml(s) {
