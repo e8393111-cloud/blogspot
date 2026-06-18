@@ -321,6 +321,11 @@ const CONFIG = {
 
   function parseDate(s) {
     if (!s) return null;
+    s = String(s).trim();
+    // 날짜만 있는 "YYYY-MM-DD"는 Date.parse가 UTC 자정으로 해석 → 서쪽 시간대에서 하루 밀림.
+    // 로컬 자정으로 직접 파싱해 표시 날짜가 시간대와 무관하게 일정하도록 함.
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+    if (m) return new Date(+m[1], +m[2] - 1, +m[3]).getTime();
     const t = Date.parse(s);
     return isNaN(t) ? null : t;
   }

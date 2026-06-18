@@ -1,6 +1,6 @@
 // 빌드 시 자동 치환되거나 ASSETS 변경 시 수동으로 올린다.
 // 어떤 자산 하나라도 변하면 이 버전 문자열을 갱신해야 새 캐시가 활성화됨.
-const VERSION = 'v14-2026-05-19-backup-sanitize';
+const VERSION = 'v15-2026-06-18-posts-json-network-first';
 const CACHE = `health-app-${VERSION}`;
 
 const ASSETS = [
@@ -41,6 +41,23 @@ self.addEventListener('fetch', (e) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
+
+  // 동적 데이터(posts.json): network-first → 항상 최신 글을 받고, 오프라인 시에만 캐시 폴백.
+  // (기본 stale-while-revalidate면 갱신된 글이 다음 로드까지 반영 안 되는 문제 방지)
+  if (url.pathname.endsWith('/posts.json')) {
+    e.respondWith(
+      fetch(req)
+        .then((res) => {
+          if (res.ok && res.status === 200) {
+            const copy = res.clone();
+            caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
+          }
+          return res;
+        })
+        .catch(() => caches.match(req))
+    );
+    return;
+  }
 
   // 네비게이션 요청(HTML): network-first → 항상 최신 HTML을 받으려 시도, 실패 시 캐시
   if (req.mode === 'navigation') {
