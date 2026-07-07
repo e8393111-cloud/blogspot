@@ -102,6 +102,7 @@
 - 영역2 출력 형식: `이미지 N. 카드명 · 비율 / 삽입 위치 / 카드 텍스트 / 영문 프롬프트`. 영역1 이미지 삽입 포인트와 **개수·이름 1:1**, CTA 16:9 포함.
 - **★영역2 영문 프롬프트는 카드마다 '완성형 scene 문장'으로 쓴다 — 축약 금지.** 자리 아끼려 "scene: 한 줄"로 줄이지 않는다. 각 카드에 [실제 장소 크롤링 문구 + full-bleed 장면 묘사 + 한글 오버레이 텍스트(정확 렌더) + 세트색·글래스 패널·워터마크 지시]를 모두 담아, 그대로 이미지 생성에 넣을 수 있게 한다. 렌더 품질이 이 완성도에서 나온다.
 - **★프레임 반 가르기 방지(카드마다 필수 문장)**: "bright negative space one side"처럼 약하게 쓰면 모델이 프레임을 반으로 갈라 한쪽에 불투명/뽀얀 패널을 만든다. 그래서 **모든 정보 카드 프롬프트에** 다음을 명시한다 — `ONE full-bleed photo fills the entire frame; Korean text on a subtle translucent glass panel over one vertical side with the photo clearly visible THROUGH it; NEVER split the frame, NEVER a flat opaque/ivory panel, NEVER a 50/50 divide — one continuous photograph behind everything.` (꼬리표에 있어도 카드 본문 프롬프트에 한 번 더 박는다.)
+- **★뽀얀 흰 패널 방지(카드마다 필수)**: 반 가르기를 막아도 모델은 글자 가독성 때문에 패널을 우유빛 흰색으로 불투명하게 만든다(=금지된 뽀얀 흰 카드). 그래서 프롬프트에 명시 — `the glass panel is BARELY-THERE (about 20% opacity), a faint tint, the photo stays CLEARLY VISIBLE THROUGH it; NEVER a milky white or frosted-opaque panel; keep body text legible with a soft drop shadow instead of whitening the panel.` 자꾸 하얘지면 대안으로 '어두운 유리(세트색 20% 틴트) + 크림색 글자'로 간다.
 
 ## 무엇이 어디서 관리되나
 - **글·이미지 지침 원문 = 사용자 GPTs**(최종 기준). 이 문서는 그 요지 + 운영 규칙.
