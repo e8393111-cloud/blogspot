@@ -99,6 +99,8 @@
 - **배경은 해당 장소 실제 사진을 크롤링·참조해 실제 모습 바탕으로 생성** — 프롬프트에 `base the image on real crawled photographs of the actual place, match the real scene` 공통 명시.
 - **패널**: 한쪽에 '진짜 반투명 글래스 패널'(뒤 사진 비침)은 허용. ★금지: 불투명 박스·뽀얀 흰 카드·둥근 스티커·상하단 정보 띠·프레임 반 가르기.
 - **세트 색 1개**: 히어로 사진에서 뽑아 글 전체 통일(글감 따라, 그린 고정 아님). 포인트색은 핵심 숫자·라벨·구분선·손글씨에만(15%↓), 본문 글씨는 깊은 고대비색.
+- **★조명은 자연광 기본 (노을·석양 남발 금지)**: 사진 분위기를 습관적으로 `golden hour / warm sunset / late-afternoon` 로 고정하지 않는다 — 매 이미지가 주황빛이면 블로그가 촌스럽고 단조롭다. **기본 조명 = 맑은 낮·부드러운 오전 자연광(clear natural daylight, soft morning light, bright and airy)**. 노을/석양은 **글감이 실제 노을이거나 CTA 1장**에만. ★**세트색(앰버 등)과 '사진 조명'을 분리한다** — 세트색은 글자·라벨 액센트(≤15%)에만, **하늘·강·나무·성벽 전체를 그 색으로 물들이지 않는다**(전부 주황 = 금지, `natural colors, NOT a monochrome orange/amber wash`). 카드마다 시간대·톤을 조금씩 달리해 단조로움을 피한다.
+- **★'인위적 카드뉴스 템플릿' 느낌 금지 (사진이 주인공)**: 정보 카드도 **아이콘 배지·둥근 스티커·이모지 뱃지·점선 구분선·좌측 흰(뿌연) 패널에 리스트 얹기 금지.** 이런 요소가 붙으면 실제 사진이 아니라 '만든 그래픽'처럼 보인다. 라벨은 **아이콘 없이 글자만**, 사진의 밝은 빈 공간(하늘·물·노면)에 **직접** 얹는다. 글자 자리를 만들겠다고 **사진 한쪽을 뿌옇게 흐리거나 흰색으로 덮지 않는다**(사진은 끝까지 선명·full-bleed). 프롬프트에 공통 명시: `NO icon badges, NO circular sticker/emoji icons, NO dotted separator lines, NO white or foggy wash over the photo, NO template-like side panel; keep the photograph crisp and full-bleed; place plain Korean text directly on the naturally bright area with a soft drop shadow.`
 - **비율**: 썸네일 1:1 / 정보·교통·운영·예산·맛집 카드 4:5(정보 많으면 3:4) / CTA 16:9.
 - **썸네일 = 표지**: 헤드라인(+짧은 태그라인)만. 정보 나열·아이콘 리스트·박스 금지.
 - **카드 종류에 맛집 카드 포함**(메뉴·가격·도보권). 교통 카드 = 길 안내판(번호 크게·하차 방향·난이도·플랜B·막차).
