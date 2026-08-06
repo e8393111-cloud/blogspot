@@ -111,9 +111,13 @@
 - **직접경험 금지**: 사용자가 안 줬으면 "가보니/다녀왔는데/먹어보니" 식 1인칭 체험 금지 → "공식 기준 방문 전 가이드".
 
 ## 이미지(영역2) 규칙 — witchbloom82 이미지 지침 기준
+
+> ★**영역2 산출의 단일 기준은 `.claude/image-guide.md`(통합본)이다.** 포토그래퍼는 영역2를 만들기 전 그 파일을 반드시 Read 한다.
+> 통합본의 핵심 변경 2가지 — ①**패널(글래스·반투명 유리 포함) 전면 금지**, 글자는 사진의 밝은 여백에 직접 ②**카드마다 실배경 사진 소스(참조링크) 필수**(포토코리아 1순위, URL 지어내기 금지).
+> 아래 항목들은 그 통합본의 요지이며, 충돌 시 `.claude/image-guide.md`를 따른다.
 - **사진이 주인공**(full-bleed 자연광). 사진 안엔 글자·간판·지명 0(전부 오버레이).
 - **★배경은 '실제 크롤링한 그 사진'을 배경으로 쓴다 (순수 AI 생성 금지 — 인위적 배경의 근본 원인)**: 순수 text-to-image로 "비슷하게 생성"하면 프롬프트를 아무리 써도 **AI가 상상한 인위적 배경**이 나온다(실사 아님). 그래서 **실제 그 장소의 진짜 사진을 크롤링해(네이버 이미지·공식 홈·한국관광공사 등) 그 사진을 '배경 원본'으로 두고 그 위에 글자만 오버레이**한다 — image-to-image(낮은 denoise로 원본 거의 유지) 또는 실사진 직접 합성. **영역2에는 카드마다 '실제 배경 사진 소스(URL/출처)'를 함께 제공**한다. 포토그래퍼/기자가 카드별 실사진 후보를 크롤링해 넘기고, 못 구하면 그 카드는 실사진 확보 후 진행(가짜 생성 배경으로 때우지 않는다). 프롬프트 문구(`match the real scene`)는 보조일 뿐, **핵심은 실사진을 base로 쓰는 것.**
-- **패널**: 한쪽에 '진짜 반투명 글래스 패널'(뒤 사진 비침)은 허용. ★금지: 불투명 박스·뽀얀 흰 카드·둥근 스티커·상하단 정보 띠·프레임 반 가르기.
+- **패널**: ★**어떤 패널도 만들지 않는다** — 글래스·반투명 유리·불투명 박스·뽀얀 흰 카드·둥근 스티커·상하단 정보 띠·프레임 반 가르기 전부 금지. 글자는 **사진의 밝은 여백에 직접**(soft drop shadow). 빈 공간은 패널이 아니라 **사진 구도**로 만든다.
 - **세트 색 1개**: 히어로 사진에서 뽑아 글 전체 통일(글감 따라, 그린 고정 아님). 포인트색은 핵심 숫자·라벨·구분선·손글씨에만(15%↓), 본문 글씨는 깊은 고대비색.
 - **★세트색을 앰버/골드로 기본값 삼지 말 것 (글감별로 매번 다르게)**: 습관적으로 `amber / gold / 주황 계열`을 반복하면 블로그가 단조롭다. **매 글마다 그 글감의 히어로 사진에서 실제 색을 뽑는다** — 예) 부여(궁남지·연잎)=연잎 그린, 공주(공산성 성돌·금강)=스톤/딥블루, 성심당(빵)=딥레드, 바다=세이지/네이비. 프롬프트엔 뽑은 색을 명시하고 `NOT orange, NOT amber unless the hero photo is actually warm-toned`를 덧붙인다. 세트색은 글자·라벨 액센트(≤15%)에만, 사진은 자연색 그대로.
 - **★조명은 자연광 기본 (노을·석양 남발 금지)**: 사진 분위기를 습관적으로 `golden hour / warm sunset / late-afternoon` 로 고정하지 않는다 — 매 이미지가 주황빛이면 블로그가 촌스럽고 단조롭다. **기본 조명 = 맑은 낮·부드러운 오전 자연광(clear natural daylight, soft morning light, bright and airy)**. 노을/석양은 **글감이 실제 노을이거나 CTA 1장**에만. ★**세트색(앰버 등)과 '사진 조명'을 분리한다** — 세트색은 글자·라벨 액센트(≤15%)에만, **하늘·강·나무·성벽 전체를 그 색으로 물들이지 않는다**(전부 주황 = 금지, `natural colors, NOT a monochrome orange/amber wash`). 카드마다 시간대·톤을 조금씩 달리해 단조로움을 피한다.
@@ -135,7 +139,7 @@
 - 블로그 글이면 **영역1**과 **영역2**를 분리해 각각 **복붙용 코드블록**으로.
 - 영역2 출력 형식: `이미지 N. 카드명 · 비율 / 삽입 위치 / **실제 배경 사진 소스(URL·출처)** / 카드 텍스트 / 영문 프롬프트(오버레이·세트색·워터마크 지시)`. 영역1 이미지 삽입 포인트와 **개수·이름 1:1**, CTA 16:9 포함. ★실배경사진 소스가 없는 카드는 미완성(가짜 생성 배경으로 채우지 않는다).
 - **★생성형 도구(GPTs·DALL·E·GPT-4o) 사용 시 = '편집 지시'로 준다**: 순수 text-to-image는 실사가 안 나온다(AI티). 그래서 **실배경 사진을 업로드해 편집**하는 흐름으로 안내한다 — 영문 프롬프트를 `edit the uploaded real photograph; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text (and watermark)`처럼 **편집 명령**으로 쓴다. 사용법 한 줄도 병기: "①이 사진 URL을 열어 저장 → ②GPT에 업로드 → ③아래 프롬프트로 글자만 얹기". 순수 생성 프롬프트로 배경을 만들지 않는다.
-- **★영역2 영문 프롬프트는 카드마다 '완성형 scene 문장'으로 쓴다 — 축약 금지.** 자리 아끼려 "scene: 한 줄"로 줄이지 않는다. 각 카드에 [실제 장소 크롤링 문구 + full-bleed 장면 묘사 + 한글 오버레이 텍스트(정확 렌더) + 세트색·글래스 패널·워터마크 지시]를 모두 담아, 그대로 이미지 생성에 넣을 수 있게 한다. 렌더 품질이 이 완성도에서 나온다.
+- **★영역2 영문 프롬프트는 카드마다 '완성형 scene 문장'으로 쓴다 — 축약 금지.** 자리 아끼려 "scene: 한 줄"로 줄이지 않는다. 각 카드에 [실제 장소 크롤링 문구 + full-bleed 장면 묘사 + 한글 오버레이 텍스트(정확 렌더) + 세트색·패널금지·워터마크 지시]를 모두 담아, 그대로 이미지 생성에 넣을 수 있게 한다. 렌더 품질이 이 완성도에서 나온다.
 - **★가장 확실한 반 가르기 해법 — 패널을 만들지 말 것(1순위)**: '패널/글래스/박스(panel/glass/box)' 단어가 모델을 자꾸 사각형·반 가르기로 몬다. 그래서 **1순위는 패널 없이 '사진의 밝은 빈 공간에 글자를 직접 얹기'**다(레퍼런스 = 하늘·물 위에 글자 직접). 프롬프트에 — `compose the ONE continuous full-bleed photo so one vertical side is naturally bright and empty (open sky, water, pale road, or soft out-of-focus greenery); place the Korean text DIRECTLY on that bright area with a soft drop shadow; NO panel, NO glass, NO box, NO rounded card, NO divider line, NO tinted overlay strip — the empty space is created by the photo composition, not by adding a panel.` 정보 많은 카드일수록 '밝은 하늘·물·노면을 크게' 잡아 글자 자리를 확보한다.
 - **★프레임 반 가르기 방지(패널을 굳이 쓸 때만)**: "bright negative space one side"처럼 약하게 쓰면 모델이 프레임을 반으로 갈라 한쪽에 불투명/뽀얀 패널을 만든다. 그래서 **모든 정보 카드 프롬프트에** 다음을 명시한다 — `ONE full-bleed photo fills the entire frame; Korean text on a subtle translucent glass panel over one vertical side with the photo clearly visible THROUGH it; NEVER split the frame, NEVER a flat opaque/ivory panel, NEVER a 50/50 divide — one continuous photograph behind everything.` (꼬리표에 있어도 카드 본문 프롬프트에 한 번 더 박는다.)
 - **★뽀얀 흰 패널 방지(카드마다 필수)**: 반 가르기를 막아도 모델은 글자 가독성 때문에 패널을 우유빛 흰색으로 불투명하게 만든다(=금지된 뽀얀 흰 카드). 그래서 프롬프트에 명시 — `the glass panel is BARELY-THERE (about 20% opacity), a faint tint, the photo stays CLEARLY VISIBLE THROUGH it; NEVER a milky white or frosted-opaque panel; keep body text legible with a soft drop shadow instead of whitening the panel.` 자꾸 하얘지면 대안으로 '어두운 유리(세트색 20% 틴트) + 크림색 글자'로 간다.
