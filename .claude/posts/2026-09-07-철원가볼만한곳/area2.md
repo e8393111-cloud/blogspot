@@ -200,7 +200,7 @@ Small neutral watermark "blog.naver.com/witchbloom82" bottom right.
 
 ---
 
-# 이미지4. 동송터미널 1번 버스 길찾기 안내판 카드 · 4:5
+# 이미지4. 동송터미널→꽃밭 길찾기 카드 · 4:5
 
 **삽입 위치** : 버스 소요시간 소제목 문단, 버튼링크 앞
 
