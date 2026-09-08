@@ -75,14 +75,14 @@ https://tong.visitkorea.or.kr/cms/resource_photo/42/4062442_image2_1.jpg   (후�
 **카드 텍스트**
 ```
 철원 고석정 꽃밭, 화요일만 피하면 버스로 다 됩니다
-버스 15~20분 · 9월 말 절정
+버스와 도보로 35분 · 9월 말 절정
 ```
 
 **영문 프롬프트**
 ```
 Edit the uploaded photograph. Keep the image EXACTLY as-is — do NOT repaint, redesign, regenerate, restyle or replace any part of the background. ONLY overlay Korean text and a watermark.
 
-Place one large Korean headline "철원 고석정 꽃밭, 화요일만 피하면 버스로 다 됩니다" and one smaller tagline below it "버스 15~20분 · 9월 말 절정". Put them on whichever area of the photo is naturally brightest and least busy; if no such area exists, place them across the lower third. Give the text a soft drop shadow. Choose the text color for maximum contrast against whatever is behind it — dark charcoal on light areas, warm cream on dark areas. Never a low-contrast pastel.
+Place one large Korean headline "철원 고석정 꽃밭, 화요일만 피하면 버스로 다 됩니다" and one smaller tagline below it "버스와 도보로 35분 · 9월 말 절정". Put them on whichever area of the photo is naturally brightest and least busy; if no such area exists, place them across the lower third. Give the text a soft drop shadow. Choose the text color for maximum contrast against whatever is behind it — dark charcoal on light areas, warm cream on dark areas. Never a low-contrast pastel.
 
 This is a cover: headline plus one tagline only. No information lists, no numbers beyond what is written, no icons.
 
@@ -115,13 +115,13 @@ Small neutral watermark "blog.naver.com/witchbloom82" bottom right.
 **카드 텍스트**
 ```
 ① 동송터미널 도착 (서울·의정부 버스)
-② 1번 버스 15~20분 → 고석정 꽃밭
+② 버스 22분 + 도보 10분 → 고석정 꽃밭
 ③ 꽃밭 + 고석정(정자) 관람 2~3시간
-④ 동송 시내 이동(1번 버스 15~20분) → 점심 1시간
+④ 동송 시내 복귀(35분) → 점심 1시간
 ⑤ 귀경 버스 [16시 전 출발]
 
 하단 3칸
-· 전체 소요 : 약 3시간 안팎
+· 현지 이동 : 왕복 약 1시간 10분
 · 1인 비용(65세) : 5,600원
 　(왕복 지역버스 3,100원 + 입장료 실부담 2,500원, 동송까지 오가는 장거리 버스비 별도)
 · ★마감·주의 : 매주 화요일 휴무 · 귀경 16시 전 출발
@@ -133,16 +133,16 @@ Build a clean editorial route-timeline infographic on a soft warm-white / pale c
 
 Five numbered waypoints in a vertical line, connected by a thin dusty-rose line:
 ① "동송터미널 도착 (서울·의정부 버스)" — number only, no photo
-② "1번 버스 15~20분 → 고석정 꽃밭" — number only, no photo
+② "버스 22분 + 도보 10분 → 고석정 꽃밭" — number only, no photo
 ③ "꽃밭 + 고석정(정자) 관람 2~3시간" — with the first uploaded photograph cropped into a small circle, unaltered
-④ "동송 시내 이동(1번 버스 15~20분) → 점심 1시간" — with the second uploaded photograph cropped into a small circle, unaltered
+④ "동송 시내 복귀(35분) → 점심 1시간" — with the second uploaded photograph cropped into a small circle, unaltered
 ⑤ "귀경 버스 [16시 전 출발]" — number only; render "16시 전 출발" in the dusty-rose accent color
 
 Do NOT invent or generate any photograph for ① or ②. A plain number is correct there.
 Do NOT repaint, restyle or regenerate the two uploaded photos — crop to a circle only.
 
 Below the waypoints, a footer of three cells separated by thin hairlines only, no boxes and no fill:
-"전체 소요 · 약 3시간 안팎"
+"현지 이동 · 왕복 약 1시간 10분"
 "1인 비용(65세) · 5,600원"
 "★마감·주의 · 매주 화요일 휴무 · 16시 전 출발"
 Render the third cell in the dusty-rose accent color and slightly bolder than the others.
@@ -213,32 +213,32 @@ TourAPI에 터미널·시내버스 사진은 없다(관광지가 아니라 등�
 
 **카드 텍스트**
 ```
-1번 버스 (이평 방면)
-동송터미널 → 고석정 15~20분
-✅ 승차 : 동송터미널(이평리)
-✅ 노선 : 이평리~오덕리~고석정~문혜리~신철원
-✅ 요금 : 1,550원(교통카드) · 단일요금
-✅ 배차 : 하루 15회
-✅ 환승 : 하차 후 60분 내 1회 무료
-★1-1번은 고석정을 지나지 않아요(문혜리·양촌·화지10리 경유)
-플랜B : 택시 약 9,530원 · 15분
+동송터미널 → 고석정 꽃밭
+총 35분
+● 도보 1분 : 이평리(정한약국 앞) 정류장
+● 버스 22분 : 2번 · 5번 (2-1번은 27분)
+● 하차 : 고석정(정문)
+● 도보 10분 : 정문 → 꽃밭
+● 요금 : 1,550원(교통카드)
+★버스 22분 + 걷는 10분 = 총 35분
+플랜B : 택시 12분 · 약 13,200원
 ```
 
 **영문 프롬프트 (사진 없이 만들 때)**
 ```
 Build a clean wayfinding notice card on a soft warm-white / pale cream paper background. No photograph.
 
-The bus number dominates. Largest text: "1번 버스 (이평 방면)". Directly below, slightly smaller: "동송터미널 → 고석정 15~20분".
+The bus number dominates. Largest text: "동송터미널 → 고석정 꽃밭". Directly below, slightly smaller: "총 35분".
 
 Below that, a vertical list with generous line spacing:
-"✅ 승차 : 동송터미널(이평리)"
-"✅ 노선 : 이평리~오덕리~고석정~문혜리~신철원"
-"✅ 요금 : 1,550원(교통카드)·단일요금"
-"✅ 배차 : 하루 15회"
-"✅ 환승 : 하차 후 60분 내 1회 무료"
+"● 도보 1분 : 이평리(정한약국 앞) 정류장"
+"● 버스 22분 : 2번 · 5번 (2-1번은 27분)"
+"● 하차 : 고석정(정문) → 도보 10분"
+"● 요금 : 1,550원(교통카드)"
+"★버스 22분 + 걷는 10분 = 총 35분"
 
-One warning line in the dusty-rose accent color: "★1-1번은 고석정을 지나지 않아요(문혜리·양촌·화지10리 경유)"
-One backup line at the bottom: "플랜B : 택시 약 9,530원·15분"
+One warning line in the dusty-rose accent color: "플랜B : 택시 12분 · 약 13,200원"
+One backup line at the bottom: ""
 
 Only one or two numbers per line so every digit stays accurate.
 
