@@ -12,9 +12,13 @@
 1. **서브에이전트를 `run_in_background: true`로 띄우면 완료 알림이 오지 않는다.**
    에이전트는 4초 만에 정상 종료했는데 부모 세션은 15분간 아무것도 못 받았다.
    → **모든 `Agent` 호출은 `run_in_background: false`(포그라운드)로 한다.** 예외 없다.
-2. **Make 도구 이름이 `mcp__Make__*`가 아니다.** 이 세션에선 UUID 프리픽스로 붙는다.
-   → 이름을 외워 쓰지 말고 **`ToolSearch`에 `scenarios_run` `data-store-records_list` 같은
-   기능어로 검색**해서 실제 이름을 찾아 쓴다.
+2. **Make 도구 프리픽스가 MCP 재연결마다 바뀐다.** 같은 세션 안에서 실제로 바뀌는 걸 확인했다 —
+   처음엔 `mcp__dd5a2de6-0438-43ff-b141-005d5c400e62__*`(UUID)로 붙었다가,
+   서버가 재연결된 뒤엔 `mcp__Make__*`로 붙었다. 둘 다 같은 시나리오 6177668을 정상 조회한다.
+   → **어느 쪽도 정답으로 외우지 마라.** 이름을 쓰기 전에 매번 **`ToolSearch`에
+   `scenarios_run` `data-store-records_list` 같은 기능어로 검색**해 그 시점의 실제 이름을 찾아 쓴다.
+   `select:` 로 이름을 찍어 넣었다가 `No matching deferred tools found`가 나오면
+   **Make가 죽은 게 아니라 프리픽스가 바뀐 것이다** — 기능어 검색으로 다시 찾으면 된다.
 3. **예약 세션(`create_new_session_on_fire`)은 저장소도 MCP도 안 붙는다.**
    → 이 파이프라인을 **새 세션 방식으로 옮기지 마라.** 상주 세션 전용이다.
    (GlowShot이 이걸 몰라 7연속 실패했다 — `SMOKE-2026-09-09.md`)
