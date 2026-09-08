@@ -122,7 +122,7 @@ Small neutral watermark "blog.naver.com/witchbloom82" bottom right.
 
 하단 3칸
 · 현지 이동 : 왕복 약 1시간 10분
-· 1인 비용(65세) : 5,600원
+· 1인 비용(65세) : 6,100원
 　(왕복 지역버스 3,100원 + 입장료 실부담 2,500원, 동송까지 오가는 장거리 버스비 별도)
 · ★마감·주의 : 매주 화요일 휴무 · 귀경 16시 전 출발
 ```
@@ -143,7 +143,7 @@ Do NOT repaint, restyle or regenerate the two uploaded photos — crop to a circ
 
 Below the waypoints, a footer of three cells separated by thin hairlines only, no boxes and no fill:
 "현지 이동 · 왕복 약 1시간 10분"
-"1인 비용(65세) · 5,600원"
+"1인 비용(65세) · 6,100원"
 "★마감·주의 · 매주 화요일 휴무 · 16시 전 출발"
 Render the third cell in the dusty-rose accent color and slightly bolder than the others.
 
@@ -315,11 +315,11 @@ https://tong.visitkorea.or.kr/cms/resource_photo/42/4062442_image2_1.jpg
 
 **카드 텍스트**
 ```
-입장료의 50%를 상품권으로 돌려받아요
-✅ 성인 10,000원 · 청소년 6,000원 · 어린이 4,000원
-✅ 65세 이상 5,000원
-✅ 65세 실부담 2,500원 (상품권 2,500원 환급)
-★운영 09:00~18:00 · 금·토·추석 21:00까지(매표 20:00 마감)
+입장료 일부를 상품권으로 돌려받아요
+● 대인 10,000원 · 소인 4,000원
+● 65세 이상 5,000원 (감면)
+● 65세 실부담 3,000원 (상품권 2,000원)
+★운영 09:00~19:00 · 매표 마감 18:00 · 화요일 휴무
 깡통열차 5,000원 · 입장료와 별도 · 65세 할인 없음 · 17:00 종료
 ```
 
@@ -329,15 +329,15 @@ Edit the uploaded photograph. Keep the image EXACTLY as-is — do NOT repaint, r
 
 Place the text on whichever area of the photo is naturally brightest and least busy; if no such area exists, place it across the lower half. Soft drop shadow. Text color chosen for maximum contrast against whatever is behind it.
 
-Headline: "입장료의 50%를 상품권으로 돌려받아요" — render "50%" noticeably larger than the rest, in the dusty-rose accent color.
+Headline: "입장료 일부를 상품권으로 돌려받아요" — render "50%" noticeably larger than the rest, in the dusty-rose accent color.
 
 Then, as label-value lines:
-"✅ 성인 10,000원 · 청소년 6,000원 · 어린이 4,000원"
-"✅ 65세 이상 5,000원"
-"✅ 65세 실부담 2,500원 (상품권 2,500원 환급)" — render "2,500원" in the accent color
+"● 대인 10,000원 · 소인 4,000원"
+"● 65세 이상 5,000원 (감면)"
+"● 65세 실부담 3,000원 (상품권 2,000원)" — render "2,500원" in the accent color
 
 One operating-hours line in the accent color, at least as large as the price lines:
-"★운영 09:00~18:00 · 금·토·추석 21:00까지(매표 20:00 마감)"
+"★운영 09:00~19:00 · 매표 마감 18:00 · 화요일 휴무"
 
 At the very bottom, separated by a thin hairline only (not a box), a smaller line for a separately priced attraction:
 "깡통열차 5,000원 · 입장료와 별도 · 65세 할인 없음 · 17:00 종료"
