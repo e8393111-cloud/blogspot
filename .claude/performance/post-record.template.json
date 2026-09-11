@@ -1,0 +1,20 @@
+{
+  "post_id": null,
+  "topic": "",
+  "primary_question": "",
+  "target_queries": [],
+  "query_evidence": [],
+  "content_type": "",
+  "status": "원고완성",
+  "draft_path": null,
+  "published_url": null,
+  "published_at": null,
+  "publication_evidence": null,
+  "verified_at": null,
+  "sources": [],
+  "internal_links": [],
+  "changes": [],
+  "observations": [],
+  "review_dates": [],
+  "unresolved": []
+}

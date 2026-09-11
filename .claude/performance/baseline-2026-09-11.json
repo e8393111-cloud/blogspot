@@ -1,0 +1,24 @@
+{
+  "observed_date": "2026-09-11",
+  "timezone": "Asia/Seoul",
+  "blog_id": "witchbloom82",
+  "method": "사용자 로그인된 네이버 관리 UI에서 직접 읽음; 이번 대화 앞선 통계 분석 단계에서 수집",
+  "sources": {
+    "pageviews": "https://admin.blog.naver.com/witchbloom82/stat/visit_pv",
+    "rank": "https://admin.blog.naver.com/witchbloom82/stat/rank_pv",
+    "referral": "https://admin.blog.naver.com/witchbloom82/stat/referer",
+    "duration": "https://admin.blog.naver.com/witchbloom82/stat/averageDuration",
+    "retention": "https://admin.blog.naver.com/witchbloom82/stat/retention"
+  },
+  "monthly": [
+    {"period": "2026-05", "pageviews": 27486, "mobile_home_share_pct": 53.13, "average_duration_seconds": 140},
+    {"period": "2026-06", "pageviews": 12945, "mobile_home_share_pct": 20.84, "average_duration_seconds": 171},
+    {"period": "2026-07", "pageviews": 6233, "mobile_home_share_pct": 12.24, "average_duration_seconds": 187},
+    {"period": "2026-08", "pageviews": 3872, "mobile_home_share_pct": 4.88, "average_duration_seconds": 171}
+  ],
+  "completed_daily_pageviews": {"2026-09-01":137,"2026-09-02":118,"2026-09-03":119,"2026-09-04":186,"2026-09-05":244,"2026-09-06":116,"2026-09-07":125,"2026-09-08":116,"2026-09-09":121,"2026-09-10":95},
+  "august_referral_shares_pct": {"네이버 통합검색_모바일":50.68,"네이버 블로그검색_모바일":15.19,"네이버 통합검색_PC":9.30,"네이버 블로그_모바일":7.01,"네이버 메인_모바일_홈판":4.88,"네이버 블로그검색_PC":4.14},
+  "august_selected_queries": [{"query":"오이도","share_pct":12.30},{"query":"송도 센트럴파크 러닝","share_pct":1.25},{"query":"수원 당일치기","share_pct":0.87},{"query":"정동진 기차","share_pct":0.63}],
+  "weekly_retention": [{"start":"2026-08-31","end":"2026-09-06","repeat_visitors":8,"rate_pct":0.8}],
+  "caveats": ["조회수는 방문자수가 아니다", "월별 글 조회수는 누적 조회수가 아니다", "유입비중의 분모는 유입경로 집계이며 조회수 전체와 다르다", "검색어는 블로그 전체 유입이며 개별 글 귀속을 모두 검증한 것은 아니다", "일간 9월11일 실시간 수치는 기간 비교에 제외", "노출수·클릭수·CTR·검색 순위는 미수집", "시즌성·홈판 변화와 글 품질의 인과효과는 분리 검증되지 않았다"]
+}

@@ -1,0 +1,77 @@
+{
+  "updated_date": "2026-09-11",
+  "items": [
+    {
+      "post_id": "224340238227",
+      "topic": "원주 소금산",
+      "july_pageviews": 586,
+      "august_pageviews": 255,
+      "priority": 1,
+      "status": "부분검증",
+      "patch_path": ".claude/performance/patches/wonju-224340238227.md",
+      "public_updated_at": null,
+      "next_action": "교통·요금 교체 문단과 본문/카드 중복값 대조 후 기존 글에 적용. 정류장부터 입구까지 지도 경로, 철도 막차, 운영마감 별도 검증",
+      "review_dates": []
+    },
+    {
+      "post_id": "224312019784",
+      "topic": "수원 당일치기",
+      "july_pageviews": 584,
+      "august_pageviews": 149,
+      "priority": 2,
+      "status": "수정안작성",
+      "patch_path": ".claude/performance/patches/suwon-224312019784.md",
+      "public_updated_at": null,
+      "next_action": "주야간 입장 마감 안내 충돌 수정안 적용 전 공식 운영 확인. 수원역 승차 위치·전체 도보 연결 대조",
+      "review_dates": []
+    },
+    {
+      "post_id": "224283547034",
+      "topic": "삼척 당일치기",
+      "july_pageviews": 431,
+      "august_pageviews": 59,
+      "priority": 3,
+      "status": "수정안작성",
+      "patch_path": ".claude/performance/patches/samcheok-224283547034.md",
+      "public_updated_at": null,
+      "next_action": "귀경 일정 19:00 복귀 준비/19:03 출발 모순 우선 정정. 현재 교통·예약·비용 확인 후 6월 본문 전체 갱신 여부 결정",
+      "review_dates": []
+    },
+    {
+      "post_id": "224326561092",
+      "topic": "정동진 당일치기",
+      "july_pageviews": 266,
+      "august_pageviews": 110,
+      "priority": 4,
+      "status": "수정안작성",
+      "patch_path": ".claude/performance/patches/jeongdongjin-224326561092.md",
+      "public_updated_at": null,
+      "next_action": "기본 코스/선택 코스 구분과 기존 여행글 연결. 철도 시각과 바다부채길 이동·요금은 별도 검증 필요",
+      "review_dates": []
+    },
+    {
+      "post_id": "224309096558",
+      "topic": "오이도 당일치기",
+      "july_pageviews": 950,
+      "august_pageviews": 845,
+      "priority": 5,
+      "status": "성과보존",
+      "patch_path": null,
+      "public_updated_at": null,
+      "next_action": "제목 보존; 역→바다 이동 질문 보강 후보. 상위 유입 기반 글로 유지",
+      "review_dates": []
+    },
+    {
+      "post_id": "224363673526",
+      "topic": "태안 신두리·천리포",
+      "july_pageviews": null,
+      "august_pageviews": 250,
+      "priority": 6,
+      "status": "성과보존",
+      "patch_path": null,
+      "public_updated_at": null,
+      "next_action": "제목 보존; 천리포 버스 질문과 실제 발행글 연결 점검",
+      "review_dates": []
+    }
+  ]
+}
