@@ -27,7 +27,7 @@ NO frosted overlay strip, NO 50/50 frame split, NO icon badges, NO circular stic
 or emoji icons, NO dotted separator lines, NO white or foggy wash over the photo,
 NO template-like side panel. ONE continuous full-bleed photograph fills the entire
 frame and stays crisp. Place the Korean text DIRECTLY on the naturally bright,
-uncluttered area with a soft drop shadow only.
+uncluttered area with NO shadow, NO outline and NO glow.
 ```
 ★**카드 안에는 이모지를 넣지 않는다.** 본문 썸네일문구의 🌾는 글에만 둔다.
 
@@ -78,7 +78,7 @@ left-aligned over the band of open sky along the top:
   line 2 (large):    버스는
   line 3 (largest, colour #2E4034):  축제 때만
   line 4 (large):    다녀요
-Body lines in warm cream #F7F5EF with a soft drop shadow; ONLY 축제 때만 in deep
+Body lines in warm cream #F7F5EF with no shadow, outline or glow; ONLY 축제 때만 in deep
 forest green #2E4034. Clean bold Korean sans-serif. Natural colours throughout —
 NOT orange, NOT amber, NOT gold, NOT a monochrome wash.
 
@@ -90,13 +90,12 @@ Bottom-LEFT, small: blog.naver.com/witchbloom82
 
 ---
 
-# 이미지 2. 코스 요약 카드 (타임라인형) · 4:5
+# 이미지 2. 코스 요약 카드 (타임라인형) · 9:16
 
 **삽입 위치** : `[이미지 삽입: 2. 코스 요약 카드 — 반나절 동선 타임라인]`
-★**이 카드만 '패널 금지'의 예외**다. 연한 아이보리 바탕 + 작은 실사진 2장으로 간다.
 
-**작은 사진 2장 (둘 다 ✅확인함)** — `photos/jeongeup_j1.jpg` · `photos/jeongeup_j2.jpg`
-★네 장을 쓰고 싶지만 **확인된 사진이 두 장뿐**이다. 억지로 채우지 말고 두 장으로 간다.
+**실배경 사진 (✅확인함)** — `photos/jeongeup_j1.jpg`
+★최신 프로젝트 기준대로 **실제 사진 한 장의 풀배경**으로 간다. 아이보리 정보면·작은 사진 분할·패널 예외는 두지 않는다.
 
 **카드 텍스트** (본문 코스와 글자 단위 동일)
 ```
@@ -123,27 +122,29 @@ Bottom-LEFT, small: blog.naver.com/witchbloom82
 
 **영문 프롬프트**
 ```
-Create a clean vertical 4:5 timeline infographic on a soft ivory #F5F2E9 background.
-This is the ONE card in this set allowed to be a designed layout rather than a
-full-bleed photograph.
+Edit the uploaded real aerial photograph of the Gujeolcho garden in Jeongeup as a
+vertical 9:16 information card. The ONE continuous photograph must fill the entire
+frame. Keep the real mountains, river, road, flower plots, paths, daylight, natural
+colours and the original Korea Tourism Organization watermark unchanged. Do NOT
+repaint, regenerate, invent, remove or move any part of the scene.
 
-Two columns of timeline rows under two headings (짚와이어 안 타는 날 / 짚와이어 타는 날),
-each row a clock time and a short Korean phrase, rendered EXACTLY character for
-character from the block above, in a clean Korean sans-serif, deep forest green #2E4034,
-clock times in bold. A thin vertical rule in the same green separates the two columns.
+Arrange the two timeline sections in one calm vertical flow under the headings
+(짚와이어 안 타는 날 / 짚와이어 타는 날). Render every clock time and Korean phrase
+EXACTLY character for character from the block above in a clean Korean sans-serif,
+deep forest green #2E4034 or warm cream #F7F5EF chosen only for contrast against the
+unaltered photograph. Use font weight, size and spacing for hierarchy.
 
-Insert the two uploaded real photographs as small rounded-corner thumbnails, one at the
-top of each column. Do NOT generate or invent any photograph — use only the uploaded
-images, unaltered.
-
-At the bottom, three plain text rows separated by thin green rules:
+At the bottom, add these three plain text rows:
   공원 폐장 18:00 · 매표 마감 17:30 · 짚와이어 17:00(점심 12~13시 휴게)
   입장 성인 7,000 / 65세 5,000 · 짚와이어 9,000(65세 할인 없음)
   산내면 방면 막차는 확인 못 했어요 — 네이버지도로 미리 보기
 
-Natural photo colours in the thumbnails. NOT orange, NOT amber, NOT gold.
-NO icon badges, NO circular sticker or emoji icons, NO dotted separator lines,
-NO emoji anywhere. Bottom-LEFT: blog.naver.com/witchbloom82
+Natural photo colours. NOT orange, NOT amber, NOT gold. Text must sit directly on
+natural open areas: NO panel, NO box, NO ivory background, NO glass, NO blur, NO
+white or dark wash, NO gradient, NO shadow, NO outline, NO glow, NO rounded
+thumbnails, NO split frame, NO icon badges, NO sticker, NO emoji, NO dotted
+separator lines. Bottom-LEFT: blog.naver.com/witchbloom82. Preserve the original
+source watermark at bottom-RIGHT.
 ```
 
 ---
@@ -190,7 +191,7 @@ character:
 
 Headline large and bold; the three STEP rows in a smaller weight with the step labels
 and values clearly separated; the closing line smallest. All text in warm cream #F7F5EF
-with a soft drop shadow; ONLY 두 번 and 축제 기간에만 in deep forest green #2E4034.
+with no shadow, outline or glow; ONLY 두 번 and 축제 기간에만 in deep forest green #2E4034.
 Natural colours — NOT orange, NOT amber, NOT gold.
 
 Bottom-LEFT: blog.naver.com/witchbloom82 (leave the bottom-RIGHT KTO watermark alone).
@@ -236,7 +237,7 @@ left-aligned, rendered EXACTLY character for character:
 
 Headline large and bold; the two comparison rows in a smaller weight with the place
 name and its description clearly separated; the closing two lines smallest.
-All text in warm cream #F7F5EF with a soft drop shadow; ONLY 두 개 and 다른 곳 in deep
+All text in warm cream #F7F5EF with no shadow, outline or glow; ONLY 두 개 and 다른 곳 in deep
 forest green #2E4034. Natural colours — NOT orange, NOT amber, NOT gold.
 
 Bottom-LEFT: blog.naver.com/witchbloom82 (leave the bottom-RIGHT KTO watermark alone).
@@ -287,7 +288,7 @@ the open sky band, left-aligned, rendered EXACTLY character for character:
 
 Headline large and bold; the six label-value rows in a smaller weight with labels and
 values clearly separated; the closing line in a distinct weight. At most two numbers per
-line. All text in deep forest green #2E4034 with a soft drop shadow; ONLY 12:00~13:00
+line. All text in deep forest green #2E4034 with no shadow, outline or glow; ONLY 12:00~13:00
 and 65세 할인은 없어요 picked out in the same green at heavier weight against cream.
 Natural colours — NOT orange, NOT amber, NOT gold.
 
@@ -333,7 +334,7 @@ evenly-lit open grass area, left-aligned, rendered EXACTLY character for charact
 [paste the 카드 텍스트 block above verbatim]
 
 Headline large and bold; the three label-value rows smaller; the closing two lines
-smallest. All text in warm cream #F7F5EF with a soft drop shadow; ONLY 입구~판매부스
+smallest. All text in warm cream #F7F5EF with no shadow, outline or glow; ONLY 입구~판매부스
 구간만 in deep forest green #2E4034. Natural colours — NOT orange, NOT amber, NOT gold.
 
 Bottom-LEFT: blog.naver.com/witchbloom82 (leave the bottom-RIGHT KTO watermark alone).
@@ -396,7 +397,7 @@ the bottom of the frame; crop so the small arched building with lettering falls 
 the frame. Place the Korean text centred on the open sky band along the top:
   line 1 (large, bold):  정읍 구절초, 축제 기간에 버스가 들어가요
   line 2 (small):        가는 법 · 요금 · 짚와이어 시간이 이 글에 정리돼 있어요
-Line 1 in warm cream #F7F5EF with a soft drop shadow; ONLY 축제 기간에 in deep forest
+Line 1 in warm cream #F7F5EF with no shadow, outline or glow; ONLY 축제 기간에 in deep forest
 green #2E4034. Line 2 in the same cream at 60% size. Natural colours — NOT orange,
 NOT amber, NOT gold, NOT a monochrome wash.
 
@@ -414,9 +415,9 @@ Bottom-LEFT: blog.naver.com/witchbloom82 (leave the bottom-RIGHT KTO watermark a
 
 ## 점검표
 - [x] 영역1 이미지 삽입 8개 = 영역2 카드 8개 · **이름 1:1 일치**
-- [x] 썸네일 1:1 · 정보 카드 4:5 · 코스 요약 4:5 · CTA 16:9
+- [x] 썸네일 1:1 · 정보 카드 4:5 · 코스 요약 9:16 · CTA 16:9
 - [x] 배경은 **전부 Type1** — Type3(임실 옥정호)를 한 장도 쓰지 않음
-- [x] 카드 안 이모지 0 · 아이콘 배지 0 · 패널 0 (2번 타임라인만 예외)
+- [x] 카드 안 이모지 0 · 아이콘 배지 0 · 패널 0 (예외 없음)
 - [x] 세트색이 앰버·골드가 아님 (구절초 화이트 + 솔숲 딥그린 `#2E4034`)
 - [x] 조명이 노을이 아님 — CTA도 낮
 - [x] 워터마크 좌하단
