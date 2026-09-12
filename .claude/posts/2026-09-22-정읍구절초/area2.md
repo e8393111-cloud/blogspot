@@ -259,11 +259,13 @@ Bottom-LEFT: blog.naver.com/witchbloom82 (leave the bottom-RIGHT KTO watermark a
 ```
 짚와이어는 능선 위에 있어요
 
-운영    4월~10월 · 10:00~17:00
+운영    종료 17:00 · 시작시각·기간은 공식 안내가 달라요
 휴게    12:00~13:00 (이때는 안 타요)
 휴무    월요일 · 우천 시
 요금    일반 9,000원 · 학생 7,000원
 가는 길 출렁다리 건너 돌계단 도보 6분
+
+확인    063-539-6173
 
 65세 할인은 없어요 — 입장료에만 있어요
 ```
@@ -283,7 +285,7 @@ small arched building with lettering falls OUTSIDE the frame. Place the Korean t
 the open sky band, left-aligned, rendered EXACTLY character for character:
 [paste the 카드 텍스트 block above verbatim]
 
-Headline large and bold; the five label-value rows in a smaller weight with labels and
+Headline large and bold; the six label-value rows in a smaller weight with labels and
 values clearly separated; the closing line in a distinct weight. At most two numbers per
 line. All text in deep forest green #2E4034 with a soft drop shadow; ONLY 12:00~13:00
 and 65세 할인은 없어요 picked out in the same green at heavier weight against cream.
