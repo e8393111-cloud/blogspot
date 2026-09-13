@@ -32,7 +32,7 @@
 ## 이미지 1. 썸네일 · 1:1
 
 삽입 위치 : 대표(썸네일) 이미지
-실배경 사진 소스 : `돌산공원 (2)` · https://tong.visitkorea.or.kr/cms/resource/55/3534455_image2_1.jpg (contentid 128755 · cpyrhtDivCd **Type1**) — 하늘·바다가 넓게 잡힌 컷 우선 배정, 받으면 실제로 열어 하늘/바다 비중부터 확인할 것
+실배경 사진 소스 : `돌산공원 (4)` · https://tong.visitkorea.or.kr/cms/resource/57/3534457_image2_1.jpg (contentid 128755 · cpyrhtDivCd **Type1**) — 실제 파일 `photos/ds3.jpg` 육안 확인 완료. 돌산대교·여수 바다·돌산공원 항공뷰이며 사진 속 고유 글자는 없고 우하단 한국관광공사 워터마크가 있어 우리 워터마크는 좌하단에 둔다
 사진 출처 : 한국관광공사 포토코리아 (공공누리 제1유형) — 표기 문구는 글 하단에 1회
 카드 텍스트 :
 　제목 : 여수 가볼만한곳
@@ -74,7 +74,7 @@ EDIT MODE: edit the uploaded real photograph, keep the scene EXACTLY as-is, do N
 ## 이미지 3. 반나절 코스 요약(타임라인) · 4:5 — ★필수 코스요약카드, area1.md 98행 자리를 겸함
 
 삽입 위치 : area1.md 98행 `[이미지 삽입: 오동도 동백숲길·방파제 산책로]` 자리를 코스요약카드로 겸함(소제목2 코스 타임라인 직후·소제목3 직전이라 배치상 최적)
-실배경 사진 소스 : `돌산공원 (3)` · https://tong.visitkorea.or.kr/cms/resource/56/3534456_image2_1.jpg (contentid 128755 · **Type1**) — 인포그래픽용 배경이라 여백 넓은 컷 우선, 지점별 실사진(엑스포역/동백열차/케이블카)은 없어 작은 사진 없이 번호+글자로만 구성
+실배경 사진 소스 : `돌산공원 (2)` · https://tong.visitkorea.or.kr/cms/resource/55/3534455_image2_1.jpg (contentid 128755 · **Type1**) — 실제 파일 `photos/ds1.jpg` 육안 확인 완료. 돌산공원 항공뷰·주차장·도로가 보이는 흐린 날 사진이며 하늘을 맑게 고쳐 그리지 않는다. 기존 `ds2.jpg`는 비석·명판 글자가 많아 배경에서 제외
 사진 출처 : 한국관광공사 포토코리아 (공공누리 제1유형)
 카드 텍스트 :
 　제목 : 여수 반나절 코스
@@ -133,7 +133,7 @@ EDIT MODE: edit the uploaded real photograph, keep the scene EXACTLY as-is, do N
 ## 이미지 6. 진남관·이순신광장 전경 · 4:5
 
 삽입 위치 : area1.md 157행 `[이미지 삽입: 진남관·이순신광장 전경]`
-실배경 사진 소스 : `여수_여수 진남관 (1)` · https://tong.visitkorea.or.kr/cms/resource/00/3520800_image2_1.jpg (contentid 126386 · **Type1**)
+실배경 사진 소스 : `여수_여수 진남관 (2)` · https://tong.visitkorea.or.kr/cms/resource/01/3520801_image2_1.jpg (contentid 126386 · **Type1**) — 실제 파일 `photos/jn2.jpg` 육안 확인 완료. 진남관 본전 전체 전경이다. 기존 `jn1.jpg`는 망해루 편액 `望海樓`가 크게 보여 배경에서 제외
 사진 출처 : 한국관광공사 포토코리아 (공공누리 제1유형)
 카드 텍스트 :
 　제목 : 진남관, 국보로 다시 만나요
