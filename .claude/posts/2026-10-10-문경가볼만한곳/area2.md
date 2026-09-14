@@ -14,7 +14,7 @@
 → 그래서 **글자 카드는 진남교반 배경 1장으로 몰고, 나머지는 배경 미확보로 남긴다.** 가짜 생성 배경으로 채우지 않는다.
 
 공통 프롬프트 꼬리표(모든 카드에 붙일 것):
-`ONE continuous full-bleed photograph fills the entire frame. Compose so one vertical side is naturally bright and empty (open sky, water, pale stone path) and place the Korean text DIRECTLY on that bright area with a soft drop shadow. NO panel, NO glass, NO box, NO rounded card, NO divider line, NO tinted overlay strip, NO icon badges, NO circular sticker or emoji icons, NO dotted separator lines, NO white or foggy wash over the photo, NO template-like side panel. Keep the photograph crisp and full-bleed. Accent color deep forest green #2E4636 on numbers and labels only (under 15%); body text in a deep high-contrast ink tone. Natural colors — NOT a monochrome orange/amber wash, NOT orange, NOT amber. Clear autumn daylight. Watermark "blog.naver.com/witchbloom82" small, bottom-right.`
+`ONE continuous full-bleed photograph fills the entire frame. Compose so one vertical side is naturally bright and empty (open sky, water, pale stone path) and place the Korean text DIRECTLY on that bright area. NO panel, NO glass, NO box, NO rounded card, NO divider line, NO tinted overlay strip, NO icon badges, NO circular sticker or emoji icons, NO dotted separator lines, NO white or foggy wash over the photo, NO template-like side panel. Keep the photograph crisp and full-bleed. Accent color deep forest green #2E4636 on numbers and labels only (under 15%); body text in a deep high-contrast ink tone. Natural colors — NOT a monochrome orange/amber wash, NOT orange, NOT amber. Clear autumn daylight. Watermark "blog.naver.com/witchbloom82" small, bottom-right.`
 ★**카드 안에는 이모지를 넣지 않는다**(`image-guide.md` 금지). 썸네일 이모지는 본문 썸네일문구 줄에만 둔다.
 
 ---
@@ -34,9 +34,9 @@
 ```
 문경새재 가는 버스
 급행1  점촌 · 시청 · 마성 · 문경역 · 새재
-100번  문경역 ↔ 새재   하루 6회쯤 · 15분
-어디에 내려도 환승 1회
-현금 1,000~1,500원은 챙기기
+100번  문경역 ↔ 문경새재
+문경 시내버스는 전면 무료
+출발일 운행 시각은 공식 정보로 확인
 ```
 **영문 프롬프트** :
 `Edit the uploaded real photograph of a rural Korean bus stop sign or the KTX Mungyeong station exterior; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear autumn daylight, wide pale sky on the left half of the frame. Place the Korean lines on that bright empty sky, the route numbers slightly larger in deep forest green #2E4636.` + 공통 꼬리표
@@ -47,10 +47,10 @@
 **카드 텍스트**
 ```
 어디서 출발하나요
-동서울 → 점촌   2시간 · 우등 19,000원
-판교 → 문경     KTX 1시간 30분 · 65세 12,200원
-상주 → 점촌     하루 46회 · 가장 촘촘해요
-대구북부 직행은 2018년에 없어졌어요
+동서울 → 점촌   출발일 버스 예매 확인
+판교 → 문경     출발일 KTX 예매 확인
+상주 → 점촌     출발일 운행편 확인
+도착 터미널과 귀경편을 함께 확인
 ```
 **영문 프롬프트** :
 `Edit the uploaded real photograph of a small Korean intercity bus terminal exterior; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear daylight, a broad pale road surface in the lower third giving empty space for text.` + 공통 꼬리표
@@ -98,9 +98,9 @@
 **카드 텍스트**
 ```
 새재할매집  1관문 안쪽 · 도보권
-고추장 약돌돼지 석쇠구이  19,000원
-더덕구이 12,000원 · 도토리묵 11,000원
-11:00~18:00 (라스트오더 17:30) · 월요일 휴무
+고추장 약돌돼지 석쇠구이
+더덕구이 · 도토리묵
+가격·영업시간은 방문일 확인
 ```
 **영문 프롬프트** :
 `Edit the uploaded real photograph of a Korean charcoal-grilled pork dish on a rustic table; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Warm indoor daylight from a window, a plain pale table surface on one side giving empty space for the text.` + 공통 꼬리표
@@ -119,7 +119,7 @@
 반려동물은 들어갈 수 없어요
 ```
 **영문 프롬프트** :
-`Edit the uploaded real photograph of Jinnamgyoban in Mungyeong — a river bend with bridges below rocky cliffs; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear autumn daylight, the broad pale river surface filling one vertical side so the Korean lines sit directly on the water with a soft drop shadow.` + 공통 꼬리표
+`Edit the uploaded real photograph of Jinnamgyoban in Mungyeong — a river bend with bridges below rocky cliffs; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear autumn daylight, the broad pale river surface filling one vertical side so the Korean lines sit directly on the water.` + 공통 꼬리표
 **출처 표기(의무)** : `사진 출처 : 한국관광공사 포토코리아 (공공누리 제1유형)`
 
 ## 이미지 8. 메인 CTA · 16:9
