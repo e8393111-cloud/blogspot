@@ -7,14 +7,13 @@
 > 조명 기본값 = **맑은 늦가을 낮 자연광**. 노을은 CTA 1장에만.
 
 ## ★★배경 사진 현황 — 먼저 읽을 것
-`photos/CREDITS.md` 참조. **이 글은 실배경 사진이 한 장도 없다.**
-- **죽녹원 · 관방제림 · 소쇄원 : TourAPI 전부 0건**
-- **`메타세쿼이아`로 나온 1건은 담양이 아니라 `곡성 메타세쿼이아길`(곡성군 신기리)** — 절대 쓰지 말 것.
-  같은 전남이라 `areaCode=38`에 섞여 나온다. 그대로 썼으면 **다른 군 사진을 담양이라고 내보내는 사고**였다.
-- → **7장 전부 배경 미확보.** 운영자가 직접 촬영분이나 담양군 제공 사진을 확보한 뒤 진행한다. 가짜 생성 배경으로 채우지 않는다.
+`photos/CREDITS.md` 참조. **최종 카드에 쓸 권리 확인 완료 사진은 아직 없다.**
+- 한국관광공사 VISITKOREA 죽녹원 공식 안내에서 담양 죽녹원 실사진 11장을 직접 열어 장면과 한국관광공사 워터마크를 확인했다. 다만 해당 페이지의 재사용 허용 범위를 확인하지 못해 현재는 **구도·시설 확인용 레퍼런스**로만 쓴다.
+- **`메타세쿼이아`로 나온 TourAPI 1건은 담양이 아니라 `곡성 메타세쿼이아길`(곡성군 신기리)** — 절대 쓰지 말 것.
+- → 최종 배경은 직접 촬영분, 담양군 제공 사진 또는 재사용 조건이 명확한 공공누리 사진을 확보한 뒤 적용한다. 가짜 생성 배경으로 채우지 않는다.
 
 공통 프롬프트 꼬리표(모든 카드에 붙일 것):
-`ONE continuous full-bleed photograph fills the entire frame. Compose so one vertical side is naturally bright and empty (open sky, pale path, or soft out-of-focus foliage) and place the Korean text DIRECTLY on that bright area with a soft drop shadow. NO panel, NO glass, NO box, NO rounded card, NO divider line, NO tinted overlay strip, NO icon badges, NO circular sticker or emoji icons, NO dotted separator lines, NO white or foggy wash over the photo, NO template-like side panel. Keep the photograph crisp and full-bleed. Accent color russet brown #7A4A2F on numbers and labels only (under 15%); body text in a deep high-contrast ink tone. Natural colors — NOT a monochrome orange/amber/brown wash over the scene. Clear late-autumn daylight. Watermark "blog.naver.com/witchbloom82" small, bottom-right.`
+`ONE continuous full-bleed photograph fills the entire frame. Compose so one vertical side is naturally bright and empty (open sky, pale path, or soft out-of-focus foliage) and place the Korean text DIRECTLY on that bright area without shadow, outline, glow, panel, or translucent backing. NO panel, NO glass, NO box, NO rounded card, NO divider line, NO tinted overlay strip, NO icon badges, NO circular sticker or emoji icons, NO dotted separator lines, NO white or foggy wash over the photo, NO template-like side panel. Keep the photograph crisp and full-bleed. Accent color russet brown #7A4A2F on numbers and labels only (under 15%); body text in a deep high-contrast ink tone. Natural colors — NOT a monochrome orange/amber/brown wash over the scene. Clear late-autumn daylight. Watermark "blog.naver.com/witchbloom82" small, bottom-right.`
 ★**카드 안에는 이모지를 넣지 않는다**(`image-guide.md` 금지). 썸네일 이모지는 본문 썸네일문구 줄에만 둔다.
 
 ---
@@ -32,16 +31,16 @@
 **카드 텍스트**
 ```
 광주에서 담양 가는 법
-311번  유스퀘어 출발 · 배차 10~20분
-       담양터미널 · 죽녹원 정류장 정차
-죽녹원 앞까지 갈아타지 않고 한 번에
+311번 계열  유스퀘어 앞 출발
+             담양터미널 · 죽녹원 정차
+계열별 시간표와 실시간 도착정보 확인
 ```
 **영문 프롬프트** :
 `Edit the uploaded real photograph of a Korean intercity bus stop or a city bus arriving at a small-town terminal; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear daylight, a broad pale sky filling the upper half for the Korean lines. Render the route number 311 slightly larger in russet brown #7A4A2F.` + 공통 꼬리표
 
 ## 이미지 2. 죽녹원 요금·시간 카드 · 4:5
 **삽입 위치** : 본문 71행 `[이미지 삽입: 죽녹원 대숲길]`
-**실제 배경 사진 소스** : ❌ **미확보**(죽녹원 TourAPI 0건)
+**실제 배경 사진 소스** : ⚠️ VISITKOREA 죽녹원 실사진 11장 육안 확인 완료. 재사용 조건 확인 전에는 구도 참고만 하고 최종 카드에 넣지 않는다
 **카드 텍스트** — ★한 줄에 숫자 1~2개만
 ```
 죽녹원 입장료
@@ -60,7 +59,7 @@
 **카드 텍스트**
 ```
 메타세쿼이아길 입장료
-2026년 3월부터 상품권으로 전액 환급
+2026년 3월 21일부터 상품권 전액 환급
 
 그런데 65세는 환급을 못 받아요
 애초에 무료 입장이라 낼 돈이 없거든요
@@ -78,11 +77,11 @@
 죽녹원 ↔ 메타세쿼이아길
 담양 시티투어버스 전기버스
 
-1일 7회  10:00~17:00 매 정시
-요금     일반 2,000원 · 65세 1,000원
-표 하나로 세 코스 하루 무제한
+운행일·횟수·시각은 방문일 확인
+온라인 안내 요금  일반 2,000원 · 65세 1,000원
+정류장 시간표와 이용 범위 현장 확인
 
-담양에서 돈이 드는 건 이것뿐이에요
+시간이 안 맞으면 택시
 ```
 **영문 프롬프트** :
 `Edit the uploaded real photograph of a small electric shuttle bus at a rural Korean tourist stop; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear daylight, a wide pale forecourt filling the lower portion of the frame for the Korean lines. Keep the times and fares to one or two numbers per line.` + 공통 꼬리표
@@ -93,10 +92,9 @@
 **카드 텍스트**
 ```
 죽녹원 국수거리
-담양막둥이국수  멸치국물국수 6,000원
-                죽녹원 도보권
-봉산떡갈비      떡갈비백반 1인 17,000원
-                혼자 가도 1인분이 돼요
+담양막둥이국수  멸치국물국수 · 죽순비빔국수
+봉산떡갈비      떡갈비백반
+가격·영업시간·1인 주문은 방문일 확인
 ```
 **영문 프롬프트** :
 `Edit the uploaded real photograph of a Korean noodle bowl and tteok-galbi set on a plain wooden table; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Warm indoor daylight from a window, a plain pale table surface on one side giving empty space for the text.` + 공통 꼬리표
@@ -104,14 +102,14 @@
 ## 이미지 6. 메인 CTA · 16:9
 **삽입 위치** : 본문 맨 아래 `[메인 CTA]` 바로 위
 **실제 배경 사진 소스** : ❌ **미확보**
-**카드 텍스트** : `이번 가을, 버스 타고 담양`
+**카드 텍스트** : `공감 💗 + 이웃추가` / `뚜벅이 당일치기 코스 꾸준히 올려요`
 **영문 프롬프트** :
-`Edit the uploaded real photograph of the Damyang metasequoia road in low late-afternoon light; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. This is the one card where warm low sunlight is allowed. Place 이번 가을, 버스 타고 담양 across the open sky in the upper third.` + 공통 꼬리표
+`Edit the uploaded real photograph of the Damyang metasequoia road in low late-afternoon light; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. This is the one card where warm low sunlight is allowed. Place 공감 💗 + 이웃추가 as the main line and 뚜벅이 당일치기 코스 꾸준히 올려요 as the smaller supporting line across the open sky in the upper third.` + 공통 꼬리표
 
 ---
 
 ## 운영자 사용법
-① 배경 사진을 먼저 확보(직접 촬영분 또는 담양군 제공 — **TourAPI에는 죽녹원·메타세쿼이아길 담양분이 없습니다**)
+① 배경 사진을 먼저 확보(직접 촬영분·담양군 제공·재사용 조건이 명확한 공공누리 사진. VISITKOREA 죽녹원 11장은 권리 확인 전 레퍼런스 전용)
 ② GPT에 **업로드** → ③ 해당 카드의 영문 프롬프트로 **글자만 얹기**.
 순수 text-to-image로 배경을 만들지 않는다(AI티 나는 인위적 배경의 원인).
 ★**곡성 메타세쿼이아길 사진을 담양으로 쓰지 마세요.** 이름이 같고 같은 전남이라 검색에 섞여 나옵니다.
