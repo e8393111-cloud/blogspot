@@ -34,7 +34,7 @@
 ```
 Edit the uploaded real photograph of Dongguksa temple in Gunsan (Japanese-style wooden temple architecture). Render this Korean text exactly as written, nothing more: headline "군산 가볼만한곳" and a smaller one-line tagline "기차보다 버스가 빨라요". No other numbers, labels or icons — this is a cover only.
 
-EDIT MODE: edit the uploaded real photograph, keep the scene EXACTLY as-is, do NOT repaint regenerate or stylize the background, ONLY overlay the Korean text and watermark. premium editorial magazine cover in the aesthetic of Kinfolk and Cereal, one continuous full-bleed natural-daylight photo as the hero, place one large high-contrast Korean headline DIRECTLY on clean negative space such as sky wall or softly blurred area with a soft drop shadow, that empty space must come from the photo composition itself, NO panel NO glass NO translucent layer NO text background box NO colored label box NO pill banner NO bottom strip, choose headline color by background brightness dark on light and light on dark never a low-contrast pastel headline, headline in clean refined Korean gothic with strong weight contrast not a brush or calligraphy font, the thumbnail stays purely a cover with only a short headline and an optional one-line tagline, no route numbers no bus numbers no information lists no icon rows no boxes, render the Korean headline exactly as written do not invent alter or add any text or numbers, ONE accent color #27384A used only on tiny details, not orange not amber not gold, no pink, optionally one small handwritten sub-tagline and a tiny doodle in the accent color, no signs or place-name text inside the photo scene only the headline overlay, no text outline gradient or glow, clear natural daylight natural colors, small neutral watermark "blog.naver.com/witchbloom82" bottom right.
+EDIT MODE: edit the uploaded real photograph, keep the scene EXACTLY as-is, do NOT repaint regenerate or stylize the background, ONLY overlay the Korean text and watermark. premium editorial magazine cover in the aesthetic of Kinfolk and Cereal, one continuous full-bleed natural-daylight photo as the hero, place one large high-contrast Korean headline DIRECTLY on clean negative space such as sky wall or softly blurred area, that empty space must come from the photo composition itself, NO panel NO glass NO translucent layer NO text background box NO colored label box NO pill banner NO bottom strip, choose headline color by background brightness dark on light and light on dark never a low-contrast pastel headline, headline in clean refined Korean gothic with strong weight contrast not a brush or calligraphy font, the thumbnail stays purely a cover with only a short headline and an optional one-line tagline, no route numbers no bus numbers no information lists no icon rows no boxes, render the Korean headline exactly as written do not invent alter or add any text or numbers, ONE accent color #27384A used only on tiny details, not orange not amber not gold, no pink, optionally one small handwritten sub-tagline and a tiny doodle in the accent color, no signs or place-name text inside the photo scene only the headline overlay, no text outline gradient or glow, clear natural daylight natural colors, small neutral watermark "blog.naver.com/witchbloom82" bottom right.
 ```
 
 ## 이미지 2. 군산고속·시외버스터미널과 정류장 (교통 카드) · 4:5 — ⛔배경 미확보
@@ -44,11 +44,11 @@ EDIT MODE: edit the uploaded real photograph, keep the scene EXACTLY as-is, do N
 카드 텍스트 :
 　제목 : 터미널에서 근대역사거리까지
 　부제 : 기차 말고 버스로 오세요
-　✅ 1·2·8·9번 · 약 15분
+　✅ 1·2·8·17·18·19번 · 약 15분
 　✅ '근대역사박물관' 정류장 하차
 　✅ 고속·시외터미널은 50m 거리, 사실상 한 곳
 　경고 : ★군산역은 8km 떨어진 다른 동네예요
-★버스 번호 1·2·8·9를 카드에서 가장 크게.
+★버스 번호 1·2·8·17·18·19를 카드에서 또렷하게.
 
 ## 이미지 3. 초원사진관과 옆 소공원 벤치 · — ⛔카드 아님, 원본 그대로
 삽입 위치 : area1.md 86행
@@ -65,7 +65,7 @@ EDIT MODE: edit the uploaded real photograph, keep the scene EXACTLY as-is, do N
 　제목 : 군산 반나절 코스
 　부제 : 터미널 도착 10시 기준
 　①10:00 터미널 도착 — 돌아가는 표 먼저 끊기
-　②10:10 1·2·8·9번 버스(약 15분)
+　②10:10 1·2·8·17·18·19번 버스(약 15분)
 　③10:30 근대역사박물관
 　④12:00 근대건축관·근대미술관
 　⑤13:00 점심(이성당 또는 복성루)
@@ -74,9 +74,9 @@ EDIT MODE: edit the uploaded real photograph, keep the scene EXACTLY as-is, do N
 　⑧15:30 마무리
 　하단 3칸 :
 　전체 소요 : 5시간 30분(10:00~15:30)
-　1인 입장료 : 어른 2,000~5,000원(묶음에 따라 달라요)
-　★마감 : 박물관 매주 월요일 휴관 · 오후 4시 전 도착 권장
-★마감 칸을 셋 중 가장 크게. ★요금은 범위로만 — 확정 금액을 넣지 마라(공식 표의 칸 제목이 깨져 미확정).
+　1인 입장료 : 성인 개별권 2,000원 · 박물관 통합권 3,000원 · 금강권 통합권 5,000원
+　★마감 : 박물관 매주 월요일 휴관 · 3~10월 입장 17:30 종료
+★마감 칸을 셋 중 가장 크게. 요금은 군산근대역사박물관 공식 관람안내의 개인 성인 기준.
 
 ## 이미지 5. 근대역사박물관 외관과 매표소 · 4:5 — ⛔배경 아예 없음
 삽입 위치 : area1.md 130행
@@ -84,31 +84,31 @@ EDIT MODE: edit the uploaded real photograph, keep the scene EXACTLY as-is, do N
 　찾는 방법 — ①박물관 공식 홈(museum.gunsan.go.kr) 사진의 재사용 조건 확인 ②군산시 문화관광 홈페이지
 　③대한민국구석구석에서 '군산 근대역사박물관' 재검색 ④운영자 직접 촬영
 카드 텍스트 :
-　제목 : 입장료가 왜 헷갈리나요
-　부제 : 통합권이 2종류예요
-　✅ 어른 기준 2,000~5,000원
-　✅ 박물관만 볼 때가 가장 싸요
-　✅ 단체가가 개인가보다 쌉니다
-　✅ 09:00 개관 · 매주 월요일 휴관
-　경고 : ★65세는 감면 대상 — 무료인지 할인인지는 ☎063-454-5953
-★확정 금액을 지어내지 마라. 범위와 구조까지만.
+　제목 : 박물관 입장료 한눈에
+　부제 : 개별권과 통합권 2종류예요
+　✅ 성인 개별권 2,000원
+　✅ 박물관 통합권 3,000원
+　✅ 금강권 통합권 5,000원
+　✅ 65세 이상 무료 · 신분증 필수
+　경고 : ★3~10월 입장 17:30 종료 · 매주 월요일 휴관
+★군산근대역사박물관 공식 관람안내의 개인 성인 기준. 군산시민·단체·청소년·어린이 요금은 본문 공식 링크에서 확인.
 
 ## 이미지 6. 동국사 대웅전 · 4:5 — ✅배경 있음
 삽입 위치 : area1.md 146행 (본문은 '초원사진관 내부와 동국사 대웅전'인데, 초원사진관은 Type3라 **동국사 쪽만** 카드로 만든다)
 실배경 사진 소스 : **동국사(군산)** 129509 · `Type1` · https://tong.visitkorea.or.kr/cms/resource/15/4088715_image2_1.jpg
 　★썸네일과 같은 원본이면 단조로우니, `detailImage2`로 받은 목록에서 **다른 컷**을 고를 것.
 카드 텍스트 :
-　제목 : 동국사, 월요일에도 열려요
+　제목 : 동국사 대웅전
 　부제 : 국내 유일 일본식 사찰 건축
-　✅ 관람료 무료
-　✅ 08:00~19:00
-　✅ 1909년 창건 · 휴관일 없음
+　✅ 전북특별자치도 군산시 동국사길 16
+　✅ 1909년 창건
+　✅ 관람 가능 시간은 방문일 확인
 　✅ 대웅전과 요사채가 실내 복도로 이어져요
 영문 프롬프트 :
 ```
-Edit the uploaded real photograph of Dongguksa temple in Gunsan. Render this Korean text exactly as written, nothing more: title "동국사, 월요일에도 열려요", subtitle "국내 유일 일본식 사찰 건축", lines "✅ 관람료 무료", "✅ 08:00~19:00", "✅ 1909년 창건 · 휴관일 없음", "✅ 대웅전과 요사채가 실내 복도로 이어져요".
+Edit the uploaded real photograph of Dongguksa temple in Gunsan. Render this Korean text exactly as written, nothing more: title "동국사 대웅전", subtitle "국내 유일 일본식 사찰 건축", lines "✅ 전북특별자치도 군산시 동국사길 16", "✅ 1909년 창건", "✅ 관람 가능 시간은 방문일 확인", "✅ 대웅전과 요사채가 실내 복도로 이어져요".
 
-EDIT MODE: edit the uploaded real photograph, keep the scene EXACTLY as-is, do NOT repaint regenerate or stylize the background, ONLY overlay the Korean text and watermark. ACCENT COLOR: one single accent #27384A for the whole set, keep it identical on every card, no pink no magenta, not orange not amber not gold, use the accent only on key numbers labels and thin dividers about 15 percent. LAYOUT: one continuous full-bleed natural-daylight photo fills the entire frame as the clear hero, compose the crop so one vertical side is naturally bright and empty such as open sky pale wall or softly blurred greenery, place the Korean text DIRECTLY on that bright area with a soft drop shadow, NO panel NO glass NO translucent layer NO box NO rounded card NO tinted overlay strip NO white or foggy wash over the photo NO bottom strip or top band NO template-like side panel, the empty space comes from the photo composition never from an added panel, never split the frame, one scene only. TYPE: large clean high-contrast Korean gothic readable without zooming, strong weight contrast, strict editorial grid, generous margins, dark text on light areas and cream text on dark areas, no vivid or pale low-contrast text, no text outline gradient or glow, render every Korean character and number exactly as written do not invent alter drop or add any text or numbers, keep each card minimal with only one or two numbers per line. ICONS: only small soft neutral-toned circles with thin pictograms that recede, no saturated colored circles, no clip-art, no pill chips, no icon badges, no emoji or sticker badges, no dotted separator lines, no card-news or SmartArt look. PHOTO: premium editorial travel magazine spread in the aesthetic of Kinfolk and Cereal, clear natural daylight bright and airy, photorealistic DSLR, natural colors not a monochrome orange or amber wash, no sunset, no signs banners place-names or shop-names inside the photo, no real logos, no map UI, all Korean text only as a clean overlay. Small neutral watermark "blog.naver.com/witchbloom82" bottom right.
+EDIT MODE: edit the uploaded real photograph, keep the scene EXACTLY as-is, do NOT repaint regenerate or stylize the background, ONLY overlay the Korean text and watermark. ACCENT COLOR: one single accent #27384A for the whole set, keep it identical on every card, no pink no magenta, not orange not amber not gold, use the accent only on key numbers labels and thin dividers about 15 percent. LAYOUT: one continuous full-bleed natural-daylight photo fills the entire frame as the clear hero, compose the crop so one vertical side is naturally bright and empty such as open sky pale wall or softly blurred greenery, place the Korean text DIRECTLY on that bright area, NO panel NO glass NO translucent layer NO box NO rounded card NO tinted overlay strip NO white or foggy wash over the photo NO bottom strip or top band NO template-like side panel, the empty space comes from the photo composition never from an added panel, never split the frame, one scene only. TYPE: large clean high-contrast Korean gothic readable without zooming, strong weight contrast, strict editorial grid, generous margins, dark text on light areas and cream text on dark areas, no vivid or pale low-contrast text, no text outline gradient or glow, render every Korean character and number exactly as written do not invent alter drop or add any text or numbers, keep each card minimal with only one or two numbers per line. ICONS: only small soft neutral-toned circles with thin pictograms that recede, no saturated colored circles, no clip-art, no pill chips, no icon badges, no emoji or sticker badges, no dotted separator lines, no card-news or SmartArt look. PHOTO: premium editorial travel magazine spread in the aesthetic of Kinfolk and Cereal, clear natural daylight bright and airy, photorealistic DSLR, natural colors not a monochrome orange or amber wash, no sunset, no signs banners place-names or shop-names inside the photo, no real logos, no map UI, all Korean text only as a clean overlay. Small neutral watermark "blog.naver.com/witchbloom82" bottom right.
 ```
 
 ## 이미지 7. 이성당 단팥빵과 복성루 짬뽕 (맛집 카드) · 3:4 — ⛔배경 미확보
@@ -116,10 +116,10 @@ EDIT MODE: edit the uploaded real photograph, keep the scene EXACTLY as-is, do N
 실배경 사진 소스 : **미확보.** 일반 식당·빵집이라 TourAPI 등재 대상이 아니다(정상).
 카드 텍스트 :
 　제목 : 군산에서 뭘 먹을까요
-　✅ 이성당 단팥빵 2,000원 · 야채빵 2,500원 · 08:00~21:30
-　✅ 복성루 짬뽕 11,000~12,000원대 · 10:00~16:00 · 일요일 휴무
-　✅ 미곡창고 아메리카노 5,000원 · 10:00~22:00 · 좌석 넉넉
-　경고 : ★복성루는 재료 소진되면 일찍 닫아요
+　✅ 이성당 단팥빵 2,000원 · 야채빵 2,500원(공식 온라인몰 확인)
+　✅ 복성루 · 짬뽕 메뉴와 영업시간은 방문일 확인
+　✅ 미곡창고 · 메뉴와 영업시간은 방문일 확인
+　경고 : ★식당·카페는 방문일 네이버지도에서 휴무와 최근 메뉴판을 확인하세요
 
 ## 이미지 8. 박물관 엘리베이터·휠체어 대여 데스크 (무장애 카드) · 4:5 — ⛔배경 미확보
 삽입 위치 : area1.md 183행
@@ -136,9 +136,8 @@ EDIT MODE: edit the uploaded real photograph, keep the scene EXACTLY as-is, do N
 삽입 위치 : area1.md 216행 `[메인 CTA]` 근처
 실배경 사진 소스 : **동국사(군산)** 129509 · `Type1` — 썸네일·이미지6과 **다른 컷**을 쓸 것
 카드 텍스트 :
-　"공감 눌러주세요 + 이웃추가"
-　"뚜벅이 당일치기 코스, 꾸준히 올려요"
-　(카드 안에는 이모지를 넣지 않는다)
+　"공감 💗 + 이웃추가"
+　"뚜벅이 당일치기 코스 꾸준히 올려요"
 영문 프롬프트 : 이미지 6의 EDIT MODE 이하 꼬리표를 그대로 쓰되, 위 두 줄만 렌더링하고 16:9로 만든다.
 
 ---
@@ -151,6 +150,6 @@ EDIT MODE: edit the uploaded real photograph, keep the scene EXACTLY as-is, do N
 5. 큰 고딕·고대비 지시 포함 **YES**
 6. 사진 안 글자 0 / 워터마크 우하단 **YES** (Type3인 이미지3은 워터마크 자체를 넣지 않음)
 7. 영역1 삽입 7개 + 썸네일 + CTA = **9개, 1:1 매칭 YES**
-8. 마감 시각(월요일 휴관·오후 4시 전 도착)이 코스요약 카드에 있음 **YES**
+8. 마감 시각(월요일 휴관·3~10월 입장 17:30 종료)이 코스요약 카드에 있음 **YES**
 9. 카드마다 실배경 소스 명시, 미확보는 '미확보 + 찾는 방법'으로 정직 표기 **YES**
 10. ⛔**미완성 항목**: 9장 중 **6장이 실배경 미확보**다. 운영자가 사진을 확보하기 전에는 완성 카드로 만들 수 없다.
