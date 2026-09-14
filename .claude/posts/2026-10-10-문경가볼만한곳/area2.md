@@ -58,7 +58,7 @@
 ## 이미지 3. 문경새재 1관문 · **원본 그대로(글자 없음)** · 4:5 또는 3:4
 **삽입 위치** : 본문 134행 `[이미지 삽입 : 문경새재 1관문(주흘관) 전경…]`
 **실제 배경 사진 소스** : ✅ **확보 · 단 `Type3`(변경금지)**
-　`http://tong.visitkorea.or.kr/cms/resource/16/3408316_image2_1.jpg` (문경 조령 관문 · contentid 2753508)
+　`photos/mungyeong-joryeong-gate-type3.jpg` (원본 URL: http://tong.visitkorea.or.kr/cms/resource/16/3408316_image2_1.jpg · contentid 2753508)
 **★이 카드는 글자를 얹지 않는다.** 원본을 그대로 넣고, 설명은 본문 텍스트로 단다.
 **출처 표기(의무)** : `사진 출처 : 한국관광공사 포토코리아 (공공누리 제1유형)`
 
@@ -108,7 +108,7 @@
 ## 이미지 7. 편의·무장애 카드 · 4:5
 **삽입 위치** : 본문 232행 `[이미지 삽입 : 문경새재 산책로의 벤치·정자…]`
 **실제 배경 사진 소스** : ✅ **확보 · `Type1`(오버레이 가능)** — 이 글에서 유일하게 글자를 얹어도 되는 실사진
-　`http://tong.visitkorea.or.kr/cms/resource/80/3584880_image2_1.jpg` (진남교반 · contentid 126570)
+　`photos/jinnamgyoban-type1.jpg` (원본 URL: http://tong.visitkorea.or.kr/cms/resource/80/3584880_image2_1.jpg · contentid 126570)
 　※ 진남교반은 문경새재가 아니라 마성면이다. **"문경새재 산책로"라고 쓰지 말 것** — 카드 문구를 장소 중립으로 뒀다.
 **카드 텍스트**
 ```
