@@ -7,7 +7,7 @@
 > 조명 기본값 = **맑은 늦가을 낮 자연광**. 노을은 CTA 1장에만.
 
 ## ★★배경 사진 현황 — 먼저 읽을 것
-`photos/CREDITS.md` 참조. **최종 카드에 쓸 권리 확인 완료 사진은 아직 없다.**
+`photos/CREDITS.md` 참조. **2026-09-15: Wikimedia Commons 원본 사진 4종의 CC BY-SA 재사용 조건 확인.** 터미널·죽녹원 사진은 hyolee2(2015년 촬영), 음식은 hyolee2의 담양 대통밥 예시(특정 식당 사진 아님), 메타세쿼이아길은 Ken Eckert(2013년 촬영). 실제 카드에 출처·라이선스 표시. 원본 및 편집본 링크와 변경 사항은 본문 사진 출처에 병기.
 - 한국관광공사 VISITKOREA 죽녹원 공식 안내에서 담양 죽녹원 실사진 11장을 직접 열어 장면과 한국관광공사 워터마크를 확인했다. 다만 해당 페이지의 재사용 허용 범위를 확인하지 못해 현재는 **구도·시설 확인용 레퍼런스**로만 쓴다.
 - **`메타세쿼이아`로 나온 TourAPI 1건은 담양이 아니라 `곡성 메타세쿼이아길`(곡성군 신기리)** — 절대 쓰지 말 것.
 - → 최종 배경은 직접 촬영분, 담양군 제공 사진 또는 재사용 조건이 명확한 공공누리 사진을 확보한 뒤 적용한다. 가짜 생성 배경으로 채우지 않는다.
@@ -69,42 +69,42 @@
 **영문 프롬프트** :
 `Edit the uploaded real photograph of the Metasequoia-lined road in Damyang with rust-brown autumn foliage; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear late-autumn daylight, the pale road surface filling the lower half so the Korean lines sit directly on it. Set the line 그런데 65세는 환급을 못 받아요 in russet brown #7A4A2F; everything else deep ink.` + 공통 꼬리표
 
-## 이미지 4. 시티투어버스 카드 · 4:5
+## 이미지 4. 현지 이동 안내 카드 · 4:5
 **삽입 위치** : 본문 137행 `[이미지 삽입: 담양 시티투어버스·메타랜드 정류장]`
 **실제 배경 사진 소스** : ❌ **미확보**
 **카드 텍스트**
 ```
 죽녹원 ↔ 메타세쿼이아길
-담양 시티투어버스 전기버스
+예전 시티투어는 운행 중단
 
-운행일·횟수·시각은 방문일 확인
-온라인 안내 요금  일반 2,000원 · 65세 1,000원
-정류장 시간표와 이용 범위 현장 확인
+방문일 일반 버스편 조회
+정문 → 매표소 보행경로 확인
 
 시간이 안 맞으면 택시
 ```
 **영문 프롬프트** :
-`Edit the uploaded real photograph of a small electric shuttle bus at a rural Korean tourist stop; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear daylight, a wide pale forecourt filling the lower portion of the frame for the Korean lines. Keep the times and fares to one or two numbers per line.` + 공통 꼬리표
+`Edit the uploaded real photograph of the actual Damyang metasequoia avenue, as the destination scene, without adding a bus or bus stop; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear daylight, a wide pale forecourt filling the lower portion of the frame for the Korean lines. Keep the times and fares to one or two numbers per line.` + 공통 꼬리표
 
 ## 이미지 5. 맛집 카드 · 4:5
-**삽입 위치** : 본문 159행 `[이미지 삽입: 국수거리 국수·떡갈비 상차림]`
+**삽입 위치** : 본문 159행 `[이미지 삽입: 담양 대통밥 상차림 예시]`
 **실제 배경 사진 소스** : ❌ **미확보**(음식점은 TourAPI 등재 대상 아님)
 **카드 텍스트**
 ```
-죽녹원 국수거리
-담양막둥이국수  멸치국물국수 · 죽순비빔국수
-봉산떡갈비      떡갈비백반
-가격·영업시간·1인 주문은 방문일 확인
+죽녹원 주변 한 끼
+국수 · 떡갈비 · 대통밥
+가격·영업시간은 방문일 확인
+혼자라면 1인 주문 먼저 확인
+사진은 담양 대통밥 상차림 예시
 ```
 **영문 프롬프트** :
-`Edit the uploaded real photograph of a Korean noodle bowl and tteok-galbi set on a plain wooden table; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Warm indoor daylight from a window, a plain pale table surface on one side giving empty space for the text.` + 공통 꼬리표
+`Edit the uploaded real photograph of the actual Damyang daetongbap meal shown in the supplied source on a plain wooden table; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Warm indoor daylight from a window, a plain pale table surface on one side giving empty space for the text.` + 공통 꼬리표
 
 ## 이미지 6. 메인 CTA · 16:9
 **삽입 위치** : 본문 맨 아래 `[메인 CTA]` 바로 위
 **실제 배경 사진 소스** : ❌ **미확보**
 **카드 텍스트** : `공감 💗 + 이웃추가` / `뚜벅이 당일치기 코스 꾸준히 올려요`
 **영문 프롬프트** :
-`Edit the uploaded real photograph of the Damyang metasequoia road in low late-afternoon light; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. This is the one card where warm low sunlight is allowed. Place 공감 💗 + 이웃추가 as the main line and 뚜벅이 당일치기 코스 꾸준히 올려요 as the smaller supporting line across the open sky in the upper third.` + 공통 꼬리표
+`Edit the uploaded real photograph of the Damyang metasequoia road in original daylight; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Preserve actual daylight and avoid invented sunset. Place 공감 💗 + 이웃추가 as the main line and 뚜벅이 당일치기 코스 꾸준히 올려요 as the smaller supporting line across the open sky in the upper third.` + 공통 꼬리표
 
 ---
 
@@ -113,3 +113,13 @@
 ② GPT에 **업로드** → ③ 해당 카드의 영문 프롬프트로 **글자만 얹기**.
 순수 text-to-image로 배경을 만들지 않는다(AI티 나는 인위적 배경의 원인).
 ★**곡성 메타세쿼이아길 사진을 담양으로 쓰지 마세요.** 이름이 같고 같은 전남이라 검색에 섞여 나옵니다.
+
+
+## 2026-09-15 실제 제작 보완
+- 원본: https://commons.wikimedia.org/wiki/File:Metasequoia_Forest,_Damyang,_Jeolla,_Korea.jpg (Ken Eckert, CC BY-SA 4.0)
+- 원본: https://commons.wikimedia.org/wiki/File:Damyamg_Bus_Terminal.JPG (hyolee2, CC BY-SA 3.0)
+- 원본: https://commons.wikimedia.org/wiki/File:Jungnogwon_3.JPG (hyolee2, CC BY-SA 3.0)
+- 원본: https://commons.wikimedia.org/wiki/File:Damyang_Daetongbap_2.JPG (hyolee2, CC BY-SA 4.0)
+- 2015년 사진을 현재 시설 상태로 단정하지 않는다. 음식 사진은 추천 매장의 현행 메뉴 사진으로 오인하지 않도록 예시 명시.
+- 이미지 2는 숫자 가독성을 위해 3:4. CTA는 원본 낮 장면 유지; 음영 패널이 생긴 첫 시안 폐기, 밝은 길 위 검정 글자로 재제작.
+- 2024년부터 중단된 시티투어를 현재 운행·할인 정보로 쓰지 않으며 일반 노선 조회/보행/택시 안내로 대체.
