@@ -10,7 +10,7 @@
 `photos/CREDITS.md` 참조. **2026-09-15: Wikimedia Commons 원본 사진 4종의 CC BY-SA 재사용 조건 확인.** 터미널·죽녹원 사진은 hyolee2(2015년 촬영), 음식은 hyolee2의 담양 대통밥 예시(특정 식당 사진 아님), 메타세쿼이아길은 Ken Eckert(2013년 촬영). 실제 카드에 출처·라이선스 표시. 원본 및 편집본 링크와 변경 사항은 본문 사진 출처에 병기.
 - 한국관광공사 VISITKOREA 죽녹원 공식 안내에서 담양 죽녹원 실사진 11장을 직접 열어 장면과 한국관광공사 워터마크를 확인했다. 다만 해당 페이지의 재사용 허용 범위를 확인하지 못해 현재는 **구도·시설 확인용 레퍼런스**로만 쓴다.
 - **`메타세쿼이아`로 나온 TourAPI 1건은 담양이 아니라 `곡성 메타세쿼이아길`(곡성군 신기리)** — 절대 쓰지 말 것.
-- → 최종 배경은 직접 촬영분, 담양군 제공 사진 또는 재사용 조건이 명확한 공공누리 사진을 확보한 뒤 적용한다. 가짜 생성 배경으로 채우지 않는다.
+- → 최종 배경은 아래 CC BY-SA 원본 4종을 사용한다. 가짜 생성 배경으로 채우지 않는다.
 
 공통 프롬프트 꼬리표(모든 카드에 붙일 것):
 `ONE continuous full-bleed photograph fills the entire frame. Compose so one vertical side is naturally bright and empty (open sky, pale path, or soft out-of-focus foliage) and place the Korean text DIRECTLY on that bright area without shadow, outline, glow, panel, or translucent backing. NO panel, NO glass, NO box, NO rounded card, NO divider line, NO tinted overlay strip, NO icon badges, NO circular sticker or emoji icons, NO dotted separator lines, NO white or foggy wash over the photo, NO template-like side panel. Keep the photograph crisp and full-bleed. Accent color russet brown #7A4A2F on numbers and labels only (under 15%); body text in a deep high-contrast ink tone. Natural colors — NOT a monochrome orange/amber/brown wash over the scene. Clear late-autumn daylight. Watermark "blog.naver.com/witchbloom82" small, bottom-right.`
@@ -20,14 +20,14 @@
 
 ## 이미지 0. 썸네일 · 1:1
 **삽입 위치** : 대표 이미지(본문 최상단)
-**실제 배경 사진 소스** : ❌ **미확보** — 담양 메타세쿼이아길 실사진 필요(곡성 사진 금지)
+**실제 배경 사진 소스** : ✅ Ken Eckert · 담양 메타세쿼이아길(2013년) · CC BY-SA 4.0
 **카드 텍스트** : `65세는 상품권 대신` / `이미 공짜예요` / 작은 태그라인 `담양 뚜벅이 반나절`
 **영문 프롬프트** :
 `Edit the uploaded real photograph of the Metasequoia-lined road in Damyang in late autumn; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Tall metasequoia trees in rust-brown autumn colour line a straight pale road that recedes into the distance under clear daylight. Place the two headline lines 65세는 상품권 대신 / 이미 공짜예요 on the bright open sky at the top, with the small tagline 담양 뚜벅이 반나절 beneath.` + 공통 꼬리표
 
 ## 이미지 1. 교통 카드(길 안내판) · 4:5
 **삽입 위치** : 본문 51행 `[이미지 삽입: 담양공용버스터미널·311번 버스]`
-**실제 배경 사진 소스** : ❌ **미확보**(터미널·버스는 TourAPI 등재 대상이 아니다 — 철원·문경 선례와 동일)
+**실제 배경 사진 소스** : ✅ hyolee2 · 담양공용버스터미널(2015년) · CC BY-SA 3.0
 **카드 텍스트**
 ```
 광주에서 담양 가는 법
@@ -40,7 +40,7 @@
 
 ## 이미지 2. 죽녹원 요금·시간 카드 · 4:5
 **삽입 위치** : 본문 71행 `[이미지 삽입: 죽녹원 대숲길]`
-**실제 배경 사진 소스** : ⚠️ VISITKOREA 죽녹원 실사진 11장 육안 확인 완료. 재사용 조건 확인 전에는 구도 참고만 하고 최종 카드에 넣지 않는다
+**실제 배경 사진 소스** : ✅ hyolee2 · Jungnogwon 3.JPG, 죽녹원(2015년) · CC BY-SA 3.0
 **카드 텍스트** — ★한 줄에 숫자 1~2개만
 ```
 죽녹원 입장료
@@ -55,7 +55,7 @@
 
 ## 이미지 3. ★65세 반전 카드(이 글의 핵심) · 4:5
 **삽입 위치** : 본문 99행 `[이미지 삽입: 메타세쿼이아 가로수길 단풍]`
-**실제 배경 사진 소스** : ❌ **미확보** — ★**곡성 메타세쿼이아길 사진을 쓰지 말 것**(다른 군이다)
+**실제 배경 사진 소스** : ✅ Ken Eckert · 담양 메타세쿼이아길(2013년) · CC BY-SA 4.0
 **카드 텍스트**
 ```
 메타세쿼이아길 입장료
@@ -71,7 +71,7 @@
 
 ## 이미지 4. 현지 이동 안내 카드 · 4:5
 **삽입 위치** : 본문 137행 `[이미지 삽입: 담양 시티투어버스·메타랜드 정류장]`
-**실제 배경 사진 소스** : ❌ **미확보**
+**실제 배경 사진 소스** : ✅ Ken Eckert · 목적지인 담양 메타세쿼이아길 전경 · CC BY-SA 4.0, 버스·정류장으로 표기하지 않음
 **카드 텍스트**
 ```
 죽녹원 ↔ 메타세쿼이아길
@@ -87,7 +87,7 @@
 
 ## 이미지 5. 맛집 카드 · 4:5
 **삽입 위치** : 본문 159행 `[이미지 삽입: 담양 대통밥 상차림 예시]`
-**실제 배경 사진 소스** : ❌ **미확보**(음식점은 TourAPI 등재 대상 아님)
+**실제 배경 사진 소스** : ✅ hyolee2 · 담양 대통밥 상차림 예시(2015년) · CC BY-SA 4.0
 **카드 텍스트**
 ```
 죽녹원 주변 한 끼
@@ -101,7 +101,7 @@
 
 ## 이미지 6. 메인 CTA · 16:9
 **삽입 위치** : 본문 맨 아래 `[메인 CTA]` 바로 위
-**실제 배경 사진 소스** : ❌ **미확보**
+**실제 배경 사진 소스** : ✅ Ken Eckert · 담양 메타세쿼이아길 낮 전경 · CC BY-SA 4.0
 **카드 텍스트** : `공감 💗 + 이웃추가` / `뚜벅이 당일치기 코스 꾸준히 올려요`
 **영문 프롬프트** :
 `Edit the uploaded real photograph of the Damyang metasequoia road in original daylight; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Preserve actual daylight and avoid invented sunset. Place 공감 💗 + 이웃추가 as the main line and 뚜벅이 당일치기 코스 꾸준히 올려요 as the smaller supporting line across the open sky in the upper third.` + 공통 꼬리표
