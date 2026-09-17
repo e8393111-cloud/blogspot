@@ -230,3 +230,49 @@ https://korean.visitkorea.or.kr/detail/rem_detail.do?cotid=14d23a6e-f91a-461e-a0
 **4. 읽은 원문은 즉시 `FACTS.md`에 박는다.**
 　데이터스토어에서 읽고 바로 원고에 썼더니, 나중에 검증하려 할 때 **저장소에 대조할 원문이 없어** grep이 헛돌았다.
 　그 사이 추론 하나가 사실처럼 원고에 들어갈 뻔했다(RUNLOG 2026-09-16 참조). **읽는 즉시 §8에 원문부터.**
+
+---
+
+## ★2026-09-17 용인 — **HTML이 막히면 TourAPI로 우회한다** (누적 8연패를 끊은 길)
+
+**상황**: 기자가 1차 출처를 전부 못 열었다(EGRESS_BLOCKED). 이 도구로 4곳을 시도해 **4곳 다 실패**했다.
+
+| 대상 | 결과 | 원인 |
+|---|---|---|
+| `www.yijajak.com`(공식 홈) | `65세_at-1_len33933` | **anybuild.com 사이트빌더** — 본문을 JS로 그린다 |
+| 같은 곳, `입장료`로 재탐색 | `at-1` | 같은 원인(단어를 바꿔도 소용없다) |
+| `korean.visitkorea.or.kr` 상세 | `이용요금_at-1_len50085` | JS 렌더 |
+| `ggtour.or.kr` 상세 | `휴무_at-1_len58210` | JS 렌더 |
+
+→ 이걸로 HTML 우회는 **누적 8연패**가 됐다(국립수목원·광한루원·남원시·전북관광·내장산케이블카·위 4곳).
+　 **정적 HTML 공식홈은 이제 거의 안 남아 있다**고 보는 게 맞다.
+
+### ★그런데 다음 한 수가 뚫렸다 — 같은 시나리오로 **공공 API를 때린다**
+
+`https://apis.data.go.kr/B551011/KorService2/...` 를 `u`에 넣고,
+**모듈 3의 `qs`에 `serviceKey = {{var.team.TOURAPI_KEY}}`** 를 넣으면 그대로 돈다.
+★`qs`는 mapper라 **팀 변수가 평가된다** — 키를 내가 볼 일도, 파일에 적을 일도 없다.
+(`u`(=`{{2.u}}`) 안에 `{{var.team...}}`을 넣으면 **안 된다.** 데이터라 재평가되지 않는다.)
+JSON 응답이라 태그 제거 정규식이 건드릴 게 없어 **본문이 그대로 남는다.**
+
+```
+1) searchKeyword2  + qs{keyword}                  → contentid 찾기
+2) detailIntro2    + qs{contentId, contentTypeId} → usetime · restdate · parking · infocenter
+3) detailCommon2   + qs{contentId}                → overview · addr · mapx/mapy · cpyrhtDivCd
+```
+
+**3연승.** 용인자작나무숲에서 이렇게 건진 것 —
+`restdate:"매주 화요일"` · `usetime:"10:00~20:00 (입장 마감 19:00)"` · `parking:"가능요금 (무료)"` ·
+`infocenter:"0507-1365-8936"` · `overview`(개장연도·규모·시설) · `cpyrhtDivCd:"Type3"`.
+★**휴무 화요일은 인스타 카드뉴스에도 없었다.** 이게 빠졌으면 화요일에 간 독자가 헛걸음한다.
+
+### ★함정 3개 (실제로 밟았다)
+1. **`detailCommon2`에 `contentTypeId`를 보내면 거부당한다** — `INVALID_REQUEST_PARAMETER_ERROR(contentTypeId)`.
+   `detailIntro2`는 **필수**, `detailCommon2`는 **금지**다. 같은 qs를 둘에 돌려쓰면 하나가 죽는다.
+2. **관광지(contentTypeId=12) 스키마에는 `usefee`가 없다.** 운영시간·휴무는 나와도 **입장료는 TourAPI로 못 구한다.**
+3. **빈 문자열은 "없음"이 아니라 "미등록"이다.** `chkbabycarriage:""`를 보고 "유모차 불가"라고 쓰면 사실무근이다.
+
+### ★한계는 그대로다
+TourAPI에는 **관광지만** 있다. 터미널·정류장·시내버스·현지 식당은 없다.
+`백암순대`로 검색하면 **서울 강남 '농민백암순대 본점' 1건**만 나온다(백암면 현지 집은 미등재).
+→ **마지막 1구간(정류장→목적지)과 맛집 가격은 여전히 운영자가 네이버지도로 확인해야 한다.** 이 벽은 안 깨졌다.
