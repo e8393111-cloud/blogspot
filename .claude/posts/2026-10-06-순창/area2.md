@@ -388,12 +388,12 @@ Add small watermark "blog.naver.com/witchbloom82" bottom-left, 55% opacity.
 **카드 텍스트**
 ```
 강천산 아래 밥집
-① 완도식당   산채비빔밥 11,000원대
+① 완도식당   산채비빔밥 11,000원
 　 불더덕정식(2인) 32,000원 · 매표소 도보권
 ② 뜨란채     순창삼합(2인) 39,000원
 　 11:00~22:00 · 1·4주 월요일 휴무
-③ 산솔카페   순창발효커피 4,500원
-　 매일 10:00~18:30
+③ 산솔카페   쌀 식빵 4,800원
+　 매일 10:00~17:00 — 5시면 닫아요
 ```
 
 **영문 프롬프트** (배경 사진을 구한 뒤에만 사용)
@@ -405,9 +405,9 @@ Crop to 4:5 portrait leaving a naturally bright, empty area of table or wall on 
 Overlay ONLY the Korean text DIRECTLY on that bright empty area with a soft drop shadow:
 heading (bold, deep ink #1B2320): 강천산 아래 밥집
 then three numbered rows, the prices in accent #D24B27:
-① 완도식당 산채비빔밥 11,000원대 · 불더덕정식(2인) 32,000원 · 매표소 도보권
+① 완도식당 산채비빔밥 11,000원 · 불더덕정식(2인) 32,000원 · 매표소 도보권
 ② 뜨란채 순창삼합(2인) 39,000원 · 11:00~22:00 · 1·4주 월요일 휴무
-③ 산솔카페 순창발효커피 4,500원 · 매일 10:00~18:30
+③ 산솔카페 쌀 식빵 4,800원 · 매일 10:00~17:00 — 5시면 닫아요
 NO icon badges, NO circular stickers, NO dotted separators, NO white or foggy wash,
 NO template-like side panel, NEVER split the frame.
 Add small watermark "blog.naver.com/witchbloom82" bottom-left, 55% opacity.
