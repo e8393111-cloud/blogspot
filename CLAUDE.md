@@ -1,5 +1,8 @@
 # 네이버 시니어 여행 블로그 — 운영 규칙 (항상 적용)
 
+> **ChatGPT 여행글 실행 시작점 (2026-09-23):** `.claude/00_여행블로그_MASTER.md` → `.claude/00A_여행블로그_AUTOMATION_FIRST.md` → `.claude/PUBLISHED-REGISTRY.md` → `.claude/여행블로그_운영지침_통합본.md` → 이미지 작업 시 `.claude/blog-image-project-instructions-v2.md`. 아래의 옛 이미지 프롬프트·패널·그림자·원본 글자 제거·외부 조판 지시가 V2와 충돌하면 V2를 따른다. 발행 상태는 네이버 공개 확인과 STATUS/레지스트리로 판정한다.
+
+
 블로그: `blog.naver.com/witchbloom82` · 목표: 일 방문자 3,000명+
 독자: 30~70대, 핵심 50~70대. 주제: **차 없이 대중교통 당일치기(뚜벅이)**.
 
