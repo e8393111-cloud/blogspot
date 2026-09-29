@@ -1,3 +1,20 @@
+## 현재 V3 공개 이미지 반영 (2026-09-29)
+
+기존 공개글 224425684980 수정 저장 완료. 최신 상세 판정은 STATUS.md의 “최신 공개 이미지 — V3 적용 완료” 절 우선.
+
+- 3478810 → muju-hero-v3.png / EDIT / 1:1 / 도입 다음 대표
+- 3516726 → muju-fee-v3.png / EDIT / 약4:5 / 기존 귀경 안내 뒤
+- 3478809 → muju-cta-v3.png / EDIT / 약16:9 / 마지막 텍스트 CTA 직전
+- 실제 원본+강릉 디자인 참고 입력으로 GPT 편집. 하늘·구도 재구성 허용, AI 편집 고지와 한국관광공사·Type1 출처 표시 유지. RAW/OMIT 없음.
+- 아래 과거 결과·프롬프트는 이력이며 현재 제작 지시가 아니다.
+
+### 현재 공개 이미지 URL
+- 대표: https://postfiles.pstatic.net/MjAyNjA5MjlfMTky/MDAxNzkwNjgyMTk3MDcz.-O4DIGB-P0NFgmSlNEV_62xmhCwcbo3wSQmxuQ4qRHsg.--5LTyPXhhQOvYN_HEJxJsP7rgj92qsAGpXmU4-bbPsg.PNG/muju-hero-v3.png?type=w773
+- 요금: https://postfiles.pstatic.net/MjAyNjA5MjlfMTQ5/MDAxNzkwNjgyNjQ3MjQx.9HSgtaQd2pdBVRfsavbe1t7d9EVR84BKjBUefg2tt-Ag.pdg_ritPKGiT38abl5-NNo1Rs1171g6hSwZSDaupX1kg.PNG/muju-fee-v3.png?type=w773
+- CTA: https://postfiles.pstatic.net/MjAyNjA5MjlfNDcg/MDAxNzkwNjgyMjcxMTU2.KnA96hecF6344984KONLzS-X2y32HfFcCl10j7U7k2Mg.8mgqXfhixGcmTqObBfXiB0j_HEsTjS42O0u65JxMGzQg.PNG/muju-cta-v3.png?type=w773
+
+---
+
 ## 2026-09-29 20:29 KST 장기 이미지 규칙 갱신
 
 현재 제작 기준은 **IMAGE-V3-20260929-2029-KST**(02 및 상세 이미지 지침)다. 인물/개인정보 제거·색상/기울기/선명도 보정·유연한 배경 편집·필요한 신규 생성 허용. 패널 금지·출처 보존·실제 권리와 사실 오인 방지 유지. 아래 이전 사이클의 전면 원본보존/신규 생성금지/무조건 RAW/이번 글만 예외는 당시 작업 기록이며 다음 작업을 제한하지 않는다. 기존 공개 이미지가 새 디자인 검수를 통과했다는 뜻은 아니다. 이번에는 지침만 수정했으며 네이버/이미지 자체는 변경하지 않았다.
