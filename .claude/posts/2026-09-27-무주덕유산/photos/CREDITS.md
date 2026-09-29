@@ -1,3 +1,9 @@
+### 이번 공개 편집본 URL
+- 대표: https://postfiles.pstatic.net/MjAyNjA5MjlfNTQg/MDAxNzkwNjc2Mjk4Njgy.CRKd8FnfkRHnFC7CCZQyLz-y0HqHQ-yuTIryTtqAGdEg.epb8NaEPy7ZviioKX8GjHd4p2SYYzYiTaM_WOLUkJ_Ag.PNG/muju-hero-edited.png?type=w773
+- 요금: https://postfiles.pstatic.net/MjAyNjA5MjlfMTk0/MDAxNzkwNjc2MzMwNDkz.X3-OnURpbOQhFda1EWD4GDAYhV_K30xtAf26pXczCBog.KryCCOrwmvqfB75RZ6kO0bsHx1y5D-Z-Lpz4fofguXQg.PNG/muju-fee-edited.png?type=w773
+- CTA: https://postfiles.pstatic.net/MjAyNjA5MjlfMjYz/MDAxNzkwNjc2MzYwNTc0.TPUmQBTYfDQXdZVqUFJuUUdBBeksLLGQuTde_EEpvuIg.nXFOwIbaMA4IcOD8V_JMmDM8ok2-C40J1hou57N0lxEg.PNG/muju-cta-edited.png?type=w773
+- 세 원본 출처: 한국관광공사, 공공누리 제1유형(출처표시). 원표시 보존. Type3 미사용.
+
 ## 최신 이미지 수정 완료 — 2026-09-29 19:08 KST
 
 이 기록이 아래 RAW/EDIT 실패 이력보다 우선한다. 과거 이력은 삭제하지 않는다.
