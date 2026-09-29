@@ -1,13 +1,26 @@
 # 네이버 시니어 여행 블로그 — 운영 규칙 (항상 적용)
 
-> **ChatGPT 여행글 실행 시작점 (2026-09-23):** `.claude/00_여행블로그_MASTER.md` → `.claude/00A_여행블로그_AUTOMATION_FIRST.md` → `.claude/PUBLISHED-REGISTRY.md` → `.claude/여행블로그_운영지침_통합본.md` → 이미지 작업 시 `.claude/blog-image-project-instructions-v2.md`. 아래의 옛 이미지 프롬프트·패널·그림자·원본 글자 제거·외부 조판 지시가 V2와 충돌하면 V2를 따른다. 발행 상태는 네이버 공개 확인과 STATUS/레지스트리로 판정한다.
+> **ChatGPT/Work 실행 시작점 (2026-09-29):** 아래 로딩 순서를 먼저 수행한다. 표시·이미지·실행·완료 판단은 01~04, 실제 예시는 05에 고정한다.
+
+1. `.claude/00_여행블로그_MASTER.md`
+2. `.claude/00A_여행블로그_AUTOMATION_FIRST.md`
+3. `.claude/PUBLISHED-REGISTRY.md`
+4. `.claude/01_TRAVELBLOG_RENDER_SPEC.md`
+5. `.claude/02_TRAVELBLOG_IMAGE_SPEC.md`
+6. `.claude/03_WORK_EXECUTION_ROUTINE.md`
+7. `.claude/04_FINAL_QA_CHECKLIST.md`
+8. `.claude/05_GOLDEN_SAMPLE_POST.md`
+9. `.claude/여행블로그_운영지침_통합본.md`
+10. `.claude/blog-image-project-instructions-v2.md`
+11. 대상 글 `STATUS.md`(있으면) / `area1.md` / `area2.md` / `photos/CREDITS.md` 및 실제 원본
+
+> 충돌 순위는 MASTER §2를 따른다. 아래 옛 “단일 출처/최우선”, 이미지 패널·그림자·원본 글자 제거·외부 조판·Chat 선제작·작업용 링크 표식은 새 규격을 덮지 못한다. 01~05를 생략한 이전 시작점 목록은 이 순서로 보완한다. Git 문서만 작업하는 요청은 네이버 글 수정·발행 권한이 아니다. 네이버 작업은 03에 따라 실행하고 04의 YES/NO는 내부 기록한다.
 
 
 블로그: `blog.naver.com/witchbloom82` · 목표: 일 방문자 3,000명+
 독자: 30~70대, 핵심 50~70대. 주제: **차 없이 대중교통 당일치기(뚜벅이)**.
 
-> 이 문서는 매 글에 자동 반영되는 **운영 규칙의 단일 출처**다. 글·이미지 지침 "원문"은
-> 사용자 GPTs에서 관리하지만, 아래 규칙은 그 요지 + 이 세션에서 합의된 규칙이며 **빠짐없이 지킨다.**
+> 이 문서는 집필·취재 운영 지침이다. 최종 표시·이미지·실행·검수는 위 Git 시작점과 MASTER의 충돌 순위가 기준이며, 아래 과거 규칙은 충돌하지 않는 범위에서 적용한다.
 
 ## 2026-09-11 성과 기반 운영 보강
 
