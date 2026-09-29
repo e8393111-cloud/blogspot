@@ -147,7 +147,7 @@ V2 §7의 *"원저작자 워터마크·출처가 훼손되지 않음"*과도 같
 길이     데크 266m + 잔도 317m = 583m
 폭       2m · 평지
 쉴 곳    벤치 · 무대데크 그늘
-화장실   터미널 대합실 바로 옆
+화장실   터미널 대합실(걸어서 4분)
 ```
 ★포인트색은 **`583m` 한 곳**에만.
 
@@ -166,7 +166,7 @@ in a clean modern gothic, with NO panel and NO effect behind the letters:
     길이     데크 266m + 잔도 317m = 583m
     폭       2m · 평지
     쉴 곳    벤치 · 무대데크 그늘
-    화장실   터미널 대합실 바로 옆
+    화장실   터미널 대합실(걸어서 4분)
 Apply the accent colour #3E6374 to "583m" ONLY. Everything else in deep ink #182229
 (or cream #F4F1EA if it sits over a dark part of the photo).
 Build the hierarchy with weight and spacing, not with boxes or icons.
