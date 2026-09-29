@@ -33,10 +33,10 @@
 **카드 텍스트**
 ```
 문경새재 가는 버스
-급행1  점촌 · 시청 · 마성 · 문경역 · 새재
-100번  문경역 ↔ 문경새재
+점촌 → 문경버스터미널 → 문경5·211번 → 새재
+문경역 → 100번 · 급행1 → 새재
+내려서 1관문까지 걸어서 21분
 문경 시내버스는 전면 무료
-출발일 운행 시각은 공식 정보로 확인
 ```
 **영문 프롬프트** :
 `Edit the uploaded real photograph of a rural Korean bus stop sign or the KTX Mungyeong station exterior; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear autumn daylight, wide pale sky on the left half of the frame. Place the Korean lines on that bright empty sky, the route numbers slightly larger in deep forest green #2E4636.` + 공통 꼬리표
