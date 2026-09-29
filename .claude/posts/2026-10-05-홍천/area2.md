@@ -142,7 +142,7 @@ V2 §7의 *"원저작자 워터마크·출처가 훼손되지 않음"*과도 같
 
 **카드 텍스트**
 ```
-터미널 건너편, 걸어서 1~2분
+터미널에서 걸어서 4분
 
 길이     데크 266m + 잔도 317m = 583m
 폭       2m · 평지
@@ -160,7 +160,7 @@ Crop it to 4:5. Apply only a subtle brightness and contrast adjustment.
 Place this Korean text directly on the naturally bright, empty side of the uploaded photo
 (left or right — whichever it already is), arranged vertically with generous spacing,
 in a clean modern gothic, with NO panel and NO effect behind the letters:
-  headline (bold):  터미널 건너편, 걸어서 1~2분
+  headline (bold):  터미널에서 걸어서 4분
   then label-value lines, label lighter weight, value medium weight,
   at most two numbers per line, rendered EXACTLY as written:
     길이     데크 266m + 잔도 317m = 583m
