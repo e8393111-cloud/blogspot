@@ -139,10 +139,9 @@ Add small watermark "blog.naver.com/witchbloom82" bottom-left, 55% opacity.
 **카드 텍스트**
 ```
 순창터미널 → 강천산
-✅ 지역버스  1일 8회 · 10:50~17:30
-✅ 소요      약 30분
-✅ 요금      950원 (교통카드)
-✅ 첫차      10:50 — 그 전엔 택시뿐
+✅ 버스      하루 몇 번뿐 · 950원
+✅ 내리는 곳  치안센터 앞(매표소 5분) / 큰길(16분)
+✅ 돌아올 땐  택시 15분 · 약 2만 2천 원
 ☎ 063-653-2186
 ```
 
@@ -155,8 +154,8 @@ vertical side, leaving a naturally bright empty area for text.
 Overlay ONLY the Korean text DIRECTLY on that bright area with a soft drop shadow:
 heading (bold, deep ink #1B2320): 순창터미널 → 강천산
 then plain label–value lines, numbers in accent #D24B27:
-지역버스 1일 8회 · 10:50~17:30 / 소요 약 30분 / 요금 950원 (교통카드) /
-첫차 10:50 — 그 전엔 택시뿐 / 063-653-2186
+버스 하루 몇 번뿐 · 950원 / 내리는 곳 치안센터 앞(매표소 5분) / 큰길(16분) /
+돌아올 땐 택시 15분 · 약 2만 2천 원 / 063-653-2186
 NO panel, NO glass, NO box, NO icon badges, NO circular stickers,
 NO dotted separators, NO white or foggy wash, NEVER split the frame.
 Add small watermark "blog.naver.com/witchbloom82" bottom-left, 55% opacity.
@@ -339,16 +338,16 @@ Add small watermark "blog.naver.com/witchbloom82" bottom-left, 55% opacity.
 **카드 텍스트**
 ```
 강천산 반나절 코스
-① 10:50  순창터미널 버스 (약 30분)
-② 11:20  매표소 도착 · 입장권
+① 10:50  순창터미널 택시 (15분)
+② 11:10  매표소 도착 · 입장권
 ③ 12:00  맨발산책로 걷기
 ④ 13:00  구름다리
 ⑤ 13:30  점심 (산 아래 식당가)
-⑥ 15:00  매표소 앞에서 버스
+⑥ 15:00  매표소 앞에서 택시
 
-전체 약 4시간 10분 · 1인 약 9,000원
+전체 약 4시간 10분 · 택시 편도 약 2만 2천 원
 ★마감 18:00 (4~10월) / 17:00 (11~3월)
-★서울행 막차 15:30 — 강천산에서 14:20에 나오세요
+★서울행 막차 15:30 — 강천산에서 14:40에 나오세요
 ```
 
 **영문 프롬프트**
@@ -361,13 +360,13 @@ Overlay ONLY the Korean text DIRECTLY on the bright water and pebbles, left-alig
 with a soft drop shadow, no panel of any kind:
 heading (bold, deep ink #1B2320): 강천산 반나절 코스
 then six numbered timeline rows, the circled numbers and the times in accent #D24B27:
-① 10:50 순창터미널 버스 (약 30분) / ② 11:20 매표소 도착 · 입장권 /
+① 10:50 순창터미널 택시 (15분) / ② 11:10 매표소 도착 · 입장권 /
 ③ 12:00 맨발산책로 걷기 / ④ 13:00 구름다리 /
-⑤ 13:30 점심 (산 아래 식당가) / ⑥ 15:00 매표소 앞에서 버스
+⑤ 13:30 점심 (산 아래 식당가) / ⑥ 15:00 매표소 앞에서 택시
 then a closing block, the deadline lines emphasised in accent #D24B27:
-전체 약 4시간 10분 · 1인 약 9,000원
+전체 약 4시간 10분 · 택시 편도 약 2만 2천 원
 마감 18:00 (4~10월) / 17:00 (11~3월)
-서울행 막차 15:30 — 강천산에서 14:20에 나오세요
+서울행 막차 15:30 — 강천산에서 14:40에 나오세요
 Plain Korean text only — NO icon badges, NO circular stickers, NO dotted separator lines,
 NO small inset photos, NO white or foggy wash over the photo, NO template-like side panel,
 NEVER split the frame. Keep the photograph crisp and full-bleed.
