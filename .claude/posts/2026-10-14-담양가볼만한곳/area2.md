@@ -31,9 +31,9 @@
 **카드 텍스트**
 ```
 광주에서 담양 가는 법
-311번 계열  유스퀘어 앞 출발
-             담양터미널 · 죽녹원 정차
-계열별 시간표와 실시간 도착정보 확인
+311번  광주종합버스터미널 앞 출발
+       평일 20분 간격 · 약 1시간 15분
+'죽녹원' 하차 → 매표소 걸어서 2분
 ```
 **영문 프롬프트** :
 `Edit the uploaded real photograph of a Korean intercity bus stop or a city bus arriving at a small-town terminal; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear daylight, a broad pale sky filling the upper half for the Korean lines. Render the route number 311 slightly larger in russet brown #7A4A2F.` + 공통 꼬리표
@@ -75,12 +75,12 @@
 **카드 텍스트**
 ```
 죽녹원 ↔ 메타세쿼이아길
-예전 시티투어는 운행 중단
+걸어서 30분 (1.9km)
 
-방문일 일반 버스편 조회
-정문 → 매표소 보행경로 확인
+택시 10분 · 약 8,000원
 
-시간이 안 맞으면 택시
+돌아갈 땐 메타프로방스 311-2번
+막차 20:00
 ```
 **영문 프롬프트** :
 `Edit the uploaded real photograph of the actual Damyang metasequoia avenue, as the destination scene, without adding a bus or bus stop; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear daylight, a wide pale forecourt filling the lower portion of the frame for the Korean lines. Keep the times and fares to one or two numbers per line.` + 공통 꼬리표
