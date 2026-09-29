@@ -151,7 +151,7 @@ Add small watermark "blog.naver.com/witchbloom82" bottom-left, 55% opacity.
 ✅ 광주     하루 1편 · 19:05 출발 · 14,700원
 ✅ 철도     함양군엔 역이 없어요
 ☎ 055-963-3567
-★터미널→상림 도보 30분 안팎 (또는 택시)
+★터미널→상림 도보 27분 (또는 택시)
 ```
 
 ---
@@ -286,7 +286,7 @@ Add small watermark "blog.naver.com/witchbloom82" bottom-left, 55% opacity.
 ```
 상림공원 반나절 코스
 ① 함양시외버스터미널 도착
-② 도보 30분 안팎 (또는 택시) → 상림공원
+② 도보 27분 (또는 택시) → 상림공원
 ③ 함화루에서 숲길 시작 · 평지 1.6km
 ④ 역사인물공원 · 정자에서 쉬기
 ⑤ 축제 부스 구경 (10/7~11)
@@ -309,7 +309,7 @@ Overlay ONLY the Korean text DIRECTLY on the bright dirt path, left-aligned,
 with a soft drop shadow, no panel of any kind:
 heading (bold, deep ink #16201A): 상림공원 반나절 코스
 then seven numbered rows, the circled numbers in accent #2E5A3C:
-① 함양시외버스터미널 도착 / ② 도보 30분 안팎 (또는 택시) → 상림공원 /
+① 함양시외버스터미널 도착 / ② 도보 27분 (또는 택시) → 상림공원 /
 ③ 함화루에서 숲길 시작 · 평지 1.6km / ④ 역사인물공원 · 정자에서 쉬기 /
 ⑤ 축제 부스 구경 (10/7~11) / ⑥ 점심 — 함양갈비탕 / ⑦ 터미널로 복귀
 then a closing block, the two starred lines emphasised in accent #2E5A3C:
