@@ -1,3 +1,9 @@
+## 2026-09-29 20:29 KST 장기 이미지 규칙 갱신
+
+현재 제작 기준은 **IMAGE-V3-20260929-2029-KST**(02 및 상세 이미지 지침)다. 인물/개인정보 제거·색상/기울기/선명도 보정·유연한 배경 편집·필요한 신규 생성 허용. 패널 금지·출처 보존·실제 권리와 사실 오인 방지 유지. 아래 이전 사이클의 전면 원본보존/신규 생성금지/무조건 RAW/이번 글만 예외는 당시 작업 기록이며 다음 작업을 제한하지 않는다. 기존 공개 이미지가 새 디자인 검수를 통과했다는 뜻은 아니다. 이번에는 지침만 수정했으며 네이버/이미지 자체는 변경하지 않았다.
+
+---
+
 ### 이번 공개 편집본 URL
 - 대표: https://postfiles.pstatic.net/MjAyNjA5MjlfNTQg/MDAxNzkwNjc2Mjk4Njgy.CRKd8FnfkRHnFC7CCZQyLz-y0HqHQ-yuTIryTtqAGdEg.epb8NaEPy7ZviioKX8GjHd4p2SYYzYiTaM_WOLUkJ_Ag.PNG/muju-hero-edited.png?type=w773
 - 요금: https://postfiles.pstatic.net/MjAyNjA5MjlfMTk0/MDAxNzkwNjc2MzMwNDkz.X3-OnURpbOQhFda1EWD4GDAYhV_K30xtAf26pXczCBog.KryCCOrwmvqfB75RZ6kO0bsHx1y5D-Z-Lpz4fofguXQg.PNG/muju-fee-edited.png?type=w773
