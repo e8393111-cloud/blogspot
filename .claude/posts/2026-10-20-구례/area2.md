@@ -91,7 +91,7 @@ FLAT INFOGRAPHIC, NO PHOTOGRAPH: a clean editorial information card on a plain w
   화엄사 하나만 봐도 충분해요
 
   ① 구례구역 (열차로 오면)
-  　↓ 군내버스 25분 · 도보 불가
+  　↓ 군내버스 14분 · 도보 불가
   ② 구례터미널
   　↓ 군내버스 10~15분
   ③ 화엄사 · 관람 1~2시간
@@ -118,7 +118,7 @@ FLAT INFOGRAPHIC, NO PHOTOGRAPH: a clean editorial information card on a plain w
   ※ 버스 번호·하차 후 도보·피아골↔화엄사 이동 소요는 area1에 값이 없어 **넣지 않았다.** 구례구역↔구례터미널은 도보 불가로 표시.
 - **영문 프롬프트**:
   ```
-  Create a 4:5 vertical course-summary infographic for a Korean walking-trip blog, flat design on a plain warm cream #F4EFE3 background, no photograph. Use one text column with a vertical timeline on the left: four large numbered nodes ①②③④ connected by a thin solid vertical line in the accent green #2E6F5E (no dotted line). Render this Korean text exactly as written, top to bottom. Title (large): "구례 반나절 코스", subtitle (smaller): "화엄사 하나만 봐도 충분해요". Node ① "구례구역 (열차로 오면)", between ① and ② the transfer line "군내버스 25분 · 도보 불가" with a small down arrow, node ② "구례터미널", between ② and ③ "군내버스 10~15분", node ③ "화엄사 · 관람 1~2시간", between ③ and ④ "구례읍내로 돌아와", node ④ "점심". Under the timeline, one small block of two lines: "단풍 욕심 내는 날" then "피아골 먼저 → 화엄사는 오후 4시 전 도착" then a smaller line "둘 다 무리면 하나만 골라도 좋아요". At the bottom, three summary columns separated by thin solid vertical hairlines (no boxes, no cards): column 1 label "전체 소요" with "광주 기준 버스 편도 1시간 15~34분" and "화엄사 체류 1~2시간"; column 2 label "1인 교통비" with "21,600원 (광주 출발 왕복)" and "입장료 0원 · 65세 할인 따질 필요 없음"; column 3 label "★마감 시각" with "피아골 17:00" and "화엄사는 해 지기 전", column 3 is the visually strongest with "17:00" as the largest number. The three labels and the numbers 25, 10~15, 17:00 use the accent green, all other text uses dark ink #1F2A2E. Do not invent any bus number, time, walking minute or price that is not written above. NO panel, NO glass, NO box, NO rounded card, NO sticker or icon badge, NO emoji, NO dotted lines, NO shadow, NO photo. Then append TAIL-B.
+  Create a 4:5 vertical course-summary infographic for a Korean walking-trip blog, flat design on a plain warm cream #F4EFE3 background, no photograph. Use one text column with a vertical timeline on the left: four large numbered nodes ①②③④ connected by a thin solid vertical line in the accent green #2E6F5E (no dotted line). Render this Korean text exactly as written, top to bottom. Title (large): "구례 반나절 코스", subtitle (smaller): "화엄사 하나만 봐도 충분해요". Node ① "구례구역 (열차로 오면)", between ① and ② the transfer line "군내버스 14분 · 도보 불가" with a small down arrow, node ② "구례터미널", between ② and ③ "군내버스 10~15분", node ③ "화엄사 · 관람 1~2시간", between ③ and ④ "구례읍내로 돌아와", node ④ "점심". Under the timeline, one small block of two lines: "단풍 욕심 내는 날" then "피아골 먼저 → 화엄사는 오후 4시 전 도착" then a smaller line "둘 다 무리면 하나만 골라도 좋아요". At the bottom, three summary columns separated by thin solid vertical hairlines (no boxes, no cards): column 1 label "전체 소요" with "광주 기준 버스 편도 1시간 15~34분" and "화엄사 체류 1~2시간"; column 2 label "1인 교통비" with "21,600원 (광주 출발 왕복)" and "입장료 0원 · 65세 할인 따질 필요 없음"; column 3 label "★마감 시각" with "피아골 17:00" and "화엄사는 해 지기 전", column 3 is the visually strongest with "17:00" as the largest number. The three labels and the numbers 14, 10~15, 17:00 use the accent green, all other text uses dark ink #1F2A2E. Do not invent any bus number, time, walking minute or price that is not written above. NO panel, NO glass, NO box, NO rounded card, NO sticker or icon badge, NO emoji, NO dotted lines, NO shadow, NO photo. Then append TAIL-B.
   ```
 
 ## 이미지 3. 출발지별 교통 카드 · 4:5
@@ -160,14 +160,14 @@ FLAT INFOGRAPHIC, NO PHOTOGRAPH: a clean editorial information card on a plain w
   구례터미널까지 도로 약 6km · 걸어갈 수 없어요
 
   1단계  구례구역 → 구례터미널
-  군내버스 25분 · 요금 1,000원대
+  군내버스 14분 · 택시 7분 약 8,000원
   기사님께 "구례터미널 가요?"
 
   2단계  구례터미널 → 화엄사
   군내버스 10~15분 · 요금 1,000원
   하루 36회 · 배차가 잦아요
 
-  버스 타는 시간만 합쳐 35~40분
+  버스 타는 시간만 합쳐 25~30분
   환승 대기·하차 후 걷는 시간은 별도
 
   플랜B  걷기는 안 되고 택시는 돼요
@@ -176,7 +176,7 @@ FLAT INFOGRAPHIC, NO PHOTOGRAPH: a clean editorial information card on a plain w
   라벨(`1단계` `2단계` `플랜B`)과 시간·요금 숫자는 포인트색, `걸어갈 수 없어요`는 굵게.
 - **영문 프롬프트**:
   ```
-  Create a 4:5 vertical route-sign card for a Korean walking-trip blog, flat design on a plain warm cream #F4EFE3 background, no photograph. Left-aligned single column. Render exactly this Korean text. Headline (largest): "구례구역은 구례읍이 아니에요". Sub-headline: "구례터미널까지 도로 약 6km · 걸어갈 수 없어요" with "걸어갈 수 없어요" in bold. Then two steps separated by a thin solid hairline. Step 1: label "1단계" in the accent green, heading "구례구역 → 구례터미널", lines "군내버스 25분 · 요금 1,000원대" and "기사님께 "구례터미널 가요?"". Step 2: label "2단계" in the accent green, heading "구례터미널 → 화엄사", lines "군내버스 10~15분 · 요금 1,000원" and "하루 36회 · 배차가 잦아요". Then one summary line "버스 타는 시간만 합쳐 35~40분" with a smaller line under it "환승 대기·하차 후 걷는 시간은 별도". Then a short backup line "플랜B  걷기는 안 되고 택시는 돼요" with "플랜B" in the accent green, and a last small line "실시간 버스 도착은 네이버지도". The step labels, the minutes and the fares use the accent green #2E6F5E and carry their labels (요금, 군내버스), everything else uses dark ink #1F2A2E. Do not invent any bus route number, stop name, walking minute or phone number, they are not in the card text. NO panel, NO glass, NO box, NO rounded card, NO sticker or icon badge, NO emoji, NO dotted lines, NO shadow, NO photo. Then append TAIL-B.
+  Create a 4:5 vertical route-sign card for a Korean walking-trip blog, flat design on a plain warm cream #F4EFE3 background, no photograph. Left-aligned single column. Render exactly this Korean text. Headline (largest): "구례구역은 구례읍이 아니에요". Sub-headline: "구례터미널까지 도로 약 6km · 걸어갈 수 없어요" with "걸어갈 수 없어요" in bold. Then two steps separated by a thin solid hairline. Step 1: label "1단계" in the accent green, heading "구례구역 → 구례터미널", lines "군내버스 14분 · 택시 7분 약 8,000원" and "기사님께 "구례터미널 가요?"". Step 2: label "2단계" in the accent green, heading "구례터미널 → 화엄사", lines "군내버스 10~15분 · 요금 1,000원" and "하루 36회 · 배차가 잦아요". Then one summary line "버스 타는 시간만 합쳐 25~30분" with a smaller line under it "환승 대기·하차 후 걷는 시간은 별도". Then a short backup line "플랜B  걷기는 안 되고 택시는 돼요" with "플랜B" in the accent green, and a last small line "실시간 버스 도착은 네이버지도". The step labels, the minutes and the fares use the accent green #2E6F5E and carry their labels (요금, 군내버스), everything else uses dark ink #1F2A2E. Do not invent any bus route number, stop name, walking minute or phone number, they are not in the card text. NO panel, NO glass, NO box, NO rounded card, NO sticker or icon badge, NO emoji, NO dotted lines, NO shadow, NO photo. Then append TAIL-B.
   ```
 
 ## 이미지 5. 화엄사 · 1:1
