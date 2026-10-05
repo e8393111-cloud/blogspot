@@ -1,137 +1,15 @@
-# 영역2 — 이미지 지시서 (문경 가볼만한곳 · 2026-10-10 발행예정)
-
-> ★**세트색 : 딥 포레스트 그린 `#2E4636`** — 문경새재 히어로(주흘관 성벽 옆 소나무·계곡)에서 뽑았다.
-> 단풍은 **사진의 자연색 그대로** 두고, 세트색은 글자·라벨·구분선에만(≤15%) 쓴다.
-> `NOT orange, NOT amber` — 단풍 글이라고 화면 전체를 주황으로 물들이면 촌스럽다. 군산(딥네이비)·여수(딥레드)와도 겹치지 않는다.
-> 조명 기본값 = **맑은 가을 낮 자연광**. 노을은 CTA 1장에만.
-
-## ★★배경 사진 현황 — 먼저 읽을 것
-`photos/CREDITS.md` 참조. **이 글은 주인공에 글자를 못 얹는다.**
-- **문경새재 1관문 = TourAPI에 `문경 조령 관문`(2753508)으로 등재 · `Type3`(변경금지)** → 글자 오버레이 **불가**. 원본 그대로만 삽입.
-- **주흘산(126036) Type3**, **가은오픈세트장(2610294) Type3** → 오버레이 불가.
-  ★가은오픈세트장은 **문경새재 오픈세트장과 다른 시설**이다(가은읍 vs 문경읍). 본문 카드에 쓰지 말 것.
-- **Type1(오버레이 가능)은 진남교반(126570) 하나뿐.**
-→ 그래서 **글자 카드는 진남교반 배경 1장으로 몰고, 나머지는 배경 미확보로 남긴다.** 가짜 생성 배경으로 채우지 않는다.
-
-공통 프롬프트 꼬리표(모든 카드에 붙일 것):
-`ONE continuous full-bleed photograph fills the entire frame. Compose so one vertical side is naturally bright and empty (open sky, water, pale stone path) and place the Korean text DIRECTLY on that bright area. NO panel, NO glass, NO box, NO rounded card, NO divider line, NO tinted overlay strip, NO icon badges, NO circular sticker or emoji icons, NO dotted separator lines, NO white or foggy wash over the photo, NO template-like side panel. Keep the photograph crisp and full-bleed. Accent color deep forest green #2E4636 on numbers and labels only (under 15%); body text in a deep high-contrast ink tone. Natural colors — NOT a monochrome orange/amber wash, NOT orange, NOT amber. Clear autumn daylight. Watermark "blog.naver.com/witchbloom82" small, bottom-right.`
-★**카드 안에는 이모지를 넣지 않는다**(`image-guide.md` 금지). 썸네일 이모지는 본문 썸네일문구 줄에만 둔다.
-
----
-
-## 이미지 0. 썸네일 · 1:1
-**삽입 위치** : 대표 이미지(본문 최상단)
-**실제 배경 사진 소스** : ❌ **미확보** — 문경새재 1관문은 Type3라 글자를 얹을 수 없다.
-　→ 운영자가 **직접 촬영분 또는 Type1 사진**을 구해야 한다. 대안: 진남교반(아래 링크)을 쓰되 "문경새재"라는 문구와 맞지 않으니 권하지 않는다.
-**카드 텍스트** : `문경새재, 1관문만 봐도 충분해요` / 작은 태그라인 `차 없이 버스로 가는 반나절`
-**영문 프롬프트** :
-`Edit the uploaded real photograph of Mungyeong Saejae's first gate (Juheulgwan) in autumn; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. A stone fortress gate with tiled roof under clear autumn daylight, pine trees and maple colour in natural tones, a pale stone path leading to the gate. Place the headline 문경새재, 1관문만 봐도 충분해요 on the open bright sky above the gate, with the small tagline 차 없이 버스로 가는 반나절 beneath it.` + 공통 꼬리표
-
-## 이미지 1. 교통 카드(길 안내판) · 4:5
-**삽입 위치** : 본문 57행 `[이미지 삽입 : KTX-이음 문경역 외관 또는 문경새재 정류장 표지판…]`
-**실제 배경 사진 소스** : ❌ **미확보**(터미널·역·정류장은 TourAPI 등재 대상이 아니다 — 철원 선례와 동일)
-**카드 텍스트**
-```
-문경새재 가는 버스
-점촌 → 문경버스터미널 → 문경5·211번 → 새재
-문경역 → 100번 · 급행1 → 새재
-내려서 1관문까지 걸어서 21분
-문경 시내버스는 전면 무료
-```
-**영문 프롬프트** :
-`Edit the uploaded real photograph of a rural Korean bus stop sign or the KTX Mungyeong station exterior; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear autumn daylight, wide pale sky on the left half of the frame. Place the Korean lines on that bright empty sky, the route numbers slightly larger in deep forest green #2E4636.` + 공통 꼬리표
-
-## 이미지 2. 출발지별 교통 카드 · 4:5
-**삽입 위치** : 본문 97행 `[이미지 삽입 : 문경공용버스터미널 또는 점촌시외버스터미널 외관…]`
-**실제 배경 사진 소스** : ❌ **미확보**(터미널 미등재)
-**카드 텍스트**
-```
-어디서 출발하나요
-동서울 → 점촌   출발일 버스 예매 확인
-판교 → 문경     출발일 KTX 예매 확인
-상주 → 점촌     출발일 운행편 확인
-도착 터미널과 귀경편을 함께 확인
-```
-**영문 프롬프트** :
-`Edit the uploaded real photograph of a small Korean intercity bus terminal exterior; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear daylight, a broad pale road surface in the lower third giving empty space for text.` + 공통 꼬리표
-
-## 이미지 3. 문경새재 1관문 · **원본 그대로(글자 없음)** · 4:5 또는 3:4
-**삽입 위치** : 본문 134행 `[이미지 삽입 : 문경새재 1관문(주흘관) 전경…]`
-**실제 배경 사진 소스** : ✅ **확보 · 단 `Type3`(변경금지)**
-　`photos/mungyeong-joryeong-gate-type3.jpg` (원본 URL: http://tong.visitkorea.or.kr/cms/resource/16/3408316_image2_1.jpg · contentid 2753508)
-**★이 카드는 글자를 얹지 않는다.** 원본을 그대로 넣고, 설명은 본문 텍스트로 단다.
-**출처 표기(의무)** : `사진 출처 : 한국관광공사 포토코리아 (공공누리 제1유형)`
-
-## 이미지 4. 쉬는 자리 카드 · 4:5
-**삽입 위치** : 본문 135행 `[이미지 삽입 : 옛길박물관 앞 산책로와 정자…]`
-**실제 배경 사진 소스** : ❌ **미확보**(옛길박물관 TourAPI 0건)
-**카드 텍스트**
-```
-쉬어갈 자리
-벤치 · 정자   1관문에서 조곡관 가는 길 곳곳
-화장실        관리사무소 · 주차장 옆
-실내          옛길박물관 안 (무료 · 냉난방)
-다 안 걸어도 괜찮아요
-```
-**영문 프롬프트** :
-`Edit the uploaded real photograph of a shaded walking path with a wooden Korean pavilion and benches in autumn; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Soft morning light through tall trees, a pale gravel path on one side giving bright empty space.` + 공통 꼬리표
-
-## 이미지 5. ★전동차 함정 카드(이 글의 핵심) · 3:4
-**삽입 위치** : 본문 165행 `[이미지 삽입 : 문경새재 전동차와 옛길박물관 탑승장…]`
-**실제 배경 사진 소스** : ❌ **미확보**(전동차 TourAPI 0건)
-**카드 텍스트** — ★숫자가 많으니 한 줄에 1~2개만
-```
-전동차, 10월부터 12월까지
-2관문에 가지 않아요
-요일과 상관없이 오픈세트장까지만
-
-운행시간  10월 09:30~17:30
-          11월 10:00~17:00
-65세도 2,000원 (경로 혜택 없음)
-```
-**영문 프롬프트** :
-`Edit the uploaded real photograph of the small open-sided electric shuttle car at Mungyeong Saejae; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear autumn daylight, a wide pale gravel forecourt filling the lower half so the Korean lines sit on it directly. Set the two sentences 2관문에 가지 않아요 and the times in deep forest green #2E4636, everything else deep ink.` + 공통 꼬리표
-
-## 이미지 6. 맛집 카드 · 4:5
-**삽입 위치** : 본문 218행 `[이미지 삽입 : 새재할매집 석쇠구이 상차림…]`
-**실제 배경 사진 소스** : ❌ **미확보**(음식점은 TourAPI 등재 대상 아님 — 철원 선례)
-**카드 텍스트**
-```
-새재할매집  1관문 안쪽 · 도보권
-고추장 약돌돼지 석쇠구이
-더덕구이 · 도토리묵
-가격·영업시간은 방문일 확인
-```
-**영문 프롬프트** :
-`Edit the uploaded real photograph of a Korean charcoal-grilled pork dish on a rustic table; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Warm indoor daylight from a window, a plain pale table surface on one side giving empty space for the text.` + 공통 꼬리표
-
-## 이미지 7. 편의·무장애 카드 · 4:5
-**삽입 위치** : 본문 232행 `[이미지 삽입 : 문경새재 산책로의 벤치·정자…]`
-**실제 배경 사진 소스** : ✅ **확보 · `Type1`(오버레이 가능)** — 이 글에서 유일하게 글자를 얹어도 되는 실사진
-　`photos/jinnamgyoban-type1.jpg` (원본 URL: http://tong.visitkorea.or.kr/cms/resource/80/3584880_image2_1.jpg · contentid 126570)
-　※ 진남교반은 문경새재가 아니라 마성면이다. **"문경새재 산책로"라고 쓰지 말 것** — 카드 문구를 장소 중립으로 뒀다.
-**카드 텍스트**
-```
-몸이 편한지부터
-평지 위주 · 돌길 구간 있음
-휠체어 · 유모차  관리사무소 대여 08:30~17:30
-화장실  관리사무소 · 주차장 옆
-반려동물은 들어갈 수 없어요
-```
-**영문 프롬프트** :
-`Edit the uploaded real photograph of Jinnamgyoban in Mungyeong — a river bend with bridges below rocky cliffs; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. Clear autumn daylight, the broad pale river surface filling one vertical side so the Korean lines sit directly on the water.` + 공통 꼬리표
-**출처 표기(의무)** : `사진 출처 : 한국관광공사 포토코리아 (공공누리 제1유형)`
-
-## 이미지 8. 메인 CTA · 16:9
-**삽입 위치** : 본문 맨 아래 `[메인 CTA]` 바로 위
-**실제 배경 사진 소스** : ❌ **미확보**
-**카드 텍스트** : `이번 가을, 버스 타고 문경새재`
-**영문 프롬프트** :
-`Edit the uploaded real photograph of an autumn mountain pass road at Mungyeong in late afternoon light; keep the scene EXACTLY as-is, do NOT repaint or regenerate the background; ONLY overlay the Korean text and the watermark. This is the one card where warm low sunlight is allowed. Place 이번 가을, 버스 타고 문경새재 on the open sky across the upper third.` + 공통 꼬리표
-
----
-
-## 운영자 사용법 (생성형 도구를 쓸 때)
-① 위 사진 URL을 열어 저장 → ② GPT에 **업로드** → ③ 해당 카드의 영문 프롬프트로 **글자만 얹기**.
-순수 text-to-image로 배경을 만들지 않는다(AI티 나는 인위적 배경의 원인).
-**배경 미확보(❌)로 표시된 7장은 실사진을 먼저 구한 뒤 진행한다.**
+# 문경 여행글 이미지 실행 기록
+## 현재 적용 세트
+사용자의 최신 지시(새 이미지 생성 허용, 패널 금지, 출처 보존, 5장 이상)를 적용했다. 과거의 배경 미확보 시 무조건 생성 금지 지시는 이 세트에 적용하지 않는다.
+디자인 참조는 사용자가 올린 강릉 여행글 화면(01-43790.jpg). 큰 한글 고딕, 사진 위 직접 텍스트, 딥 포레스트 그린 #2E4636 계열의 작은 포인트. 정확한 원본 폰트명은 확인하지 못했으므로 동일 폰트라고 주장하지 않는다.
+모든 새 이미지는 GPT 이미지 도구로 제작. 큰 패널·흰 박스·글라스 패널 없음. 블로그 워터마크 우하단.
+## 삽입 순서
+1. RAW / photos/mungyeong-joryeong-gate-type3.jpg: 실제 주흘관 원본, 대표이미지. Type3 변경금지이므로 크롭·글자·워터마크 추가 없이 원래 비율 940×627 유지. 1:1보다 라이선스가 우선.
+2. GENERATE / cards/02-transport.png: 4:5. ‘문경새재 가는 길 / 돌아오는 버스부터 시간을 맞춰요’. 일반적인 버스 창가 여행 소품. 실제 노선/차량 재현 아님.
+3. GENERATE / cards/03-rest.png: 4:5. ‘반나절이면 충분해요 / 1관문과 옛길박물관 / 쉬엄쉬엄 둘러봐요’. 일반적인 산책·쉼 예시. 실제 문경새재 현장 사진 아님.
+4. GENERATE / cards/04-shuttle.png: 4:5. ‘전동차 타기 전 / 운행 구간과 / 귀가 시간을 함께’. 신발·여행 소품. 실제 전동차 사진 아님.
+5. GENERATE / cards/05-cta.png: 16:9. ‘공감 💗 + 이웃추가 / 뚜벅이 당일치기 코스 꾸준히 올려요’. 일반적인 산과 물 풍경. 현장 촬영 아님.
+각 생성 이미지 바로 아래 AI 생성 예시이며 실제 현장 사진이 아니라는 캡션을 넣었다. 링크 미리보기 이미지·지도는 5장 계산에서 제외.
+## 폐기한 이전 문구
+최신 미확인 버스 번호·21분 도보·16:20 막차, 긴 요금표, 새재할매집 ‘1관문 안쪽’, 박물관 냉난방/벤치 보장 등은 카드에 넣지 않는다.
+진남교반 사진을 문경새재라고 대체 표기하지 않는다. Type3 출처를 Type1이라고 쓰던 오류를 바로잡는다.
