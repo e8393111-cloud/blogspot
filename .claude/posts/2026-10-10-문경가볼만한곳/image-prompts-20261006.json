@@ -1,0 +1,33 @@
+[
+  {
+    "key": "mung_transport",
+    "refs": [
+      "/workspace/scratch/gangneung-hero-ref2.jpg"
+    ],
+    "p": "Premium Korean travel magazine image, full bleed photoreal, clean modern Korean gothic typography like the provided design reference (ONLY its design, never its sea, woman or screenshot UI). No boxes, panels, strips, gradients, fog, blur behind text, text shadow or outlines. Natural photographic negative space. Left aligned typography, charcoal and one restrained forest green #2E4636 accent. Broad margins. Small bottom-right 'blog.naver.com/witchbloom82'. Exact Korean spelling. Create a NEW photographic editorial 4:5 portrait travel planning scene, not a documentary real location: crisp morning light, close view of a clean train window framing green Korean mountains, no visible brands, tickets, clocks, route numbers, maps or people. Plenty of clear pale natural sky for large top-left text. Headline exactly '돌아오는\\n시간부터'. Below in clearly readable size '귀가 열차 · 시외버스\\n새재 출발 버스\\n도보와 대기시간'. Supporting text no smaller than 70% of body information type. No extra claims."
+  },
+  {
+    "key": "mung_museum",
+    "refs": [
+      "/workspace/scratch/632efdc4-c1b8-4374-93ce-67a2101cbfce/0d59a16f-456f-495f-a044-518489297d9b",
+      "/workspace/scratch/gangneung-hero-ref2.jpg"
+    ],
+    "p": "Premium Korean travel magazine image, full bleed photoreal, clean modern Korean gothic typography like the provided design reference (ONLY its design, never its sea, woman or screenshot UI). No boxes, panels, strips, gradients, fog, blur behind text, text shadow or outlines. Natural photographic negative space. Left aligned typography, charcoal and one restrained forest green #2E4636 accent. Broad margins. Small bottom-right 'blog.naver.com/witchbloom82'. Exact Korean spelling. Edit first photo, actual Old Road Museum in Mungyeong; second is design only. Output 4:5 portrait. Preserve museum architecture, existing pine trees and relative landscape, green season and natural daylight. Reframe with more natural blue sky above if needed, do not invent buildings, people or autumn leaves. Large top-left headline '옛길박물관에서\\n쉬어 가요'. Supporting copy '산책과 실내 관람을\\n번갈아 즐기는 코스'. Keep building visible in lower half. No time or fee text."
+  },
+  {
+    "key": "mung_walk",
+    "refs": [
+      "/workspace/scratch/632efdc4-c1b8-4374-93ce-67a2101cbfce/e928d63c-282e-41e4-873f-52af8d0762d3",
+      "/workspace/scratch/gangneung-hero-ref2.jpg"
+    ],
+    "p": "Premium Korean travel magazine image, full bleed photoreal, clean modern Korean gothic typography like the provided design reference (ONLY its design, never its sea, woman or screenshot UI). No boxes, panels, strips, gradients, fog, blur behind text, text shadow or outlines. Natural photographic negative space. Left aligned typography, charcoal and one restrained forest green #2E4636 accent. Broad margins. Small bottom-right 'blog.naver.com/witchbloom82'. Exact Korean spelling. Edit actual Mungyeong Saejae stone cairns forest first photograph; second is typography design only. 4:5 portrait, preserve cairns and traditional tiny roof, tree locations, natural green summer photograph; do not invent a shuttle, bridge, autumn foliage or path. Bright fresh real photograph, clean exposure. Upper-left white gothic headline directly on naturally darker leaf canopy '전동차는 선택\\n내 걸음에 맞게'. Under headline readable white copy '탑승 구간 확인\\n돌아올 시간 남기기'. Keep major stones and roof unobstructed. No fake blank overlay to aid text."
+  },
+  {
+    "key": "mung_cta",
+    "refs": [
+      "/workspace/scratch/632efdc4-c1b8-4374-93ce-67a2101cbfce/51b9e6bb-0d8b-4736-b00e-8cb4d76fbe07",
+      "/workspace/scratch/gangneung-cta-reference.jpg"
+    ],
+    "p": "Premium Korean travel magazine image, full bleed photoreal, clean modern Korean gothic typography like the provided design reference (ONLY its design, never its sea, woman or screenshot UI). No boxes, panels, strips, gradients, fog, blur behind text, text shadow or outlines. Natural photographic negative space. Left aligned typography, charcoal and one restrained forest green #2E4636 accent. Broad margins. Small bottom-right 'blog.naver.com/witchbloom82'. Exact Korean spelling. Edit first actual museum landscape photo. Second is CTA design reference only. Output wide 16:9, actual museum anchored lower-right, sky at top with genuine natural detail, retain green season not sunset or fall. Preserve architecture faithfully. Text top-left exactly '공감 💗 + 이웃추가'. Second line '뚜벅이 당일치기 코스 꾸준히 올려요' clear and large. No extra decoration or captions. Fullbleed photograph, no screenshot borders."
+  }
+]
