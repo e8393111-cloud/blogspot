@@ -43,3 +43,17 @@ CLAUDE.md는 *"실배경사진 소스가 없는 카드는 미완성(가짜 생�
 `[경기옛길 영남길 제7길] 구봉산길(원삼면 독성리 ~ 백암면 황새울마을)` contentid **2395753**
 — 자작나무숲과 같은 **황새울** 권역을 지나는 도보길이다. 걷기가 이 독자층의 1순위 활동이라
 다음 갱신 때 본문 소재로 검토할 만하다(접근성·난이도는 미확인).
+
+
+## 2026-10-06 새 실제 사진 기반 EDIT (현재 적용본)
+- 기사: https://gnews.gg.go.kr/news/news_view.do?N=&b_code=&c_code=C076&lastidx=10&number=202606020656575729C076&s_code=C501&scrollidx=&type_m=sub
+- 제목: 찬란한 꽃들이 춤추는 용인자작나무숲으로 놀러 오세요!
+- 원저작자 유하선 기자 / 경기도뉴스포털 / 기사 2026.6.2 10:25.
+- 기사 하단 명시: 공공누리 제1유형 출처표시. 별도 사진별 변경금지 표기 없음. 사진 크레딧 전부 ©유하선 기자.
+- 확인일2026.10.6. 원본 실제 다운로드/육안확인. TourAPI contentid/cpyrhtDivCd는 적용되지 않는 경기도 기사 소스.
+- entrance 원본: http://gnews.gg.go.kr/OP_UPDATA/UP_DATA/_NAMO_FILE/images/000078/1_5.jpg
+- garden 원본: http://gnews.gg.go.kr/OP_UPDATA/UP_DATA/_NAMO_FILE/images/000078/5_2.jpg (좌 전망대/우 정원 합성 원본 중 우측 사용)
+- cafe 원본: http://gnews.gg.go.kr/OP_UPDATA/UP_DATA/_NAMO_FILE/images/000078/6_1.jpg
+- fountain 원본: http://gnews.gg.go.kr/OP_UPDATA/UP_DATA/_NAMO_FILE/images/000078/9.jpg
+- 사진4장 그대로 photos/20261006-gnews-*.jpg 보존. 완성본5장은 cards/20261006-*-real-edit.png.
+- GPT imagegen built-in EDIT: 원본 직접입력, 타이포/색/크롭/인물정리/하늘과배경 일부확장. 출처 표시 유지. 봄자료사진, AI편집·연출 명시. 시설배치/현재개화 증거로 쓰지않음.
