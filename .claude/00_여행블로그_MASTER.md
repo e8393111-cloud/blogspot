@@ -11,7 +11,7 @@
 
 ---
 
-> 최신 공통 지침은 지정 브랜치의 MASTER와 01~05 실행 문서에 고정한다. 첨부 사본·옛 문서의 상충하는 우선순위와 실행 방식은 이 MASTER의 로딩 순서·우선순위를 따르며 재활성화하지 않는다.
+> 최신 공통 지침은 지정 브랜치의 MASTER와 01~06 실행 문서에 고정한다. 첨부 사본·옛 문서의 상충하는 우선순위와 실행 방식은 이 MASTER의 로딩 순서·우선순위를 따르며 재활성화하지 않는다.
 
 ## 0. 절대 원칙 — 기억 기반 작업 금지
 
@@ -34,9 +34,10 @@
 6. `.claude/03_WORK_EXECUTION_ROUTINE.md`
 7. `.claude/04_FINAL_QA_CHECKLIST.md`
 8. `.claude/05_GOLDEN_SAMPLE_POST.md`
-9. `.claude/여행블로그_운영지침_통합본.md`
-10. `.claude/blog-image-project-instructions-v2.md`
-11. 대상 글 `STATUS.md`(있으면) / `area1.md` / `area2.md` / `photos/CREDITS.md` 및 실제 원본
+9. `.claude/06_NAVER_TOP3_BENCHMARK.md`
+10. `.claude/여행블로그_운영지침_통합본.md`
+11. `.claude/blog-image-project-instructions-v2.md`
+12. 대상 글 `STATUS.md`(있으면) / `area1.md` / `area2.md` / `photos/CREDITS.md` 및 실제 원본
 
 저장소: `e8393111-cloud/blogspot`. 기본 브랜치: `claude/blog-agents-seniors-bdb75n`. 사용자 지정이 우선한다. FACTS/NOTES/TODO/RECOVERY는 필요 시 추가 확인한다.
 문서만 수정하는 요청은 글별 열람을 필요한 근거로 제한하며 네이버 편집·발행 루틴을 실행하지 않는다.
@@ -57,7 +58,7 @@
 충돌 우선순위:
 1. 사용자 현재 요청
 2. MASTER
-3. RENDER_SPEC / IMAGE_SPEC / WORK_ROUTINE / FINAL_QA (01~04: 각 담당 영역)
+3. RENDER_SPEC / IMAGE_SPEC / WORK_ROUTINE / FINAL_QA / TOP3_BENCHMARK (01~04/06: 각 담당 영역)
 4. AUTOMATION_FIRST
 5. 운영지침
 6. blog-image-project-instructions-v2
@@ -96,7 +97,7 @@
 02 V3와 상세 이미지 지침을 따른다. 허용 범위 내 인물/식별정보 제거·색상/수평/선명도 보정·배경 편집 및 필요한 신규 생성이 가능하다. 패널 금지·원출처 보존·실제 권리·사실 오인 방지 유지. 새 Work는 IMAGE-V3-20260929-2029-KST를 확인하고 옛 전면보존·무조건 RAW 규칙을 적용하지 않는다.
 
 ## 6. 실행과 완료 기준
-`03_WORK_EXECUTION_ROUTINE.md`의 Work-first 순서로 실행하고 `04_FINAL_QA_CHECKLIST.md`로 내부 YES/NO를 기록한다. 공개/저장 결과와 Git 기록까지 확인한 뒤 완료 처리한다. 05는 사실 관측과 새 규격의 차이를 명시한 예시 문서다.
+`03_WORK_EXECUTION_ROUTINE.md`의 Work-first 순서로 실행하고 `04_FINAL_QA_CHECKLIST.md`로 내부 YES/NO를 기록한다. 공개/저장 결과와 Git 기록까지 확인한 뒤 완료 처리한다. 05는 사실 관측과 새 규격의 차이를 명시한 예시 문서다. 05 다음에 읽는 06은 본문 확정 전 검색의도·공통점·강점·빈칸 분석의 실행 기준이다. 후보 선정 전에 performance/README.md와 기존 성과 기록을 함께 확인한다.
 
 ---
 
