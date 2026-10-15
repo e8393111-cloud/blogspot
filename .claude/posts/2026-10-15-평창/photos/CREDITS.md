@@ -83,3 +83,8 @@ Make base64 우회로 썸네일 1장씩은 받을 수 있으나(2026-09-23 창�
 
 ★**운영자가 할 일** : Type1 5장을 열어 보고 **전나무숲길 컷과 경내 컷을 구분**해 카드에 배정한다.
 　근본 해결은 환경 네트워크 정책에 `tong.visitkorea.or.kr`을 허용하는 것이다.
+
+
+## 2026-10-15 최종 사용·보강 기록
+이전 미확인/미첨부 문구는 과거 이력. forest03/04, temple01/02, cta는 이전 완료세션에서 육안 확인·첨부했고 이번에는 그대로 유지. 숲사진 제3유형 원본 유지, 사찰사진1유형 및 CTA AI편집 고지 유지.
+추가 cards/woljeongsa-route.png: 사진을 복제하지 않은 자체 조판 동선도. Python/Pillow, Noto Sans KR550, #37674D. 공식 사실관계로 작성하고 축척·방위 생략을 명시. 자료: https://tour.pc.go.kr/Home/H50000/H51300/boardView?board_key=367&page=1 , https://access.visitkorea.or.kr/ms/detail.do?cotId=f4b6eb22-0757-4a57-a023-8523800c48fb , https://korean.visitkorea.or.kr/detail/rem_detail.do?cotid=2170118c-a62c-4c6d-81bc-adbbdca246bf . 지역 전체 공식 지도 이미지는 참고 확인만 했으며 새 동선도에 복제 안 함. 실제 지형·좌표·현재 현장사진 오인표현 없음.
