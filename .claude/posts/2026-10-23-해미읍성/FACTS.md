@@ -1,4 +1,4 @@
-# 해미읍성 취재 FACTS (취재일 2026-10-01 시스템 날짜 / 발행 예정 2026-10-16)
+# 해미읍성 취재 FACTS (취재일 2026-10-01 시스템 날짜 / 발행 예정 2026-10-23 — 10/15 운영자 지시로 10/16에서 연기. 본문 속 "10/16" 판단(하절기·축제 종료)은 10/23에도 그대로 유효)
 
 > ★취재 한계(먼저 읽을 것): 이 세션에서 WebFetch가 전부 `EGRESS_BLOCKED`(seosan.go.kr · tour.chungnam.go.kr · visitkorea · namu.wiki · asamaru · bustime · siksinhot · joongdo · ajunews · hsnews 등 전 도메인 차단)였다. 차단 정책이므로 우회하지 않았다.
 > 따라서 아래 모든 값은 **WebSearch 결과(스니펫 요약)** 기반이다. **A등급(공식 직접열람)은 0건.** 등급은 B=독립 원천 2건 이상 스니펫 일치, C=1건, D=추정.
