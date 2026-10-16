@@ -1,3 +1,8 @@
+## 2026-10-16 추가 지도
+- ../../maps/20261016/mungyeong-map.png: OpenStreetMap 데이터 기반 자체 조판. © OpenStreetMap contributors / ODbL, 이미지 내 출처 URL 유지.
+- 원자료·지점 근거·경로 및 한계: ../../maps/20261016/README.md. AI 생성 지도 아님.
+- 기존 사진 출처·변경 여부는 2026-10-15 최신 STATUS 우선. 아래는 과거 기록을 포함한다.
+
 # 2026-10-06 추가 실제사진 및 편집 허락 확인
 
 아래 이전 기록의 “실제사진 1장+생성4장”은 현재 구성과 다릅니다. 최신 구성은 RAW1+EDIT3+GENERATE1입니다.
