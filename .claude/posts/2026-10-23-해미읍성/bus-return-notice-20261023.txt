@@ -1,0 +1,11 @@
+Browser tab: 4, Title: "노선/운행정보 | 운행정보 | 시외버스 통합예매시스템", URL: "https://txbus.t-money.co.kr/runinf/runInf.do".
+1 AXWebArea Description: 노선/운행정보 | 운행정보 | 시외버스 통합예매시스템, URL: txbus.t-money.co.kr/runinf/runInf.do
+	2 container txbus.t-money.co.kr says
+		3 text [모바일 예매이용안내]
+승차권 예매는 모바일앱 [티머니GO]를 이용하여 모바일 전자승차권 발권하여 탑승해 주시기 바랍니다.
+
+[인터넷 예매 중단 안내]
+인터넷 예매 후 무인발권기 또는 창구에서 종이 승차권을 발권 받고 (팝업 공지중) 차량을 이용하여야 하나 종이 승차권 발권을 받지 않고 차량에 탑승하려다 탑승을 못하고 종이 승차권의 발권가능시간(출발시간 1분전)이 지나 승차권 발권이 불가하여 환불 수수료가 발생하는 민원이 빈번하게 발생하여 더이상 인터넷 예매를 지속하기 어려워 인터넷 예매가 중단됨을 알려드리며 좌석제 노선 예매(전자승차권 발권)는 [티머니GO] 앱에서만 가능함을 알려드립니다
+		4 button OK
+
+The focused UI element is 4 button OK
