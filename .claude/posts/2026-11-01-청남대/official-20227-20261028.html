@@ -1,0 +1,1362 @@
+<!doctype html>
+<html lang="ko" id="no-fouc">
+<head>
+	<meta charset="UTF-8" />
+	<script>
+	// 번역 상태로 접속 시 번역 적용 전 원문 노출(깜빡임) 방지
+	(function () {
+		var gtm = document.cookie.match(/googtrans=\/ko\/([a-zA-Z-]+)/);
+		if (gtm && gtm[1] !== 'ko') { document.documentElement.setAttribute('data-gtlang', gtm[1]); }
+		if (!gtm || gtm[1] === 'ko') { return; }
+		var html = document.documentElement;
+		html.style.visibility = 'hidden';
+		var done = function () { html.style.visibility = ''; clearInterval(iv); clearTimeout(to); };
+		var iv = setInterval(function () {
+			if (/translated/.test(html.className)) {
+				clearInterval(iv);
+				setTimeout(done, 300);
+			}
+		}, 100);
+		var to = setTimeout(done, 3000);
+	})();
+	</script>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge' /><!-- 호환성 -->
+	<meta name="generator" content="EditPlus®" /><!-- 사용프로그램 -->
+	<meta name="format-detection" content="telephone=no,email=no,address=no" /><!-- 전화번호, 주소, 메일등 링크로 인식방지 -->
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" /><!-- 화면맞춤 -->
+	<meta name="author" content="청남대관리사업소" /><!-- 저작자 -->
+	<meta name="keywords" content="청남대, 대통령별장, 대통령기념관, 청남대 예약, 청남대 관람, 청주 가볼만한곳, 문의면, 충청북도" /><!-- 키워드 -->
+	<meta name="description" content="대통령 별장 청남대의 관람·예약 안내와 축제·행사 소식을 제공합니다." /><!-- 웹페이지의 축약된 설명을 제공_최대45자(네이버 웹마스터도구 기준) -->
+	<meta name="copyright" content="Copyright(C) 2020 CHEONGNAMDAE. All Rights Researved" /><!-- 저작권 -->
+	<!-- 오픈그래프_소셜미디어로 공유될 때 우선적으로 활용되는 정보 -->
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="청남대" />
+	<meta property="og:locale" content="ko_KR" />
+	<meta property="og:title" content="청남대" />
+	<meta property="og:description" content="대통령 별장에서 국민의 품으로. 청남대의 사계절 정원과 대통령기념관, 관람·예약 정보를 안내합니다." />
+	<meta property="og:image" content="https://www.chungbuk.go.kr/chnam/resource/www/img/main/mvis_img01.jpg" />
+	<meta property="og:image:width" content="2000" />
+	<meta property="og:image:height" content="826" />
+	<meta property="og:url" content="https://www.chungbuk.go.kr/chnam/index.do" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="청남대" />
+	<meta name="twitter:description" content="대통령 별장에서 국민의 품으로. 청남대의 사계절 정원과 대통령기념관, 관람·예약 정보를 안내합니다." />
+	<meta name="twitter:image" content="https://www.chungbuk.go.kr/chnam/resource/www/img/main/mvis_img01.jpg" />
+	<!-- //오픈그래프_소셜미디어로 공유될 때 우선적으로 활용되는 정보 -->
+	<title>공지사항-청남대</title><!-- 최대15자(네이버 웹마스터도구 기준) -->
+	<link rel="shortcut icon" type="image/x-icon" href="/chnam/resource/www/img/favicon.ico"/><!-- 파비콘 -->
+
+	<!-- css -->
+	<link rel="stylesheet" href="/chnam/resource/www/css/fs_application.css">
+	<link rel="stylesheet" href="/chnam/resource/www/css/fs_component.css">
+	<link rel="stylesheet" href="/chnam/resource/www/css/fs_content.css?v=1.0">
+	<link rel="stylesheet" href="/chnam/resource/www/css/fs_layout.css">
+	<link rel="stylesheet" href="/chnam/resource/www/css/fs_main.css">
+	<link rel="stylesheet" href="/chnam/resource/www/css/component.css">
+	<link rel="stylesheet" href="/chnam/resource/www/js/plugins/animate.css">
+	<link rel="stylesheet" href="/chnam/resource/www/js/plugins/swiper-bundle.min.css">
+	<link rel="stylesheet" href="/chnam/resource/www/js/plugins/slick.css"/>
+	<link rel="stylesheet" href="/chnam/resource/www/css/font/exit_font.css">
+	<link rel="stylesheet" href="/chnam/resource/www/js/plugins/aos.css"/>
+	<link rel="stylesheet" href="/chnam/resource/www/css/main.css">
+	<!-- //css -->
+
+	<script>
+	    window.COM_CTX = '/chnam';
+	</script>
+	<!-- script -->
+	<script src="/chnam/resource/www/js/jquery-1.11.3.min.js"></script>
+	<script src="/chnam/resource/www/js/jquery.easing.1.3.js"></script>
+	<script src="/chnam/resource/www/js/plugins/slick.min.js"></script>
+	<script src="/chnam/resource/www/js/plugins/aos.js"></script>
+	<script src="/chnam/resource/www/js/plugins/gsap.min.js"></script>
+	<script src="/chnam/resource/www/js/plugins/ScrollTrigger.min.js"></script>
+	<script src="/chnam/resource/www/js/common.js"></script>
+	<!-- //script -->
+
+	<!-- script -->
+	<script type="text/javascript" src="/chnam/resource/www/js/fs_common.js"></script><!-- 공통스크립트 -->
+	
+	<script type="text/javascript" src="/chnam/resource/www/js/plugins/bootstrap/js/bootstrap.js"></script>
+	
+	<script src="/chnam/resource/mngr/plugins/jquery-validate/jquery.validate.min.js"></script>
+	<script src="/chnam/resource/mngr/plugins/jstree3.0/dist/jstree.min.js"></script>
+	<script src="/chnam/resource/mngr/js/jstree.js"></script>
+	<script src="/chnam/resource/mngr/plugins/parsley/dist/parsley.js"></script>
+	<script src="/chnam/resource/mngr/plugins/parsley/src/i18n/ko.js"></script>
+	
+	<script src="/chnam/resource/mngr/js/cmm/utils.js"></script>
+	<script src="/chnam/resource/mngr/js/cmm/dates.js"></script>
+	<script src="/chnam/resource/mngr/js/cmm/jquery_utils.js"></script>
+	<script src="/chnam/resource/mngr/js/cmm/jstree_utils.js"></script>
+	
+	<script src="/chnam/resource/cmm/js/fs_sns.js"></script>
+	<!-- //script -->
+	
+	<script type="text/javascript">
+		$(document).ready(function () {
+		 	if ( window.location.host == 'chnam.cb21.net' ) {
+				 window.location.href='https://chungbuk.go.kr/chnam/index.do';
+			}  
+			
+		});
+		
+		function checkSearchForm() {
+			var frm = document.forms['search'];
+			var sw = frm.sw.value;
+			
+			sw = sw.replace(/ /gi,'');
+			if ('' == sw) {
+				alert("검색어를 입력해 주세요.");
+				frm.sw.focus();
+				return false;
+			}
+		}
+	</script>
+	<style>
+		#exit-header { background: none;}
+		body {top: 0px !important;}
+/* 		body > skiptranslate:first-child {position: relative !important; z-index: 0 !important;} */
+		body > div.skiptranslate {position: relative !important; z-index: 0 !important;}
+		.goog-te-gadget-icon {display: none !important;}
+	</style>
+</head>
+<body>
+	<div class="snavi_box">
+		<a href="#exit_content" class="skip_nav">본문영역 바로가기</a>
+		<a href="#exit_gnb_box" class="skip_nav">메인메뉴 바로가기</a>
+		<a href="#exit_footer" class="skip_nav">하단링크 바로가기</a>
+	</div>
+	
+	<div id="exit_wrap">
+		<!-- header -->
+		<header id="exit-header">
+			<!-- thead -->
+			<div class="thead">
+				<!-- logo -->
+				<h1 class="logo">
+					<a href="/chnam/index.do">
+						<img src="/chnam/resource/www/img/layout/logo.png" alt="청남대 로고" />
+					</a>
+				</h1>
+				<!-- //logo -->
+				<!-- gnb_box -->
+				<nav class="gnb-box" id="gnb-box">
+					<strong class="hide">주요메뉴</strong>
+					
+
+
+
+
+
+
+<ul class="gnb" id="gnb">
+	
+	<li>
+		<a href="/chnam/sub.do?key=2004065342982" target="_self" class="gnb-title">청남대</a>
+		
+		<div class="lnb-wrap">
+			<div class="lnb-tit">
+				<strong class="tit">청남대</strong>
+				<strong class="sub-tit">문화예술과 호수관광의 중심, 청남대에 오신 것을 환영합니다!</strong>
+			</div>
+			<div class="inner-padding">
+				<ul class="lnb-list1">
+					
+					<li>
+						<a href="/chnam/content.do?key=2004065345724" target="_self">
+							<span>인사말</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/content.do?key=2004065344327" target="_self">
+							<span>역사 및 연혁</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/content.do?key=2004065345180" target="_self">
+							<span>청남대 일반현황</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/www/chnam/president/list.do?key=2004170412496" target="_self">
+							<span>청남대 이용 대통령</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/content.do?key=2004065346542" target="_self">
+							<span>조직안내</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/content.do?key=2004170413504" target="_self">
+							<span>찾아오시는 길</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+		
+	</li>
+	
+	<li>
+		<a href="/chnam/content.do?key=2004170433966" target="_self" class="gnb-title">이용안내</a>
+		
+		<div class="lnb-wrap">
+			<div class="lnb-tit">
+				<strong class="tit">이용안내</strong>
+				<strong class="sub-tit">문화예술과 호수관광의 중심, 청남대에 오신 것을 환영합니다!</strong>
+			</div>
+			<div class="inner-padding">
+				<ul class="lnb-list1">
+					
+					<li>
+						<a href="/chnam/content.do?key=2004170433966" target="_self">
+							<span>관람안내</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/content.do?key=2004170434290" target="_self">
+							<span>입장요금 안내</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/content.do?key=2604154249460" target="_self">
+							<span>모노레일 요금 / 시간표</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/content.do?key=2601288034858" target="_self">
+							<span>청남대 해설서비스 안내</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/content.do?key=2004170439308" target="_self">
+							<span>숲해설 프로그램 안내 / 예약</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/content.do?key=2405136003059" target="_self">
+							<span>MICE 대관 / 야외 웨딩 / 영화ㆍCF촬영 안내</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+		
+	</li>
+	
+	<li>
+		<a href="/chnam/sub.do?key=2312072642227" target="_self" class="gnb-title">종합 교육</a>
+		
+		<div class="lnb-wrap">
+			<div class="lnb-tit">
+				<strong class="tit">종합 교육</strong>
+				<strong class="sub-tit">문화예술과 호수관광의 중심, 청남대에 오신 것을 환영합니다!</strong>
+			</div>
+			<div class="inner-padding">
+				<ul class="lnb-list1">
+					
+					<li>
+						<a href="/chnam/content.do?key=2511103570133" target="_self">
+							<span>종합교육 소개</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/www/chnam/compEdu/rsvt/list.do?key=2511130001908" target="_self">
+							<span>종합교육 예약조회</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+		
+	</li>
+	
+	<li>
+		<a href="/chnam/sub.do?key=2004170418798" target="_self" class="gnb-title">둘러보기</a>
+		
+		<div class="lnb-wrap">
+			<div class="lnb-tit">
+				<strong class="tit">둘러보기</strong>
+				<strong class="sub-tit">문화예술과 호수관광의 중심, 청남대에 오신 것을 환영합니다!</strong>
+			</div>
+			<div class="inner-padding">
+				<ul class="lnb-list1">
+					
+					<li>
+						<a href="/chnam/www/chnam/fclty/vip/list.do?key=2004170423363" target="_self">
+							<span>대통령 사용시설(VR)</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/www/chnam/fclty/wlk/list.do?key=2004170425448" target="_self">
+							<span>산책 및 휴게시설(VR)</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/www/chnam/fclty/edc/list.do?key=2004170425953" target="_self">
+							<span>교육 및 체험시설(VR)</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/content.do?key=2004170426453" target="_self">
+							<span>편의시설</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/content.do?key=2004170427040" target="_self">
+							<span>지도로 보는 청남대</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+		
+	</li>
+	
+	<li>
+		<a href="/chnam/bbs/list.do?key=2004170449061" target="_self" class="gnb-title">주변 관광정보</a>
+		
+		<div class="lnb-wrap">
+			<div class="lnb-tit">
+				<strong class="tit">주변 관광정보</strong>
+				<strong class="sub-tit">문화예술과 호수관광의 중심, 청남대에 오신 것을 환영합니다!</strong>
+			</div>
+			<div class="inner-padding">
+				<ul class="lnb-list1">
+					
+					<li>
+						<a href="/chnam/bbs/list.do?key=2004170449061" target="_self">
+							<span>주변 관광정보</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/bbs/list.do?key=2004170449771" target="_self">
+							<span>음식점 정보</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+		
+	</li>
+	
+	<li>
+		<a href="/chnam/bbs/list.do?key=2004170452078" target="_self" class="gnb-title">알림ㆍ홍보</a>
+		
+		<div class="lnb-wrap">
+			<div class="lnb-tit">
+				<strong class="tit">알림ㆍ홍보</strong>
+				<strong class="sub-tit">문화예술과 호수관광의 중심, 청남대에 오신 것을 환영합니다!</strong>
+			</div>
+			<div class="inner-padding">
+				<ul class="lnb-list1">
+					
+					<li>
+						<a href="/chnam/bbs/list.do?key=2004170452078" target="_self">
+							<span>공지사항</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/bbs/list.do?key=2004170452635" target="_self">
+							<span>포토갤러리</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/bbs/list.do?key=2004170453172" target="_self">
+							<span>드라마/영화/광고 촬영</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/bbs/list.do?key=2004170453801" target="_self">
+							<span>축제/행사/전시 안내</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/bbs/list.do?key=2004170454255" target="_self">
+							<span>홍보동영상</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+					<li>
+						<a href="/chnam/bbs/list.do?key=2004170454692" target="_self">
+							<span>Q&amp;A 및 제안</span>
+							<i class="icn-arr">
+								<img src="/chnam/resource/www/img/layout/icn-arr.svg" alt="">
+							</i>
+						</a>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+		
+	</li>
+	
+</ul>
+</nav>
+				<!-- //gnb_box -->
+				<div class="right">
+					<!-- language -->
+					<div class="header-language mright">
+						<a href="#none" class="lang-btn notranslate" id="currentLang" title="언어변경">KOR</a>
+						<ul class="lang-list">
+							<li><a href="#none" class="notranslate">한국어</a></li>
+							<li><a href="#none" class="notranslate">English</a></li>
+							<li><a href="#none" class="notranslate">简体中文</a></li>
+							<li><a href="#none" class="notranslate">Tiếng Việt</a></li>
+							<li><a href="#none" class="notranslate">日本語</a></li>
+							<li class="lang-other-box"></li>
+						</ul>
+					</div>
+					<!-- //language -->
+					<!-- search -->
+					<div class="header-search">
+						<a href="#none" class="sea-btn">검색창 열기</a>
+						<div class="search_box relative" style="display: none;">
+							<form name="search" action="/chnam/www/chnam/unifiedSearch/list.do?key=2005205112459" method="post" onsubmit="return checkSearchForm();">
+								<div class="search_area">
+									<label for="sw">검색어 입력</label>
+									<input name="sw" id="sw" value="" placeholder="검색어를 입력해주세요" type="text"
+										class="text_search">
+									<input value="검색" type="submit" title="검색하기" class="btn_search">
+								</div>
+								<div class="search_text">#숲해설 #시설안내 #관람안내 #축제 #청남대 대통령길 완주 스템프 릴레이...</div>
+								<a href="#none"><span class="icn-close">통합검색 창닫기</span></a>
+							</form>
+						</div>
+					</div>
+					<!-- //search -->
+					<!-- sitemap -->
+					<div class="mbtn-box">
+						<a href="#none" class="open"><span>모바일 메뉴 열기</span></a>
+						<div class="mgnb-con">
+							<div class="mgnb-box">
+								<div class="top">
+									<a href="#none" class="logo"><img src="/chnam/resource/www/img/layout/logo2-wh.png"
+											alt="청남대 로고"></a>
+									<a href="#none" class="close">모바일 메뉴 닫기</a>
+								</div>
+								<div class="mgnb"></div>
+							</div>
+						</div>
+					</div>
+					<!-- //sitemap -->
+				</div>
+			</div>
+			<!-- //thead -->
+		</header>
+		<!-- //header -->
+		<!-- container -->
+		<div id="container">
+			<!-- sub-content -->
+			<div class="sub-content-wrap">
+				<div class="sub-visual-wrap">
+					<!-- 기본값 -->
+					<!-- 알림홍보 -->
+							<div class="sub-visual sub5">
+						<div class="inner-padding">
+							<h3>공지사항</h3>
+							<div class="bottom">
+								<div class="location">
+									
+﻿<li><span class="hide">홈</span></li>
+
+<li>알림ㆍ홍보</li>
+
+<li>공지사항</li></div>
+								<div class="share-wrap">
+									<button type="button" class="share-btn">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16"><path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/></svg>
+									</button>
+									<div class="share-layer">
+										<ul class="sns-list-st2">
+											<li>
+												<a href="#none" onclick="openFacebook();" title="페이스북 공유 새 창 열림">
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16"><path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/></svg>
+												</a>
+											</li>
+											<li>
+												<a href="#none" onclick="openTwitter('청남대 임시정부 역사교육관 심사결과에 따른 당선작 선정결과 공고')" title="X 공유 새 창 열림">
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16"><path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/></svg>
+												</a>
+											</li>
+											<li>
+												<a href="#none" class="close-btn">
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/></svg>
+												</a>
+											</li>
+										</ul>
+									</div>
+									<button type="button" onclick="copy_to_clipboard();" class="link-btn">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16"><path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1 1 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4 4 0 0 1-.128-1.287z"/><path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243z"/></svg>
+									</button>
+									<button type="button" onclick="bodyPrint();" class="print-btn">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16"><path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/><path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/></svg>
+									</button>
+									<script src="/chnam/resource/cmm/js/jquery-print/dist/jQuery.print.min.js"></script>
+									<script>
+									function bodyPrint() {
+										$("#fs_content").print({
+											globalStyles : true,
+											mediaPrint : false,
+											iframe : true,
+											noPrintSelector : ".avoid-this",
+											//deferred: $.Deferred().done(function() { console.log('Printing done', arguments); })
+										});
+									}
+									
+									function copy_to_clipboard() {
+										var nowUrl = window.location.href;
+										window.navigator.clipboard.writeText(nowUrl).then(res=>{
+											alert("주소가 복사되었습니다.");
+										})
+									}
+									</script>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="circle-txt">
+						<div class="circle"></div>
+						<div class="txt"></div>
+					</div>
+					<svg class="lf-bg" xmlns="http://www.w3.org/2000/svg" width="357" height="203" fill="none" viewBox="0 0 357 203"><path fill="#2c5198" d="M311.34 80.743c-32.985 14.437-70.757 3.876-106.292-1.878-30-4.859-55.627 6.015-77.395 26.203-21.346 19.8-32.585 49.248-52.371 71.11C53.95 199.75 28.113 202.809-.428 203V0H355.78c4.659 32.562-14.203 67.509-44.44 80.743"/></svg>
+					<svg class="rg-bg" xmlns="http://www.w3.org/2000/svg" width="885" height="197" fill="none" viewBox="0 0 885 197"><path fill="#1f283a" d="M962 309V6.207C903.107-7.9 838.331 2.422 785.847 33.262c-73.359 43.103-127.171 123.723-210.858 139.19-60.526 11.188-120.782-15.242-181.188-27.075C245.919 116.4 84.544 185.126 0 309z"/></svg>
+				</div>
+				<div class="fs_snb_contents">
+					<div class="fs_snb_contents_box inner">
+						
+
+
+
+
+
+
+	<div class="lnb-wrap">
+		<div class="lnb-inner">
+			
+			<h3><i class="icn"></i><strong>알림ㆍ홍보</strong></h3>
+			
+			<div id="lnb-list" class="lnb-list">
+				<ul>
+					
+					<li class="on"><a href="/chnam/bbs/list.do?key=2004170452078" target="_self">공지사항</a>
+					
+					<li ><a href="/chnam/bbs/list.do?key=2004170452635" target="_self">포토갤러리</a>
+					
+					<li ><a href="/chnam/bbs/list.do?key=2004170453172" target="_self">드라마/영화/광고 촬영</a>
+					
+					<li ><a href="/chnam/bbs/list.do?key=2004170453801" target="_self">축제/행사/전시 안내</a>
+					
+					<li ><a href="/chnam/bbs/list.do?key=2004170454255" target="_self">홍보동영상</a>
+					
+					<li ><a href="/chnam/bbs/list.do?key=2004170454692" target="_self">Q&amp;A 및 제안</a>
+					
+				</ul>
+			</div>
+			
+			
+		</div>
+	</div>	
+<div class="fs_content" id="fs_content">
+							<!-- con_header -->
+							<div class="con_header">
+								<h3><span class="icon_layout"></span><em>
+								공지사항</em></h3>
+							</div>
+							<!-- con_header -->
+							<!-- con_body -->
+							<div class="con_body">
+								<div class="board_view">
+	<form id="frm" name="frm" class="form-horizontal" action="/chnam/bbs/view.do?key=2004170452078&amp;bbsSn=20227" method="post">
+		<input id="pageIndex" name="pageIndex" type="hidden" value="1"/>
+		<input id="orderBy" name="orderBy" type="hidden" value=""/>
+		<input id="sc" name="sc" type="hidden" value=""/>
+		<input id="sw" name="sw" type="hidden" value=""/>
+		
+		<input type="hidden" name="bbsSn" value="20227" />
+		<input type="hidden" name="bbsUpperSn" value="20227" />
+		
+		<table class="table boardTable" style="table-layout:fixed;">
+			<caption>
+				게시글 상세페이지입니다.
+			</caption>
+			<colgroup>
+				<col width="16%" class="colgroup_pc">
+				<col width="35%" class="colgroup_mo">
+				<col>
+			</colgroup>
+			<tbody>
+				
+				
+				
+					
+						
+							
+							
+							
+							
+							
+							
+							
+								<tr>
+									<th scope="row" class="span3">제목</th>
+									<td>
+										(2026년 가을축제) 토요일 야간 개장 운영 안내
+									</td>
+								</tr>
+							
+						
+					
+						
+							
+								<!-- 작성자 -->
+								<tr>
+									<th scope="row" class="span3">작성자</th>
+									<td>
+										
+											
+												전체관리자
+											
+											
+											
+											
+										
+									</td>
+								</tr>
+							
+							
+							
+							
+							
+							
+							
+						
+					
+						
+							
+							
+							
+							
+							
+							
+							
+								<tr>
+									<th scope="row" class="span3">등록일</th>
+									<td>
+										2026-10-23 17:18:32
+									</td>
+								</tr>
+							
+						
+					
+						
+							
+							
+							
+							
+							
+							
+							
+								<tr>
+									<th scope="row" class="span3">조회수</th>
+									<td>
+										469
+									</td>
+								</tr>
+							
+						
+					
+						
+							
+							
+							
+							
+							
+								<!-- 내용 -->
+								<tr>
+									<td id="bbsContent" class="content" colspan="2">
+										
+										
+										<p nanum="" gothic",="" sans-serif;="" color:="" rgb(68,="" 68,="" 68);="" font-size:="" 14px;"="" helvetica="" neue",="" helvetica,="" arial,="" 13px;="" font-style:="" normal;="" font-variant-ligatures:="" font-variant-caps:="" font-weight:="" 400;="" letter-spacing:="" orphans:="" 2;="" text-align:="" start;="" text-indent:="" 0px;="" text-transform:="" none;="" widows:="" word-spacing:="" -webkit-text-stroke-width:="" white-space:="" background-color:="" rgb(255,="" 255,="" 255);="" text-decoration-thickness:="" initial;="" text-decoration-style:="" text-decoration-color:="" padding:="" border:="" 0px;"="" style="margin: 10px 0px 0px; color: rgb(97, 97, 97);"><span style="font-size: 36px; font-weight: 700;">(가을축제 기간)토요일 야간 개장 운영 안내</span></p><p nanum="" gothic",="" sans-serif;="" color:="" rgb(68,="" 68,="" 68);="" font-size:="" 14px;"="" helvetica="" neue",="" helvetica,="" arial,="" 13px;="" font-style:="" normal;="" font-variant-ligatures:="" font-variant-caps:="" font-weight:="" 400;="" letter-spacing:="" orphans:="" 2;="" text-align:="" start;="" text-indent:="" 0px;="" text-transform:="" none;="" widows:="" word-spacing:="" -webkit-text-stroke-width:="" white-space:="" background-color:="" rgb(255,="" 255,="" 255);="" text-decoration-thickness:="" initial;="" text-decoration-style:="" text-decoration-color:="" padding:="" border:="" 0px;"="" style="margin: 10px 0px 0px; color: rgb(97, 97, 97);"><span style="font-size: 24px; font-weight: 700;"><br></span></p><p nanum="" gothic",="" sans-serif;="" color:="" rgb(68,="" 68,="" 68);="" font-size:="" 14px;"="" helvetica="" neue",="" helvetica,="" arial,="" 13px;="" font-style:="" normal;="" font-variant-ligatures:="" font-variant-caps:="" font-weight:="" 400;="" letter-spacing:="" orphans:="" 2;="" text-align:="" start;="" text-indent:="" 0px;="" text-transform:="" none;="" widows:="" word-spacing:="" -webkit-text-stroke-width:="" white-space:="" background-color:="" rgb(255,="" 255,="" 255);="" text-decoration-thickness:="" initial;="" text-decoration-style:="" text-decoration-color:="" padding:="" border:="" 0px;"="" style="margin: 10px 0px 0px; color: rgb(97, 97, 97); line-height: 3;"><span style="font-size: 24px; margin: 0px; padding: 0px; border: 0px; font-weight: 700;">&nbsp;</span><span style="font-size: 24px; margin: 0px; padding: 0px; border: 0px; font-weight: 700;">&nbsp; &nbsp;1. 운영 일자</span><span style="font-size: 24px;">&nbsp;: 10월 31일 / 11월 7일</span></p><p nanum="" gothic",="" sans-serif;="" color:="" rgb(68,="" 68,="" 68);="" font-size:="" 14px;"="" rgb(97,="" 97,="" 97);="" style="margin: 10px 0px 0px; color: rgb(97, 97, 97); padding: 0px; border: 0px; line-height: 3;"><span style="font-size: 24px;">&nbsp; &nbsp;</span><span style="font-size: 24px; margin: 0px; padding: 0px; border: 0px; font-weight: 700;">2. 운영 시간</span><span style="font-size: 24px;">&nbsp;:&nbsp;</span><span style="font-size: 24px;">09:00 ~ 21:00&nbsp;</span></p><p nanum="" gothic",="" sans-serif;="" color:="" rgb(68,="" 68,="" 68);="" font-size:="" 14px;"="" rgb(97,="" 97,="" 97);="" style="margin: 10px 0px 0px; color: rgb(97, 97, 97); padding: 0px; border: 0px; line-height: 3;"><span style="margin: 0px; padding: 0px; border: 0px; font-size: 18px;"><span style="margin: 0px; padding: 0px; border: 0px; color: rgb(68, 68, 68);"><span style="color: rgb(97, 97, 97); font-size: 24px;">&nbsp; &nbsp;</span><span style="color: rgb(97, 97, 97); margin: 0px; padding: 0px; border: 0px; font-weight: 700; font-size: 24px;">3. 야간 공연&nbsp;</span><span style="font-size: 24px;">:&nbsp;</span></span></span><span style="font-size: 24px;">19:00 ~ 20:00&nbsp;</span><span style="color: rgb(68, 68, 68); font-family: Pretendard, sans-serif; font-size: 24px; letter-spacing: -0.8px;">&nbsp;/ 어울림마당</span></p><p nanum="" gothic",="" sans-serif;="" color:="" rgb(68,="" 68,="" 68);="" font-size:="" 14px;"="" rgb(97,="" 97,="" 97);="" style="margin: 10px 0px 0px; color: rgb(97, 97, 97); padding: 0px; border: 0px; line-height: 1.8;"><span style="font-size: 24px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="color: rgb(68, 68, 68); font-family: Pretendard, sans-serif; font-size: 24px; letter-spacing: -0.8px;">10월 31일 - 재즈나잇(신가령 &amp; 미니빈)</span></p><p nanum="" gothic",="" sans-serif;="" color:="" rgb(68,="" 68,="" 68);="" font-size:="" 14px;"="" rgb(97,="" 97,="" 97);="" style="margin: 10px 0px 0px; color: rgb(97, 97, 97); padding: 0px; border: 0px; line-height: 1.8;"><span style="font-size: 24px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><span style="color: rgb(68, 68, 68); font-family: Pretendard, sans-serif; font-size: 24px; letter-spacing: -0.8px;">11월 7일 - 국악나잇(노상풍류 &amp; 박현진)</span><span style="color: rgb(68, 68, 68); font-family: Pretendard, sans-serif; font-size: 18px; letter-spacing: -0.8px;"><br></span></p><p nanum="" gothic",="" sans-serif;="" color:="" rgb(68,="" 68,="" 68);="" font-size:="" 14px;"="" helvetica="" neue",="" helvetica,="" arial,="" 13px;="" font-style:="" normal;="" font-variant-ligatures:="" font-variant-caps:="" font-weight:="" 400;="" letter-spacing:="" orphans:="" 2;="" text-align:="" start;="" text-indent:="" 0px;="" text-transform:="" none;="" widows:="" word-spacing:="" -webkit-text-stroke-width:="" white-space:="" background-color:="" rgb(255,="" 255,="" 255);="" text-decoration-thickness:="" initial;="" text-decoration-style:="" text-decoration-color:="" padding:="" border:="" 0px;"="" style="margin: 10px 0px 0px; color: rgb(97, 97, 97); line-height: 3;"><br class="Apple-interchange-newline"></p>
+										
+										
+										
+										
+
+
+
+
+
+
+
+									</td>
+								</tr>
+							
+							
+							
+						
+					
+						
+							
+							
+							
+								<!-- 첨부파일 -->
+								
+							
+							
+							
+							
+							
+						
+					
+				
+			</tbody>
+		</table>
+		<!-- 자세히보기_내용 -->
+		
+		<!-- 자세히보기_내용버튼 -->
+		<div class="btnArea btnArea_ex">
+		
+			
+				
+				
+					
+				
+			
+			
+			
+			<a class="btn btn_write" href="#none" onclick="goList();">목록</a>
+		</div>
+		<!-- //자세히보기_내용버튼 -->
+	</form>
+
+	<!-- 댓글 -->
+	
+	<!-- //댓글 -->
+	
+	<!-- 이전/다음 -->
+	<table class="table table_nextprev mt60" style="table-layout: fixed;">
+		<caption>
+			<strong>이전다음 게시물보기</strong>
+			<p>이전글과 다음글을 확인하실 수 있습니다.</p>
+		</caption>
+		<colgroup>
+			<col width="16%" class="colgroup_pc">
+			<col class="colgroup_mo">
+		</colgroup>
+		<tbody>
+			<tr class="notice_next">
+				<th scope="row">
+					
+						
+						
+							<a href="#none">이전글</a>
+						
+					
+				</th>
+				<td scope="row">
+					
+						
+						
+							<span style="color:#ccc;">이전글이 없습니다.</span>
+						
+					
+				</td>
+			</tr>
+			<tr class="notice_prev">
+				<th scope="row">
+					
+						
+							<a href="/chnam/bbs/view.do?bbsSn=20226&key=2004170452078">다음글</a>
+						
+						
+					
+				</th>
+				<td scope="row">
+					
+						
+							<a href="/chnam/bbs/view.do?bbsSn=20226&key=2004170452078">(2026년 가을축제 기간) 주말 무료 순환버스 운영 안내</a>
+						
+						
+					
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="modal fade cmPw_form" id="cmPw_form" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">비밀번호 확인</h5>
+			</div>
+			<div class="modal-body">
+				<div class="tab-content padding-10" style="margin-bottom:0;">
+					<div class="tab-pane fade in active" id="tab1">
+						<form id="cmPwFrm" name="cmPwFrm" method="post" class="form-horizontal" data-parsley-validate="true">
+							<input type="hidden" name="bbsCmSn" value="" />
+							<input type="hidden" name="bbsSn" value="" />
+					
+							<!-- # 검색 Start -->
+							<fieldset class="form-horizontal" style="margin-top:10px;">
+							
+								<div class="form-group">
+									<div class="col-md-12">
+										<table border="0" cellspacing="0" cellpadding="0" class="table" style="float:left; width:100%; border:0;">
+											<colgroup>
+												<col />
+												<col width="20%" />
+											</colgroup>
+											<tr>
+												<td style="padding:0; border:0;">
+													<input type="password" name="keyword" class="form-control" data-parsley-required="true" data-parsley-errors-container="#element" placeholder="비밀번호 입력" />
+													<span id="element"></span>
+												</td>
+												<td style="padding:0; border:0; vertical-align: top;">
+													<button type="submit" class="btn btn-primary">확인</button>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							
+							</fieldset>
+						
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+			</div>
+		</div>
+	</div>
+</div></div>
+							<!-- //con_body -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //sub-content -->
+		</div>
+		<!-- //container -->
+		<!--btn_top-->
+		<a class="btn_top" href="#exit_wrap">
+			맨위로 이동
+			<div class="btn_bg1"></div>
+		</a>
+		<!--//btn_top-->
+		<!-- footer -->
+		
+
+
+
+
+<footer id="exit-footer" class="exit-footer">
+	<div class="inner">
+		<div class="footer-top">
+			<a href="#none" class="foot-logo"><img src="/chnam/resource/www/img/layout/logo2-wh.png" alt="청와대 로고" /></a>
+			<ul class="foot-menu">
+				<li><a href="http://www.chungbuk.go.kr/www/contents.do?key=704" target="_blank">개인정보처리방침</a></li>
+				<li><a href="http://www.chungbuk.go.kr/www/contents.do?key=705" target="_blank">이메일 주소무단수집거부</a></li>
+				<li><a href="http://www.chungbuk.go.kr" target="_blank">충청북도</a></li>
+				<li><a href="https://blog.naver.com/cbkb21" target="_blank">충청북도블로그</a></li>
+				<li><a href="http://chungbuknadri.net/home/main.do" target="_blank">충북나드리</a></li>
+				<li><a href="/chnam/cmm/downlod/annexedpaper.do" type="application/x-hwp" download>시설사용신청서</a></li>
+			</ul>
+			<!-- sns_box -->
+			<div class="sns_box">
+				<ul>
+					<li>
+						<a class="youtube" href="https://www.youtube.com/@hi.cheongnamdae" target="_blank" title="새창열림"><img
+								src="/chnam/resource/www/img/layout/icn-ytube.png" alt="유튜브" />유튜브</a>
+					</li>
+					<li>
+						<a class="facebook" href="https://www.facebook.com/hi.cheongnamdae/" target="_blank" title="새창열림"><img
+								src="/chnam/resource/www/img/layout/icn-fbook.png" alt="페이스북" />페이스북</a>
+					</li>
+					<li>
+						<a class="insta" href="https://www.instagram.com/hi.cheongnamdae/" target="_blank" title="새창열림"><img
+								src="/chnam/resource/www/img/layout/icn-insta.png" alt="인스타그램" />인스타그램</a>
+					</li>
+					<li>
+						<a class="nblog" href="https://blog.naver.com/hi_cheongnamdae" target="_blank" title="새창열림"><img
+								src="/chnam/resource/www/img/layout/icn-nblog.png" alt="네이버블로그" />네이버블로그</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- //sns_box -->
+		<div class="foot-text">
+			<div class="lf">
+				<ul>
+					<li>
+						<em>청남대관리사업소</em>
+						<div class="address">
+							<span>(28210) 충북 청주시 상당구 문의면 청남대길 646</span>
+							<span><a href="tel:043-257-5080" title="청남대관리사업소"><b>Tel.</b> 043-257-5080
+									<b></a>Fax.</b>043-220-6409</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="rg">
+				<span>협약 및 제휴문의 :<a href="mailto:yt0128@korea.kr" title="협약 및 제휴문의"> yt0128@korea.kr</a>
+					<br /></span>
+				<p class="copyright">
+					Copyright(C) 2020 CHEONGNAMDAE. All Rights Reserved.
+				</p>
+			</div>
+		</div>
+	</div>
+</footer>
+
+
+
+
+<!-- <footer id="fs_footer"> -->
+<!-- <div class="fs_footer_box clear"> -->
+<!-- 	<div class="footer_logo"><span class="icon_layout">청남대 靑南臺</span></div> -->
+<!-- 	<ul class="footer_link"> -->
+<!-- 		<li><a href="http://www.chungbuk.go.kr/www/contents.do?key=704" target="_blank" rel="noopener noreferrer">개인정보처리방침</a></li> -->
+<!-- 		<li><a href="http://www.chungbuk.go.kr/www/contents.do?key=705" target="_blank" rel="noopener noreferrer">이메일 주소무단수집거부</a></li> -->
+<!-- 		<li><a href="http://www.chungbuk.go.kr" target="_blank" rel="noopener noreferrer">충청북도</a></li> -->
+<!-- 		<li><a href="http://blog.daum.net/cbkb21" target="_blank" rel="noopener noreferrer">충청북도블로그</a></li> -->
+<!-- 		<li><a href="http://chungbuknadri.net/home/main.do" target="_blank" rel="noopener noreferrer">충북나드리</a></li> -->
+<!-- 		<li><a href="/cmm/downlod/annexedpaper.do"  type="application/x-hwp" download>시설사용신청서</a></li> -->
+<!-- 		<!-- <li><a href="/resource/www/files/annexedpaper02.hwp"  type="application/x-hwp" download>시설사용신청서</a></li> -->
+<!-- 	</ul> -->
+<!-- 	<div class="foot_text"> -->
+<!-- 		<ul> -->
+<!-- 			<!-- <li>등록번호 : 301-83-06614 / 대표자 : 오유길, 김종기</li> -->
+<!-- 			<li><em>청남대관리사업소</em> : (28210) 충북 청주시 상당구 문의면 청남대길 646 / 안내전화 : 043-257-5080 / 팩스 : 043-220-6409</li> -->
+<!-- 			<!-- <li><em>청남대문의매표소</em> : (28208) 충북 청주시 상당구 문의면 문의시내로 6 / 안내전화 : 043-220-6418 / 팩스 : 043-220-6408</li> -->
+<!-- 		</ul> -->
+<!-- 		<address class="copyright">Copyright(C) 2020 <em>CHEONGNAMDAE</em>. All Rights Reserved. </address> -->
+<!-- 		<span>협약 및 제휴문의 : yt0128@korea.kr</span> -->
+<!-- 		<p>본 웹사이트에 게시된 이메일 주소가 자동수집되는 것을 거부하며, 위반시 “정보통신망법”에 의해 처벌됨을 유념하시기 바랍니다.</p> -->
+<!-- 	</div> -->
+<!-- </div> -->
+<!-- <!--btn_top-->
+<!-- <a class="btn_top" href="#fs_wrap"><span class="icon_layout">맨위로 이동</span></a> -->
+<!-- <!--//btn_top-->
+<!-- </footer> --><!-- //footer -->
+	</div>
+	<!-- //exit_wrap -->
+	<script src="/chnam/resource/www/js/plugins/swiper-bundle.min.js"></script>
+	<script>
+		$(function () {
+			//aos실행
+			var text = "CHEONGNAMDAE · CHEONGNAMDAE · ";
+			var $txt = $('.txt');
+			
+			for (var i = 0; i < text.length; i++) {
+				var angle = (360 / text.length) * i;
+				var $span = $('<span>').text(text[i]);
+				$span.css('transform', 'rotate(' + angle + 'deg)');
+				$txt.append($span);
+			}
+		});
+		
+	</script>
+	<div id="google_translate_element" style="display: none;"></div>
+	<script>
+	var gtLangLabels = { 'ko':'KOR', 'en':'ENG', 'zh-CN':'CHN', 'vi':'VIE', 'ja':'JPN' };
+	function googleTranslateElementInit() {
+		new google.translate.TranslateElement({pageLanguage: 'ko', autoDisplay: false}, 'google_translate_element');
+	}
+	function doGTranslate(lang) {
+		$('#currentLang').text(gtLangLabels[lang] || lang.toUpperCase());
+		if (lang === 'ko') {
+			document.documentElement.removeAttribute('data-gtlang');
+		} else {
+			document.documentElement.setAttribute('data-gtlang', lang);
+		}
+		if (lang === 'ko') {
+			var h = location.hostname;
+			document.cookie = 'googtrans=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+			document.cookie = 'googtrans=;path=/;domain=' + h + ';expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+			document.cookie = 'googtrans=;path=/;domain=.' + h + ';expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+			location.reload();
+			return;
+		}
+		var combo = document.querySelector('.goog-te-combo');
+		if (!combo) {
+			// 위젯 미초기화 시 쿠키 설정 후 새로고침으로 번역 적용
+			document.cookie = 'googtrans=/ko/' + lang + ';path=/;';
+			location.reload();
+			return;
+		}
+		combo.value = lang;
+		combo.dispatchEvent(new Event('change'));
+		// 적용되지 않으면 새로고침으로 폴백
+		setTimeout(function () {
+			if (!/translated/.test(document.documentElement.className)) {
+				document.cookie = 'googtrans=/ko/' + lang + ';path=/;';
+				location.reload();
+			}
+		}, 1500);
+	}
+	// 번역 초기화(다른 스크립트 오류와 무관하게 즉시 실행)
+	(function () {
+		var langCodes = ['ko', 'en', 'zh-CN', 'vi', 'ja'];
+
+		// 현재 언어를 버튼에 표시
+		(function () {
+			var m = document.cookie.match(/googtrans=\/ko\/([a-zA-Z-]+)/);
+			var lang = (m && m[1]) ? m[1] : 'ko';
+			$('#currentLang').text(gtLangLabels[lang] || lang.toUpperCase());
+		})();
+
+		(function () {
+			var gtStyle = document.createElement('style');
+			gtStyle.textContent = '.goog-te-banner-frame, iframe.skiptranslate{display:none!important;} body{top:0!important;} #goog-gt-tt, #goog-gt-vt, .goog-te-balloon-frame{display:none!important;} .goog-text-highlight{background:none!important;box-shadow:none!important;} .lang-list li a, .lang-list select.lang-other, .lang-list select.lang-other option { font-family:"Malgun Gothic","Microsoft YaHei","Meiryo",sans-serif !important; } html[lang="zh-CN"] body, html[data-gtlang="zh-CN"] body { font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC","Malgun Gothic",sans-serif !important; } html[lang="zh-TW"] body, html[data-gtlang="zh-TW"] body { font-family:"Microsoft JhengHei","PingFang TC","Malgun Gothic",sans-serif !important; } html[lang="ja"] body, html[data-gtlang="ja"] body { font-family:"Meiryo","Yu Gothic","Hiragino Kaku Gothic ProN","Malgun Gothic",sans-serif !important; }';
+			(document.head || document.documentElement).appendChild(gtStyle);
+		})();
+
+		// 번역 상태에서 기타 셀렉트에 남은 한국어 항목을 번역/교체
+		var fixTimer = null;
+		function fixOtherSelect() {
+			var gtm = document.cookie.match(/googtrans=\/ko\/([a-zA-Z-]+)/);
+			var combo = document.querySelector('.goog-te-combo');
+			var $sel = $('.lang-list select.lang-other');
+			if (!gtm || gtm[1] === 'ko' || !combo || !$sel.length) { return; }
+			if (fixTimer) { clearInterval(fixTimer); }
+			var fixTries = 0;
+			fixTimer = setInterval(function () {
+				var $pending = $sel.find('option').filter(function () {
+					return /[가-힣]/.test(this.textContent);
+				});
+				if (!$pending.length) { clearInterval(fixTimer); fixTimer = null; return; }
+				if (++fixTries > 2) {
+					clearInterval(fixTimer);
+					fixTimer = null;
+					// 번역이 누락된 항목은 현재 언어의 언어명으로 직접 교체
+					try {
+						var dn = new Intl.DisplayNames([gtm[1], 'en'], { type: 'language' });
+						$pending.each(function () {
+							if (!this.value) { return; }
+							var nm = dn.of(this.value);
+							if (nm && nm !== this.value) { this.textContent = nm; }
+						});
+					} catch (e) {}
+					return;
+				}
+				combo.value = gtm[1];
+				combo.dispatchEvent(new Event('change'));
+			}, 2000);
+		}
+
+		function buildOtherSelect() {
+			var combo = document.querySelector('.goog-te-combo');
+			if (!combo || !combo.options || !combo.options.length) { return false; }
+			var $li = $('.lang-list > li.lang-other-box');
+			if (!$li.length || $li.find('select.lang-other').length) { return true; }
+			var $sel = $('<select class="lang-other"></select>');
+			$sel.append('<option value="">기타 언어 선택</option>');
+			$(combo).find('option').each(function () {
+				var v = $(this).val();
+				if (!v || langCodes.indexOf(v) > -1) { return; }
+				$sel.append($('<option></option>').val(v).text($(this).text()));
+			});
+			$sel.on('change', function () {
+				if (this.value) {
+					$sel.closest('.lang-list').slideUp(200);
+					doGTranslate(this.value);
+				}
+			});
+			$li.append($sel);
+
+			fixOtherSelect();
+			return true;
+		}
+		var gtTries = 0;
+		var gtReinit = 0;
+		var gtTimer = setInterval(function () {
+			if (buildOtherSelect() || ++gtTries > 120) { clearInterval(gtTimer); return; }
+			// 위젯 미초기화 복구: 8초 간격으로 재초기화(스크립트 미로드 시 재로드)
+			if (gtTries % 32 === 0 && gtReinit < 3 && !document.querySelector('.goog-te-combo')) {
+				gtReinit++;
+				if (window.google && window.google.translate && window.google.translate.TranslateElement) {
+					try { googleTranslateElementInit(); } catch (e) {}
+				} else {
+					var gs = document.createElement('script');
+					gs.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+					document.body.appendChild(gs);
+				}
+			}
+		}, 250);
+
+		// 번역 상태(쿠키)인데 적용이 안 된 경우 재시도
+		var gtWatchTries = 0;
+		var gtWatchTimer = setInterval(function () {
+			var m = document.cookie.match(/googtrans=\/ko\/([a-zA-Z-]+)/);
+			if (!m || m[1] === 'ko' || /translated/.test(document.documentElement.className)) {
+				clearInterval(gtWatchTimer);
+				return;
+			}
+			var combo = document.querySelector('.goog-te-combo');
+			if (combo && combo.options && combo.options.length) {
+				combo.value = m[1];
+				combo.dispatchEvent(new Event('change'));
+			}
+			if (++gtWatchTries > 10) { clearInterval(gtWatchTimer); }
+		}, 1000);
+
+		// 셀렉트가 외부 요인으로 제거된 경우 목록 열 때 재생성
+		$('.header-language .lang-btn').on('click', function () {
+			if (!$('.lang-list select.lang-other').length) { buildOtherSelect(); }
+		});
+
+		$('.lang-list > li > a').each(function (idx) {
+			$(this).on('click', function (e) {
+				e.preventDefault();
+				$(this).closest('.lang-list').slideUp(200);
+				doGTranslate(langCodes[idx]);
+				setTimeout(fixOtherSelect, 1000);
+			});
+		});
+	})();
+	</script>
+	<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+	<link rel="stylesheet" href="/chnam/resource/bbs/fs_ra001/css/style.css" />
+<link rel="stylesheet" href="/chnam/resource/bbs/fs_ra001/css/bootstrap.css" />
+<script src="/chnam/resource/mngr/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/chnam/resource/mngr/plugins/jquery-validate/jquery.validate.min.js"></script>
+<script src="/chnam/resource/mngr/plugins/parsley/dist/parsley.js"></script>
+<script src="/chnam/resource/mngr/plugins/parsley/src/i18n/ko.js"></script>
+<script src="/chnam/resource/mngr/js/cmm/dates.js"></script>
+<script src="/chnam/resource/mngr/js/cmm/utils.js"></script>
+<script src="/chnam/resource/mngr/js/cmm/jquery_utils.js"></script>
+<script src="/chnam/resource/bbs/fs_ra001/js/bbs.js"></script>
+
+<script>
+var CTX = "/chnam";
+var f       = document.forms['frm'];
+var menuKey = '2004170452078';
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+//목록 이동
+function goList() {
+	f.bbsUpperSn.value = '';
+	f.bbsSn.value = '';
+	f.action = CTX+'/bbs/list.do?key=2004170452078';
+	f.submit();
+}
+
+$(function(){
+	$("iframe").width($("#bbsContent").width() );
+});
+
+$(window).resize(function (){
+	$("iframe").width($("#bbsContent").width() );
+})
+
+</script><script src="/chnam/resource/mngr/js/cmm/dates.js"></script>
+<script src="/chnam/resource/mngr/js/cmm/utils.js"></script>
+<script>
+$(window).load(function() {
+	var statAt = getCookie("SITE_STAT");
+	if(statAt == null || statAt != "Y") {
+		$.ajax({
+			url     : "/chnam/conectr/stats/insert.do",
+			type    : "POST",
+			error   : function(request, status, error) {
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			},
+			success:function() {
+				SetCookie("SITE_STAT", "Y", new Date(getDatePlus(1)));
+			}
+		});
+	}
+});
+</script><script src="/chnam/resource/mngr/js/cmm/dates.js"></script>
+<script src="/chnam/resource/mngr/js/cmm/utils.js"></script>
+<script>
+var menuKey = "2004170452078";
+
+$(window).load(function() {
+	if(menuKey != null && menuKey != "") {
+		var statAt = getCookie("SITE_STAT_MENU_" + menuKey);
+		if(statAt == null || statAt != "Y") {
+			$.ajax({
+				url     : "/chnam/conectr/stats/menu/insert.do",
+				type    : "POST",
+				data    : {
+					"menuSn" : menuKey
+				},
+				error   : function(request, status, error) {
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				},
+				success:function() {
+					SetCookie("SITE_STAT_MENU_" + menuKey, "Y", new Date(getDatePlus(1)));
+				}
+			});
+		}
+	}
+});
+</script><!-- 챗봇 (모든 페이지에 자동 포함) -->
+	<!-- 
+
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="format-detection" content="telephone=no,email=no,address=no">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+<meta name="author" content="">
+<meta name="Keywords" content="">
+<meta name="description" content="">
+<meta name="copyright" content="">
+<title>요청하신 페이지를 찾을 수 없습니다.</title>
+
+<script src="/chnam/resource/mngr/plugins/jquery/jquery-1.9.1.min.js"></script>
+<script>
+var msg      = "";
+var backFlag = "";
+var CTX = "/chnam";
+
+
+if(msg != null && msg != "") {
+	alert(msg);
+}
+
+if(backFlag == "Y") {
+	//history.back();
+}
+
+$(window).on("load", function() {
+	var url    = window.document.location.href;
+	var urlArr = url.split("/");
+	var siteId = (urlArr.length > 3)? urlArr[3] : "www";
+	
+	document.location.href = CTX+"/error/error.html?id=" + siteId;
+});
+</script>
+</head>
+<body>
+</body>
+</html>
