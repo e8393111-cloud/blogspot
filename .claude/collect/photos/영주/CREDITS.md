@@ -7,3 +7,5 @@
 | 3572453-부석사-계단.jpg | 돌계단 위 누각(범종루로 보임, 미확인)·석등, 소나무 | 127669 | Type1 | https://tong.visitkorea.or.kr/cms/resource/53/3572453_image2_1.JPG | **여름 장면**(짙은 초록). 사람 없음. 관광공사 로고. 계단 많음 — 시니어 글에 '계단' 설명용으로 유용 |
 | 3499384-소수서원-태극문.jpg | 돌담과 태극 문양 대문, 기와지붕 | 126201 | Type1 | https://tong.visitkorea.or.kr/cms/resource/84/3499384_image2_1.JPG | **여름 장면**(짙은 초록·파란 하늘). 사람 없음. 관광공사 로고 |
 | 3513804-무섬마을-전경.jpg | 숲 아래 기와·초가 마을, 흙길, 흰 승용차 1대 | 894087 | Type1 | https://tong.visitkorea.or.kr/cms/resource/04/3513804_image2_1.jpg | **여름 장면**. 사람 없음. 차 번호판은 작아 판독 불가. 관광공사 로고 |
+| 3572444-부석사-돌계단.jpg | 긴 돌계단 위 단청 전각, 전나무 | 127669 | Type1 | https://tong.visitkorea.or.kr/cms/resource/44/3572444_image2_1.JPG | **여름 장면**. 사람 없음. 계단 단이 많음. 관광공사 로고 |
+| 4081221-소수서원-마당.jpg | 흙마당과 강당·재실(현판 여럿), 초록 나무 | 126201 | Type1 | https://tong.visitkorea.or.kr/cms/resource/21/4081221_image2_1.jpg | **여름 장면**(연초록). 사람 없음. 관광공사 로고(흐림) |
